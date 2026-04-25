@@ -1,0 +1,11 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+node_modules/
+.next/
+out/
+analysis/schema.json
+analysis/profile.json
+analysis/triage_results.json
+.DS_Store
