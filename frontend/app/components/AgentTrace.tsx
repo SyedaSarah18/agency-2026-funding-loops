@@ -10,6 +10,13 @@ type AgentEvent = {
   payload?: Record<string, unknown>;
 };
 
+type Verification = {
+  tool: string;
+  subject: string;
+  verified: boolean;
+  details: string;
+};
+
 type Brief = {
   loop_id: number;
   lead_number: number;
@@ -20,6 +27,9 @@ type Brief = {
   recommendation: string;
   evidence_refs: Record<string, unknown>;
   verdict: string;
+  verifications?: Verification[];
+  risk_score?: number;
+  score_breakdown?: Record<string, number>;
 };
 
 const AGENT_COLORS: Record<AgentEvent["agent"], string> = {
@@ -147,8 +157,15 @@ export default function AgentTrace() {
                     : "border-slate-300"
                 }`}
               >
-                <div className="text-xs uppercase font-bold text-slate-500 mb-1">
-                  Loop #{b.loop_id} · {b.verdict.replace("_", " ")}
+                <div className="flex items-center justify-between mb-1">
+                  <div className="text-xs uppercase font-bold text-slate-500">
+                    Loop #{b.loop_id} · {b.verdict.replace("_", " ")}
+                  </div>
+                  {typeof b.risk_score === "number" && (
+                    <div className="text-xs font-mono text-slate-600">
+                      risk score: <span className="font-bold">{b.risk_score}</span>/100
+                    </div>
+                  )}
                 </div>
                 <p className="text-lg font-semibold text-slate-900 mb-2">
                   {b.lead_sentence}
@@ -157,9 +174,47 @@ export default function AgentTrace() {
                 <p className="text-sm text-slate-900 font-semibold mb-2">
                   Recommendation: {b.recommendation}
                 </p>
-                <div className="text-xs text-slate-500">
+                <div className="text-xs text-slate-500 mb-3">
                   Entities: {b.named_entities.join(", ")}
                 </div>
+
+                {b.verifications && b.verifications.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-slate-200">
+                    <div className="text-xs font-bold uppercase text-slate-500 mb-2">
+                      Validator self-checks ({b.verifications.length})
+                    </div>
+                    <div className="space-y-1.5">
+                      {b.verifications.map((v, i) => (
+                        <div
+                          key={i}
+                          className="flex items-start gap-2 text-xs"
+                        >
+                          <span
+                            className={`shrink-0 inline-flex items-center justify-center w-5 h-5 rounded-full font-bold ${
+                              v.verified
+                                ? "bg-emerald-100 text-emerald-800"
+                                : "bg-red-100 text-red-800"
+                            }`}
+                            title={v.verified ? "Verified against source rows" : "Verification failed"}
+                          >
+                            {v.verified ? "✓" : "✗"}
+                          </span>
+                          <div className="flex-1">
+                            <code className="text-[10px] text-slate-500 mr-2">
+                              {v.tool}
+                            </code>
+                            <span className="font-semibold text-slate-800">
+                              {v.subject}
+                            </span>
+                            <div className="text-slate-600 mt-0.5">
+                              {v.details}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
