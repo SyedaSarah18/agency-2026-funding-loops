@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Explainer from "./Explainer";
 
 type AgentEvent = {
   ts: string;
@@ -136,6 +137,8 @@ export default function AgentTrace() {
           </button>
         </div>
       </div>
+
+      <Explainer />
 
       {error && (
         <div className="mb-4 p-4 bg-red-50 border border-red-300 rounded-lg text-red-900">
