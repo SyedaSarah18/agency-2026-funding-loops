@@ -1,0 +1,120 @@
+Connecting to: dpg-d7auudv5r7bs738iqh70-b.replica-cyan.oregon-postgres.render.com
+
+==========================================================================================
+  Cut 1: AB MINISTRIES — top-3 vendor concentration, all years
+==========================================================================================
+  ministry                                 m_total        top1           top3           top1_share              top3_share            
+  ---------------------------------------  -------------  -------------  -------------  ----------------------  ----------------------
+  Children and Family Services             1576367698.06  750979668.51   1438139632.70  0.47639879289217462284  0.91231229520237305845
+  Community and Social Services            1937698082.43  1374896599.67  1740893471.05  0.70955150966851855037  0.89843381011494104459
+  Assisted Living and Social Services      689772501.26   491976827.09   618360579.18   0.71324505716205158654  0.89647032615891092939
+  Seniors, Community and Social Services   3392137138.70  2393987238.53  3008663237.78  0.70574600632080276336  0.88695212332513117684
+  Children's Services                      1767592719.14  859823326.19   1514580674.41  0.48643746768109353958  0.85686066592699033785
+  Energy and Minerals                      175697851.55   136581777.00   148809481.75   0.77736737128587842428  0.84696244397531450634
+  Public Safety and Emergency Services     1502100750.78  1213298799.51  1264784750.14  0.80773463356566927073  0.84201059714751605991
+  Advanced Education                       176527619.99   94199079.66    144030339.66   0.53362232870604737823  0.81590823956137335560
+  Justice and Solicitor General            1536093738.65  996308131.86   1154262723.11  0.64859852416012580561  0.75142726909649850749
+  Affordability and Utilities              48564830.36    25933046.16    36100706.52    0.53398819614449900037  0.74335082100346494446
+  Jobs, Economy and Innovation             29533589.33    18364530.08    21440826.90    0.62181842764859763153  0.72598107397059820903
+  Seniors and Housing                      4497280.41     2765156.84     3224084.34     0.61485088495960606557  0.71689644542311294305
+  Trade, Immigration and Multiculturalism  9793864.61     6381251.44     7005487.00     0.65155601941693576260  0.71529342899503284026
+  Executive Council                        49471549.88    20561558.69    34237666.02    0.41562390383715223114  0.69206778649644360000
+  Treasury Board and Finance               382761210.68   176135605.17   255708607.98   0.46017098978520766758  0.66806301381928735831
+  ... and 10 more rows
+
+==========================================================================================
+  Cut 2: AB MINISTRIES where the SINGLE TOP vendor controls >=50% of ministry spend
+==========================================================================================
+  ministry                                 top_vendor                                               top1           m_total        top1_share            
+  ---------------------------------------  -------------------------------------------------------  -------------  -------------  ----------------------
+  Public Safety and Emergency Services     RECEIVER GENERAL FOR CANADA CANADA REVENUE AGENCY        1213298799.51  1502100750.78  0.80773463356566927073
+  Energy and Minerals                      FINANCE CANADA                                           136581777.00   175697851.55   0.77736737128587842428
+  Assisted Living and Social Services      COMMUNITY ACCESS SUPPORT PROGRAM                         491976827.09   689772501.26   0.71324505716205158654
+  Community and Social Services            COMMUNITY ACCESS SUPPORT PROGRAM                         1374896599.67  1937698082.43  0.70955150966851855037
+  Seniors, Community and Social Services   COMMUNITY ACCESS SUPPORT PROGRAM                         2393987238.53  3392137138.70  0.70574600632080276336
+  Trade, Immigration and Multiculturalism  RECEIVER GENERAL FOR CANADA CANADA REVENUE AGENCY        6381251.44     9793864.61     0.65155601941693576260
+  Justice and Solicitor General            RECEIVER GENERAL FOR CANADA CANADA REVENUE AGENCY        996308131.86   1536093738.65  0.64859852416012580561
+  Jobs, Economy and Innovation             RECEIVER GENERAL FOR CANADA CANADA REVENUE AGENCY        18364530.08    29533589.33    0.62181842764859763153
+  Seniors and Housing                      ALBERTA SOCIAL HOUSING CORPORATION                       2765156.84     4497280.41     0.61485088495960606557
+  Affordability and Utilities              AESO ALBERTA ELECTRIC SYSTEM OPERATOR                    25933046.16    48564830.36    0.53398819614449900037
+  Advanced Education                       DH CORPORATIONSOCIETE DH DH STUDENT LENDING CORPORATION  94199079.66    176527619.99   0.53362232870604737823
+
+==========================================================================================
+  Cut 3: AB RECENT (FY 2022-25 only) — top-3 share by ministry
+==========================================================================================
+  (no rows)
+
+==========================================================================================
+  Cut 4: FED DEPARTMENTS — top-3 recipient concentration, agreement_value >= $1M each
+==========================================================================================
+  dept                                                                                                                     d_total         top3            top3_share            
+  -----------------------------------------------------------------------------------------------------------------------  --------------  --------------  ----------------------
+  Veterans Affairs Canada | Anciens Combattants Canada                                                                     4411111989.52   4317611519.81   0.97880342418597847560
+  Royal Canadian Mounted Police | Gendarmerie royale du Canada                                                             2134586106.35   2066463826.06   0.96808642195911011533
+  Canadian Space Agency | Agence spatiale canadienne                                                                       1486108982.61   1191730413.78   0.80191320268248869676
+  Health Canada | Santé Canada                                                                                             60046580260.79  33722130432.00  0.56159951633449335724
+  Innovation, Science and Economic Development Canada | Innovation, Sciences et Développement économique Canada            60869884763.77  30789672121.00  0.50582767226341352573
+  National Defence | Défense nationale                                                                                     1114987631.88   541233937.00    0.48541698717089450052
+  Women and Gender Equality Canada | Femmes et Égalité des genres Canada                                                   2229272723.00   871020705.00    0.39071967104493208299
+  Canada Water Agency | Agence de l’eau du Canada                                                                          56532269.00     22000215.00     0.38916207308077445114
+  Department of Justice Canada | Ministère de la Justice Canada                                                            5675064883.56   1905924219.00   0.33584183760105365670
+  Department of Housing, Infrastructure and Communities | Ministère du Logement, de l’Infrastructure et des Collectivités  15036272779.82  4308670508.00   0.28655176526077756603
+  Accessibility Standards Canada | Normes d’accessibilité Canada                                                           67927474.00     17479802.00     0.25733036974111535489
+  Environment and Climate Change Canada | Environnement et Changement climatique Canada                                    5336825260.79   1344727298.00   0.25197139353236808040
+  Prairies Economic Development Canada | Développement économique Canada pour les Prairies                                 2709735571.45   677047752.00    0.24985749869228259306
+  Canadian Heritage | Patrimoine canadien                                                                                  12307340812.94  2960796158.00   0.24057155830827436220
+  Natural Resources Canada | Ressources naturelles Canada                                                                  17924986364.31  4052112055.13   0.22605942190271680026
+  ... and 10 more rows
+
+==========================================================================================
+  Cut 5: FED PROGRAMS — top-1 recipient concentration since 2020 (>= $1M total)
+==========================================================================================
+  program                                                                                                                                                                                           dept                                                                                                                     p_total        top_vendor                                                  top1           top1_share            
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  -----------------------------------------------------------------------------------------------------------------------  -------------  ----------------------------------------------------------  -------------  ----------------------
+  Tripartite Health Governance                                                                                                                                                                      Indigenous Services Canada | Services aux Autochtones Canada                                                             8212351099.00  First Nations Health Authority                              8212351099.00  1.00000000000000000000
+  Canada-Québec Accord Grant                                                                                                                                                                        Immigration, Refugees and Citizenship Canada | Immigration, Réfugiés et Citoyenneté Canada                               6506873912.00  Ministre des Finances du Québec                             6506873912.00  1.00000000000000000000
+  Mitacs Inc.                                                                                                                                                                                       Innovation, Science and Economic Development Canada | Innovation, Sciences et Développement économique Canada            2162080038.00  Mitacs Inc.                                                 2162080038.00  1.00000000000000000000
+  GO Transit Expansion Project                                                                                                                                                                      Department of Housing, Infrastructure and Communities | Ministère du Logement, de l’Infrastructure et des Collectivités  1899315000.00  Metrolinx                                                   1899315000.00  1.00000000000000000000
+  Sustainable Development Technology Canada                                                                                                                                                         Innovation, Science and Economic Development Canada | Innovation, Sciences et Développement économique Canada            1772964757.00  CANADA FOUNDATION FOR SUSTAINABLE DEVELOPMENT TECH. (SDTC)  1470280768.00  0.82927805654063545494
+  Low Earth Orbit Satellite (LEO) Satellite Capacity Agreement                                                                                                                                      Innovation, Science and Economic Development Canada | Innovation, Sciences et Développement économique Canada            1200000000.00  Telesat LEO Incorporated                                    1200000000.00  1.00000000000000000000
+  Contributions under the Canada/European Space Agency (ESA) Cooperation Agreement                                                                                                                  Canadian Space Agency | Agence spatiale canadienne                                                                       1026549763.58  European Space Agency|Agence spatiale européenne            1026549763.58  1.00000000000000000000
+  Canada Greener Homes Grant                                                                                                                                                                        Natural Resources Canada | Ressources naturelles Canada                                                                  906019745.88   Batch report│Rapport en lots                                906019745.88   1.00000000000000000000
+  Education, Community Infrastructure, Social Development, Child and Family Services, Health System Transformation, Primary Care, Economic Development, Supplementary Health Benefits, NFR - Grant  Indigenous Services Canada | Services aux Autochtones Canada                                                             849898008.55   BLOOD BAND                                                  849898008.55   1.00000000000000000000
+  Canada Media Fund - Canada Media Fund                                                                                                                                                             Canadian Heritage | Patrimoine canadien                                                                                  827589544.00   CANADA MEDIA FUND CORPORATION                               800935662.00   0.96779335578459169126
+  GENOME CANADA                                                                                                                                                                                     Innovation, Science and Economic Development Canada | Innovation, Sciences et Développement économique Canada            709950000.00   Genome Canada                                               709950000.00   1.00000000000000000000
+  Contribution funding to improve health care quality and patient safety                                                                                                                            Health Canada | Santé Canada                                                                                             639380000.00   Healthcare Excellence Canada                                639380000.00   1.00000000000000000000
+  Canada-Ukraine Transitional Assistance Initiative (CUTAI): Resettlement Assistance Program - Income Support Grant                                                                                 Immigration, Refugees and Citizenship Canada | Immigration, Réfugiés et Citoyenneté Canada                               638259730.00   Employment and Social Development Canada (ESDC)             638259730.00   1.00000000000000000000
+  CANARIE                                                                                                                                                                                           Innovation, Science and Economic Development Canada | Innovation, Sciences et Développement économique Canada            587000000.00   Canarie Inc.                                                587000000.00   1.00000000000000000000
+  Funding to support the asylum seekers in Quebec                                                                                                                                                   Immigration, Refugees and Citizenship Canada | Immigration, Réfugiés et Citoyenneté Canada                               581300000.00   Ministre des Finances du Québec                             581300000.00   1.00000000000000000000
+  ... and 15 more rows
+
+==========================================================================================
+  Cut 6: VENDOR-LEVEL — single recipients receiving >$10M from 5+ ministries/departments
+==========================================================================================
+  recipient                                                ministries_n  vendor_total 
+  -------------------------------------------------------  ------------  -------------
+  batch report│rapport en lots                             6             4827281114.00
+  RECEIVER GENERAL FOR CANADA CANADA REVENUE AGENCY        39            2680873140.52
+  CREE NATION GOVERNMENT                                   6             1451055538.62
+  PCL CONSTRUCTION MANAGEMENT INC.                         6             1110607265.45
+  Ryerson University                                       13            1006710410.00
+  NUNATSIAVUT GOVERNMENT                                   5             853486823.60 
+  City of Toronto                                          6             815147101.01 
+  University of Toronto                                    10            698726212.66 
+  MANITOBA METIS FEDERATION INC.                           6             638600512.32 
+  VOLKER STEVIN HIGHWAYS LTD.                              6             599124301.28 
+  CGI INFORMATION SYSTEMS AND MANAGEMENT CONSULTANTS INC.  14            459557467.52 
+  INUVIALUIT REGIONAL CORPORATION                          6             454938049.96 
+  N.P.A. LTD.                                              7             444096283.83 
+  KITIGAN ZIBI ANISHINABEG                                 6             430427930.29 
+  The University of British Columbia                       12            428665090.50 
+  ... and 10 more rows
+
+==========================================================================================
+  HEADLINE COUNTS — how many candidates exist across each cut?
+==========================================================================================
+  Ch5 (orig): AB ministries top-3 >= 75%                            12
+  AB ministries top-1 >= 50% (≥$1M)                                 11
+  FED departments top-3 >= 75% (since 2020, ≥$50M)                   3
+  FED programs top-1 >= 80% (since 2020, ≥$1M)                   2,365
+  Cross-ministry vendors (≥5 ministries/depts, ≥$10M)              354
