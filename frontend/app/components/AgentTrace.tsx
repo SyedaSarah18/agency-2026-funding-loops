@@ -77,13 +77,16 @@ export default function AgentTrace() {
         if (done) break;
         buffer += decoder.decode(value, { stream: true });
 
-        // SSE messages are separated by blank lines; each message has "data:" lines.
-        let idx;
-        while ((idx = buffer.indexOf("\n\n")) !== -1) {
-          const raw = buffer.slice(0, idx);
-          buffer = buffer.slice(idx + 2);
+        // SSE message boundary is a blank line. Accept either \n\n (LF) or \r\n\r\n (CRLF)
+        // because the Next.js proxy / Windows pipeline can re-encode line endings.
+        const SEPARATOR_RE = /\r?\n\r?\n/;
+        while (true) {
+          const m = SEPARATOR_RE.exec(buffer);
+          if (!m) break;
+          const raw = buffer.slice(0, m.index);
+          buffer = buffer.slice(m.index + m[0].length);
           const dataLine = raw
-            .split("\n")
+            .split(/\r?\n/)
             .find((l) => l.startsWith("data:"));
           if (!dataLine) continue;
           try {
