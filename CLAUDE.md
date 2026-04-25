@@ -55,7 +55,7 @@ powershell -NoProfile -Command "Get-WmiObject Win32_Process -Filter \"name like 
 Discovery → [candidates JSON] → Investigation × N → [dossiers] → Validator × N → [findings] → Narrative × top → [briefs]
 ```
 
-Orchestrated in `agent-service/agents/pipeline.py`. Each handoff goes through `_extract_json()` because Strands agents return free-form text containing a JSON value. Findings whose `verdict == "likely_legitimate"` are dropped before Narrative.
+Orchestrated in `agent-service/agents/orchestrator.py` (the `run_pipeline()` async generator). Each handoff goes through `_extract_json()` because Strands agents return free-form text containing a JSON value. Findings whose `verdict == "likely_legitimate"` are dropped before Narrative.
 
 ### Strands agents are stateful — instantiate fresh per task
 
@@ -89,6 +89,36 @@ Caveats:
 - `verify_charity_revenue` prefers T3010 `field_4700` (total revenue) and falls back to `field_4500` (tax-receipted gifts) — this distinction matters because v1.0 saw the agent confidently report `field_4500` as "revenue" and inflate a multiple by 3×.
 - `verify_external_funding` for `source='fed'` tries BN match first, then falls back to legal-name match (because KNOWN-DATA-ISSUE F-6 leaves ~55% of fed rows with NULL `recipient_business_number`).
 - Tolerance defaults: 5% for gifts/revenue (clean tables), 10% for external funding (FED-3 amendment double-counting).
+
+## Improving agents — discipline for future sessions
+
+Agents don't train the way ML models do. There's no gradient descent, no labelled training set. Improvement is a *deliberate iteration loop* on prompts, tool schemas, and output validators — and depth/accuracy here is the single biggest scoring factor for hackathon judges. Follow this loop strictly when changing agent behaviour:
+
+1. **Reproduce the failure on a known input.** Use the cached run in `data/last_good_run.jsonl` (or kick off a fresh one with `DISCOVERY_TOP_N=3` for speed) so you have a baseline to compare against.
+2. **Diagnose root cause from the trace, not the output.** Look at which tool call returned wrong data, which prompt instruction was ambiguous, which evidence the agent missed. The brief is the symptom; the orchestrator's SSE log is the diagnostic.
+3. **Fix at the lowest layer that resolves it.** Order of preference:
+   - New `verify_*` tool to enforce a fact-check (cheapest, most auditable)
+   - Tool docstring / type-hint improvement (Strands feeds these to the LLM)
+   - System-prompt rule with explicit "MUST" / "downgrade to medium if X"
+   - Few-shot example in the prompt
+   - Different model (e.g. Sonnet → Opus) for the failing agent only
+   - Last resort: hand-coded post-processing in `orchestrator.py`
+4. **Re-run end-to-end and confirm the failure is gone.** Don't trust isolated tests — the agents interact.
+5. **Verify you haven't regressed prior wins.** Compare the new brief against `data/last_good_run.jsonl`. If a previously-correct claim now fails, the fix is bad.
+6. **Cache the new good run and commit.** Update `data/last_good_run.jsonl`, commit with a message that names the failure and the fix.
+
+**Anti-patterns to avoid:**
+
+- Hardcoding a specific entity name into a prompt to "fix" a single bad finding. That's overfitting to one example. Fix the *class* of failure.
+- Adding a Python `if/else` in the orchestrator to override an agent's verdict. The agent should make the call; if it can't, give it a better tool.
+- Skipping the regression check ("the new finding looks good"). Past wins must keep working.
+- Tuning prompts without a cached comparison run. You'll never know if you actually improved anything.
+
+**What "good" looks like for an agent change:**
+
+- The diff is small (one tool added, one prompt clause added/edited).
+- The cached run before/after diff shows the targeted failure resolved AND no other claim got worse.
+- The commit message names the specific failure mode and the fix layer.
 
 ## Important gotchas
 

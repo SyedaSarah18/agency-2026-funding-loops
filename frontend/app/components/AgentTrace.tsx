@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Explainer from "./Explainer";
+import LoopGraph from "./LoopGraph";
 
 type AgentEvent = {
   ts: string;
@@ -18,6 +19,20 @@ type Verification = {
   details: string;
 };
 
+type Charity = {
+  bn: string;
+  legal_name: string;
+  city?: string;
+  designation?: string;
+};
+
+type Edge = {
+  from_bn: string;
+  to_bn: string;
+  total_amount: number;
+  year_range?: [number, number];
+};
+
 type Brief = {
   loop_id: number;
   lead_number: number;
@@ -31,6 +46,7 @@ type Brief = {
   verifications?: Verification[];
   risk_score?: number;
   score_breakdown?: Record<string, number>;
+  graph_data?: { charities: Charity[]; edges: Edge[] };
 };
 
 const AGENT_COLORS: Record<AgentEvent["agent"], string> = {
@@ -183,6 +199,12 @@ export default function AgentTrace() {
                 <div className="text-xs text-slate-500 mb-3">
                   Entities: {b.named_entities.join(", ")}
                 </div>
+
+                {b.graph_data && b.graph_data.charities.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-slate-200">
+                    <LoopGraph data={b.graph_data} />
+                  </div>
+                )}
 
                 {b.verifications && b.verifications.length > 0 && (
                   <div className="mt-3 pt-3 border-t border-slate-200">

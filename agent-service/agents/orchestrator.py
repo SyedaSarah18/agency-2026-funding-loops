@@ -185,9 +185,16 @@ async def run_pipeline() -> AsyncIterator[dict]:
             # frontend can render verified/unverified badges per claim and show
             # how the verdict was derived. Pure data carry-through, no LLM needed.
             finding = item["finding"]
+            dossier = item["dossier"] or {}
             b["verifications"] = finding.get("verifications", [])
             b["risk_score"] = finding.get("risk_score")
             b["score_breakdown"] = finding.get("score_breakdown", {})
+            # Slim dossier excerpt so the frontend can render the loop as a
+            # graph without re-querying the DB.
+            b["graph_data"] = {
+                "charities": dossier.get("charities", []),
+                "edges": dossier.get("edges", []),
+            }
             briefs.append(b)
 
     yield _evt("pipeline", "done", f"Investigation complete: {len(briefs)} Minister-ready briefs",

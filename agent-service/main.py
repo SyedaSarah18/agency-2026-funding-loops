@@ -81,7 +81,7 @@ async def investigate(mode: str = Query(default="real", pattern="^(real|fake)$")
             return
 
         try:
-            from agents.pipeline import run_pipeline
+            from agents.orchestrator import run_pipeline
             async for evt in run_pipeline():
                 # run_pipeline yields raw event dicts; wrap in SSE shape.
                 yield _sse(evt)

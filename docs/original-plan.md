@@ -162,7 +162,7 @@ Priority order if anything fails: (1) demo runs end-to-end, (2) findings real an
 
 - **LLM provider:** plan started with Anthropic Console (free credit), then user decided to set up Bedrock today instead. Result: Bedrock + Sonnet 4.6 in us-west-2 from the start. Same Strands code path, just `LLM_BACKEND=bedrock`.
 - **Model ID:** initial guess `us.anthropic.claude-sonnet-4-6-20260101-v1:0` was wrong. Real ID is just `us.anthropic.claude-sonnet-4-6` (no date suffix). Discovered via `bedrock.list_inference_profiles()`.
-- **Strands agents are stateful.** Plan didn't anticipate this. The pipeline orchestrator (`agents/pipeline.py`) instantiates a fresh agent per loop iteration via `make_*_agent()`. Hoisting it out of the loop crashes with "Agent is already processing a request".
+- **Strands agents are stateful.** Plan didn't anticipate this. The orchestrator (`agents/orchestrator.py`, originally drafted as `pipeline.py`) instantiates a fresh agent per loop iteration via `make_*_agent()`. Hoisting it out of the loop crashes with "Agent is already processing a request".
 - **Discovery cross-entity filter is critical.** Plan assumed top-flow cycles would be interesting. Reality: top 600+ cycles are Salvation Army intra-entity flows (same BN root). Discovery prompt now requires `(SELECT COUNT(DISTINCT substring(bn FROM 1 FOR 9)) FROM unnest(path_bns)) >= 2` to skip them.
 - **Frontend folder structure:** plan put `components/` at `frontend/components/`. Actual layout is `frontend/app/components/` (kept inside the App Router tree).
 - **Some folders/files in the plan don't exist yet:**

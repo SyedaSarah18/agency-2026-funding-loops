@@ -61,7 +61,7 @@ hackathon-agency-2026/
 │       ├── investigation.py        # builds dossiers (charities, edges, directors, cross-fund)
 │       ├── validator.py            # rules out legit hierarchies, scores severity
 │       ├── narrative.py            # quantitative-first Minister briefs
-│       └── pipeline.py             # orchestrates D > I > V > N, emits SSE-shaped events
+│       └── orchestrator.py         # orchestrates D > I > V > N, emits SSE-shaped events
 ├── frontend/                       # Phase 2 — Next.js dashboard
 │   └── app/
 │       ├── api/investigate/route.ts # proxies SSE
