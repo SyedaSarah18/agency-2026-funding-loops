@@ -21,40 +21,63 @@ export default function Explainer() {
       {open && (
         <div className="px-5 pb-5 text-sm text-slate-700 space-y-3 border-t border-slate-200 pt-4">
           <p>
-            Every Canadian charity must file an annual T3010 with the CRA disclosing
-            every gift it made to another charity.{" "}
-            <span className="font-semibold">5,808 cycles</span> exist in 2020-2024
-            data where money flowed A → B → ... → A in a closed loop. Total volume
-            in cross-entity cycles ≥ $100K:{" "}
-            <span className="font-semibold">$2.86 billion</span>.
+            The federal government discloses every grant and contribution it
+            issues — recipient, dollar amount, program, department, dates. Our
+            scan of <span className="font-semibold">1.28M federal records</span>{" "}
+            since 2020 found{" "}
+            <span className="font-semibold">2,365 spending programs</span> where{" "}
+            <span className="font-semibold">
+              one recipient receives 80% or more of the program&apos;s total
+              spend
+            </span>
+            . Most are legitimate (designated organisations under treaty,
+            named-recipient programs, intergovernmental transfers). But some are
+            real concerns — Sustainable Development Technology Canada (the 2024
+            Auditor General-flagged &quot;green slush fund&quot;) is in our
+            data.
           </p>
           <p>
-            <span className="font-semibold">Why it matters:</span> looped charity
-            transfers can inflate reported revenue (each hop counts as new
-            revenue), distort tax-receipt mechanics, and let charities reclassify
-            admin costs as program costs. Most cycles are legitimate (denominational
-            pooling, donor-advised-fund migrations) — but the ones that aren&apos;t
-            cost taxpayers and undermine public trust in charitable status.
+            <span className="font-semibold">Why it matters:</span> when a single
+            vendor dominates a federal program with no competitive process, the
+            risks are well-documented — non-arm&apos;s-length governance, scope
+            creep, no benchmarking, and an audit trail the public can&apos;t see
+            through. Surfacing these patterns at scale lets the Treasury Board
+            triage which programs deserve a deeper look before money continues
+            flowing.
           </p>
           <p>
             <span className="font-semibold">What runs on click:</span> four AI
-            agents in sequence — Discovery scans the cycle table for the highest-
-            flow cross-entity loops; Investigation pulls each cycle&apos;s charities,
-            edges, directors, and external grant exposure into a dossier; Validator
-            calls{" "}
-            <code className="bg-slate-100 px-1 rounded text-xs">verify_*</code> tools
-            against source rows to confirm dollar amounts, director relationships,
-            and revenue figures (downgrades the verdict if any verification fails);
-            Narrative writes a Minister-ready brief whose every number is traceable
-            to a database row.
+            agents in sequence — Discovery scans federal grants for
+            single-recipient-dominated programs (filtering out named-recipient
+            programs like Mitacs Inc. that are legitimately single-vendor by
+            design); Investigation builds the program&apos;s full recipient
+            roster, time series, and the dominant vendor&apos;s broader federal
+            footprint; Validator calls{" "}
+            <code className="bg-slate-100 px-1 rounded text-xs">
+              verify_program_concentration
+            </code>{" "}
+            and{" "}
+            <code className="bg-slate-100 px-1 rounded text-xs">
+              verify_vendor_federal_total
+            </code>{" "}
+            against source rows, rules out designated/legitimate single-vendor
+            patterns, and downgrades the verdict if any verification fails;
+            Narrative writes a Minister-ready brief whose every number is
+            traceable to a database row.
           </p>
           <p>
-            <span className="font-semibold">Why this challenge over the other 9:</span>{" "}
+            <span className="font-semibold">
+              Why this challenge over the other 9:
+            </span>{" "}
             empirical scorecard at{" "}
-            <code className="bg-slate-100 px-1 rounded text-xs">analysis/scorecard.md</code>{" "}
-            — Funding Loops scored 18/20 because the data is clean, the math is
-            deterministic (no LLM-hallucinated relationships), the cycles are
-            visualizable, and every named entity is recognizable.
+            <code className="bg-slate-100 px-1 rounded text-xs">
+              analysis/scorecard.md
+            </code>{" "}
+            — Vendor Concentration scored 17/20 after a deep re-probe (the
+            original probe undercounted by 100×). The data is rich (2,365
+            candidates), the deterministic math is defensible, the architecture
+            generalises across challenges, and the SDTC + Greener Homes
+            placeholder findings are concrete and politically resonant.
           </p>
         </div>
       )}

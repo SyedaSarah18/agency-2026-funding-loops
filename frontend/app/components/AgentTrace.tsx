@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Explainer from "./Explainer";
 import LoopGraph from "./LoopGraph";
+import ConcentrationChart from "./ConcentrationChart";
 
 type AgentEvent = {
   ts: string;
@@ -33,6 +34,39 @@ type Edge = {
   year_range?: [number, number];
 };
 
+type Recipient = {
+  name: string;
+  bn?: string | null;
+  amount: number;
+  agreement_count?: number;
+  share_of_program: number;
+};
+
+type TimePoint = {
+  year: number;
+  total_spend: number;
+  top_vendor_share: number;
+};
+
+type TopVendor = {
+  name?: string;
+  bn?: string | null;
+  entity_type?: string;
+  fed_total_all_programs?: number;
+};
+
+type ChartData = {
+  // v1.x funding-loops shape
+  charities?: Charity[];
+  edges?: Edge[];
+  // v2.x vendor-concentration shape
+  program?: string;
+  dept?: string;
+  recipients?: Recipient[];
+  time_series?: TimePoint[];
+  top_vendor?: TopVendor;
+};
+
 type Brief = {
   loop_id: number;
   lead_number: number;
@@ -46,7 +80,10 @@ type Brief = {
   verifications?: Verification[];
   risk_score?: number;
   score_breakdown?: Record<string, number>;
-  graph_data?: { charities: Charity[]; edges: Edge[] };
+  // v1.x: graph_data, v2.x: chart_data (orchestrator emits chart_data; keeping
+  // graph_data for backward compat with the cached v1.x runs).
+  chart_data?: ChartData;
+  graph_data?: ChartData;
 };
 
 const AGENT_COLORS: Record<AgentEvent["agent"], string> = {
@@ -200,11 +237,32 @@ export default function AgentTrace() {
                   Entities: {b.named_entities.join(", ")}
                 </div>
 
-                {b.graph_data && b.graph_data.charities.length > 0 && (
-                  <div className="mt-3 pt-3 border-t border-slate-200">
-                    <LoopGraph data={b.graph_data} />
-                  </div>
-                )}
+                {(() => {
+                  const cd = b.chart_data ?? b.graph_data;
+                  if (!cd) return null;
+                  // Vendor-concentration shape (v2.x)
+                  if ((cd.recipients?.length ?? 0) > 0) {
+                    return (
+                      <div className="mt-3 pt-3 border-t border-slate-200">
+                        <ConcentrationChart data={cd} />
+                      </div>
+                    );
+                  }
+                  // Funding-loops shape (v1.x)
+                  if ((cd.charities?.length ?? 0) > 0) {
+                    return (
+                      <div className="mt-3 pt-3 border-t border-slate-200">
+                        <LoopGraph
+                          data={{
+                            charities: cd.charities ?? [],
+                            edges: cd.edges ?? [],
+                          }}
+                        />
+                      </div>
+                    );
+                  }
+                  return null;
+                })()}
 
                 {b.verifications && b.verifications.length > 0 && (
                   <div className="mt-3 pt-3 border-t border-slate-200">

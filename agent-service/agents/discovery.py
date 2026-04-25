@@ -1,4 +1,9 @@
-"""Discovery agent — scans cra.loops for top-N highest-signal funding loops."""
+"""Discovery agent — finds federal spending programs where ONE vendor dominates.
+
+Replaces v1.x funding-loops Discovery. Targets fed.grants_contributions at the
+program level (prog_name_en + owner_org_title) to surface single-recipient
+concentration since 2020.
+"""
 from __future__ import annotations
 
 from strands import Agent
@@ -7,45 +12,56 @@ from llm.client import make_model
 from tools.sql import query_db
 
 DISCOVERY_PROMPT = """You are the DISCOVERY agent in a 4-agent investigation pipeline analysing
-Canadian charity data for circular funding patterns ("funding loops").
+Canadian federal government spending for vendor-concentration patterns.
 
-Your goal: surface the {top_n} highest-signal candidate cycles from cra.loops for
-the next agent (Investigation) to dig into.
+Your goal: surface the {top_n} highest-signal candidate spending programs from
+fed.grants_contributions where ONE recipient dominates a program's total spend.
+The next agent (Investigation) will build full dossiers on these candidates.
 
-Use the query_db tool to:
-1. SELECT the top {top_n} cycles from cra.loops ordered by total_flow DESC, with these filters:
-   - total_flow >= 100000 (meaningful dollar amount)
-   - hops <= 6 (tight cycles)
-   - CROSS-ENTITY ONLY: skip cycles where all path_bns share the same first 9 digits
-     (those are intra-entity sub-registrations like Salvation Army's 600+ chapters and are
-     not suspicious — they're internal accounting). Use this WHERE clause:
-     `(SELECT COUNT(DISTINCT substring(bn FROM 1 FOR 9)) FROM unnest(path_bns) AS bn) >= 2`
-   You want: id, hops, path_bns, path_display, bottleneck_amt, total_flow, min_year, max_year.
-2. Optionally do ONE follow-up query to sanity-check (e.g. count distinct path BNs to
-   confirm cycles aren't degenerate).
+Use the query_db tool to run a SQL query against fed.grants_contributions. The
+target shape is:
 
-Your final response MUST be a JSON array of objects with this exact shape, and nothing else:
+  - Group by (prog_name_en, owner_org_title) since 2020-01-01
+  - Sum agreement_value per (program, recipient_legal_name)
+  - For each program, identify the top-1 recipient and compute its share
+  - Filter: program total >= $1M AND top-1 share >= 0.80
+  - Filter out programs whose name CONTAINS the recipient name verbatim
+    (those are named-recipient programs by design — Mitacs Inc., Genome Canada,
+    Canarie, etc. are legitimate single-recipient by program design and waste
+    Validator's time). Use a SQL ILIKE check for this filtering.
+  - Order by total spend desc, take top {top_n}
+
+Useful columns:
+  - prog_name_en, owner_org_title, recipient_legal_name, recipient_business_number,
+    agreement_value, agreement_start_date
+
+Your final response MUST be a JSON array of objects with this exact shape, and
+nothing else:
 [
   {{
-    "loop_id": <int>,
-    "hops": <int>,
-    "path_bns": [<bn>, <bn>, ...],
-    "total_flow": <number>,
-    "bottleneck_amt": <number>,
-    "min_year": <int>,
-    "max_year": <int>,
+    "program_key": "<prog_name_en>::<owner_org_title>",
+    "program": "<prog_name_en>",
+    "dept": "<owner_org_title>",
+    "total_spend": <number>,
+    "top_vendor": "<recipient_legal_name>",
+    "top_vendor_bn": "<recipient_business_number or null>",
+    "top_vendor_amount": <number>,
+    "top_vendor_share": <0.0-1.0>,
+    "year_range": [<min_year>, <max_year>],
     "preliminary_score": <0-100>,
-    "rationale": "<one sentence explaining why this cycle is interesting>"
+    "rationale": "<one sentence explaining why this program is interesting>"
   }},
   ...
 ]
 
 Score rubric (0-100):
-- $ magnitude (0-40): log-scale of total_flow
-- Tightness (0-30): shorter hops + closer min/max year = tighter
-- Bottleneck pinch (0-30): high bottleneck_amt relative to total_flow
+- $ magnitude (0-40): log10(total_spend) clamped
+- Concentration intensity (0-30): linear in top_vendor_share above 0.80
+- Recency (0-30): tighter year_range AND more weight on 2022+ = higher
 
-Be rigorous. Do not invent data. Every field must come from a query result."""
+Be rigorous. Do not invent data. Every field must come from a query result.
+Excluding named-recipient programs upfront is critical — those would be
+unanimously ruled out by the Validator and waste tokens."""
 
 
 def make_discovery_agent(top_n: int = 20) -> Agent:

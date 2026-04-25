@@ -189,11 +189,20 @@ async def run_pipeline() -> AsyncIterator[dict]:
             b["verifications"] = finding.get("verifications", [])
             b["risk_score"] = finding.get("risk_score")
             b["score_breakdown"] = finding.get("score_breakdown", {})
-            # Slim dossier excerpt so the frontend can render the loop as a
-            # graph without re-querying the DB.
-            b["graph_data"] = {
+            # Domain-agnostic dossier excerpt for the frontend to render
+            # whichever chart shape is appropriate for the current challenge.
+            # v1.x funding-loops shape: {charities, edges}
+            # v2.x vendor-concentration shape: {recipients, time_series, top_vendor}
+            b["chart_data"] = {
+                # v1.x loop fields (preserved for back-compat)
                 "charities": dossier.get("charities", []),
                 "edges": dossier.get("edges", []),
+                # v2.x vendor concentration fields
+                "program": dossier.get("program"),
+                "dept": dossier.get("dept"),
+                "recipients": dossier.get("recipients", []),
+                "time_series": dossier.get("time_series", []),
+                "top_vendor": dossier.get("top_vendor", {}),
             }
             briefs.append(b)
 

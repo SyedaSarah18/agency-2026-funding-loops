@@ -217,6 +217,152 @@ def verify_charity_revenue(bn: str, year: int, claimed_revenue: float,
 
 
 @tool
+def verify_program_concentration(program: str, dept: str,
+                                 claimed_top_share: float,
+                                 claimed_total_spend: float,
+                                 since_year: int = 2020,
+                                 tolerance_pct: float = 5.0) -> str:
+    """Verify a vendor-concentration claim against fed.grants_contributions.
+
+    Re-runs the program-level concentration math and confirms (a) the program's
+    total spend matches the claim and (b) the top recipient's share matches.
+
+    Args:
+        program: Program name (matches prog_name_en exactly).
+        dept: Owner organisation title (matches owner_org_title exactly).
+        claimed_top_share: The 0.0-1.0 share the Investigation agent reported.
+        claimed_total_spend: The dollar total Investigation reported.
+        since_year: Lower-bound year on agreement_start_date (default 2020).
+        tolerance_pct: Allowed difference in percent on both share and total
+            (default 5%).
+
+    Returns:
+        JSON string with keys: verified (bool), claimed_share, actual_share,
+        share_delta_pct, claimed_total, actual_total, total_delta_pct,
+        top_vendor_actual, recipient_count, year_range.
+    """
+    conn, cur = _conn()
+    try:
+        cur.execute("""
+            WITH per_recipient AS (
+                SELECT recipient_legal_name, SUM(agreement_value) AS amt
+                FROM fed.grants_contributions
+                WHERE prog_name_en = %s AND owner_org_title = %s
+                  AND agreement_value IS NOT NULL
+                  AND EXTRACT(YEAR FROM agreement_start_date) >= %s
+                GROUP BY recipient_legal_name
+            )
+            SELECT (SELECT recipient_legal_name FROM per_recipient ORDER BY amt DESC LIMIT 1) AS top_v,
+                   (SELECT amt FROM per_recipient ORDER BY amt DESC LIMIT 1) AS top_amt,
+                   SUM(amt) AS prog_total,
+                   COUNT(*) AS recipient_count
+            FROM per_recipient
+        """, (program, dept, since_year))
+        top_v, top_amt, prog_total, recipient_count = cur.fetchone()
+        top_amt_f = _f(top_amt)
+        prog_total_f = _f(prog_total)
+        actual_share = (top_amt_f / prog_total_f) if (top_amt_f is not None and prog_total_f) else None
+
+        share_delta = None
+        if actual_share is not None and claimed_top_share != 0:
+            share_delta = round((actual_share - claimed_top_share) / claimed_top_share * 100, 2)
+        total_delta = _delta_pct(claimed_total_spend, prog_total_f)
+
+        verified = (
+            actual_share is not None and prog_total_f is not None
+            and share_delta is not None and total_delta is not None
+            and abs(share_delta) <= tolerance_pct
+            and abs(total_delta) <= tolerance_pct
+        )
+
+        # Year range over the data we matched
+        cur.execute("""
+            SELECT MIN(EXTRACT(YEAR FROM agreement_start_date))::int,
+                   MAX(EXTRACT(YEAR FROM agreement_start_date))::int
+            FROM fed.grants_contributions
+            WHERE prog_name_en = %s AND owner_org_title = %s
+              AND EXTRACT(YEAR FROM agreement_start_date) >= %s
+        """, (program, dept, since_year))
+        yr_min, yr_max = cur.fetchone()
+
+        return json.dumps({
+            "verified": verified,
+            "claimed_share": claimed_top_share,
+            "actual_share": actual_share,
+            "share_delta_pct": share_delta,
+            "claimed_total": claimed_total_spend,
+            "actual_total": prog_total_f,
+            "total_delta_pct": total_delta,
+            "top_vendor_actual": top_v,
+            "recipient_count": recipient_count or 0,
+            "year_range": [yr_min, yr_max],
+        })
+    except Exception as e:
+        return json.dumps({"error": f"{type(e).__name__}: {str(e)[:200]}"})
+    finally:
+        conn.close()
+
+
+@tool
+def verify_vendor_federal_total(vendor_name: str, claimed_total: float,
+                                since_year: Optional[int] = None,
+                                tolerance_pct: float = 10.0) -> str:
+    """Verify a vendor's total federal funding receipt across ALL programs.
+
+    Sums fed.grants_contributions.agreement_value where recipient_legal_name
+    matches the given vendor (case-insensitive exact). Tolerance defaults to 10%
+    because FED amendment double-counting (KNOWN-DATA-ISSUE F-3) inflates totals.
+
+    Args:
+        vendor_name: Recipient legal name (case-insensitive exact match).
+        claimed_total: Dollar total Investigation reported across all programs.
+        since_year: Optional lower bound on agreement_start_date year.
+        tolerance_pct: Allowed difference in percent (default 10%).
+
+    Returns:
+        JSON string with keys: verified (bool), claimed, actual, delta_pct,
+        program_count, agreement_count, year_range.
+    """
+    conn, cur = _conn()
+    try:
+        sql = """
+            SELECT SUM(agreement_value), COUNT(*),
+                   COUNT(DISTINCT prog_name_en),
+                   MIN(EXTRACT(YEAR FROM agreement_start_date)::int),
+                   MAX(EXTRACT(YEAR FROM agreement_start_date)::int)
+            FROM fed.grants_contributions
+            WHERE lower(recipient_legal_name) = lower(%s)
+              AND agreement_value IS NOT NULL
+        """
+        params = [vendor_name]
+        if since_year is not None:
+            sql += " AND EXTRACT(YEAR FROM agreement_start_date) >= %s"
+            params.append(since_year)
+        cur.execute(sql, params)
+        actual, agreement_count, program_count, yr_min, yr_max = cur.fetchone()
+        actual_f = _f(actual)
+        delta = _delta_pct(claimed_total, actual_f)
+        verified = (
+            actual_f is not None and delta is not None
+            and abs(delta) <= tolerance_pct
+        )
+        return json.dumps({
+            "verified": verified,
+            "claimed": claimed_total,
+            "actual": actual_f,
+            "delta_pct": delta,
+            "program_count": program_count or 0,
+            "agreement_count": agreement_count or 0,
+            "year_range": [yr_min, yr_max],
+            "tolerance_used": tolerance_pct,
+        })
+    except Exception as e:
+        return json.dumps({"error": f"{type(e).__name__}: {str(e)[:200]}"})
+    finally:
+        conn.close()
+
+
+@tool
 def verify_external_funding(bn: str, source: str, claimed_total: float,
                             legal_name: Optional[str] = None,
                             min_year: Optional[int] = None,
