@@ -1,0 +1,158 @@
+data: {"ts": "2026-04-25T17:50:38.513506+00:00", "agent": "pipeline", "kind": "start", "message": "4-agent funding-loops investigation begins", "payload": {}}
+
+data: {"ts": "2026-04-25T17:50:39.037787+00:00", "agent": "discovery", "kind": "start", "message": "Discovery agent invoked", "payload": {}}
+
+data: {"ts": "2026-04-25T17:50:40.351037+00:00", "agent": "discovery", "kind": "tool", "message": "calling tool: query_db", "payload": {"input_preview": ""}}
+
+: ping - 2026-04-25 17:50:54.042641+00:00
+
+data: {"ts": "2026-04-25T17:50:55.270293+00:00", "agent": "discovery", "kind": "complete", "message": "discovery done", "payload": {"output_chars": 1955}}
+
+data: {"ts": "2026-04-25T17:50:55.270872+00:00", "agent": "pipeline", "kind": "step", "message": "Discovery surfaced 3 candidates", "payload": {"count": 3}}
+
+data: {"ts": "2026-04-25T17:50:55.270967+00:00", "agent": "pipeline", "kind": "step", "message": "Investigating candidate 1/3 (loop_id=2096)", "payload": {}}
+
+data: {"ts": "2026-04-25T17:50:55.393516+00:00", "agent": "investigation", "kind": "start", "message": "Investigation agent invoked", "payload": {}}
+
+data: {"ts": "2026-04-25T17:50:57.326113+00:00", "agent": "investigation", "kind": "tool", "message": "calling tool: query_db", "payload": {"input_preview": ""}}
+
+: ping - 2026-04-25 17:51:09.050085+00:00
+
+: ping - 2026-04-25 17:51:24.061080+00:00
+
+data: {"ts": "2026-04-25T17:51:26.653470+00:00", "agent": "investigation", "kind": "tool", "message": "calling tool: build_loop_graph", "payload": {"input_preview": ""}}
+
+data: {"ts": "2026-04-25T17:51:28.698211+00:00", "agent": "investigation", "kind": "tool", "message": "calling tool: query_db", "payload": {"input_preview": ""}}
+
+: ping - 2026-04-25 17:51:39.071544+00:00
+
+data: {"ts": "2026-04-25T17:51:43.734014+00:00", "agent": "investigation", "kind": "tool", "message": "calling tool: build_loop_graph", "payload": {"input_preview": ""}}
+
+: ping - 2026-04-25 17:51:54.075636+00:00
+
+: ping - 2026-04-25 17:52:09.077905+00:00
+
+: ping - 2026-04-25 17:52:24.087333+00:00
+
+: ping - 2026-04-25 17:52:39.093670+00:00
+
+data: {"ts": "2026-04-25T17:52:50.426197+00:00", "agent": "investigation", "kind": "complete", "message": "investigation done", "payload": {"output_chars": 15882}}
+
+data: {"ts": "2026-04-25T17:52:50.428114+00:00", "agent": "pipeline", "kind": "step", "message": "Investigating candidate 2/3 (loop_id=5186)", "payload": {}}
+
+data: {"ts": "2026-04-25T17:52:50.566489+00:00", "agent": "investigation", "kind": "start", "message": "Investigation agent invoked", "payload": {}}
+
+data: {"ts": "2026-04-25T17:52:52.812358+00:00", "agent": "investigation", "kind": "tool", "message": "calling tool: query_db", "payload": {"input_preview": ""}}
+
+: ping - 2026-04-25 17:52:54.106477+00:00
+
+data: {"ts": "2026-04-25T17:53:03.254368+00:00", "agent": "investigation", "kind": "tool", "message": "calling tool: build_loop_graph", "payload": {"input_preview": ""}}
+
+data: {"ts": "2026-04-25T17:53:05.570480+00:00", "agent": "investigation", "kind": "tool", "message": "calling tool: query_db", "payload": {"input_preview": ""}}
+
+: ping - 2026-04-25 17:53:09.111659+00:00
+
+: ping - 2026-04-25 17:53:24.123225+00:00
+
+: ping - 2026-04-25 17:53:39.125657+00:00
+
+: ping - 2026-04-25 17:53:54.128671+00:00
+
+data: {"ts": "2026-04-25T17:54:07.417043+00:00", "agent": "investigation", "kind": "complete", "message": "investigation done", "payload": {"output_chars": 14314}}
+
+data: {"ts": "2026-04-25T17:54:07.418806+00:00", "agent": "pipeline", "kind": "step", "message": "Investigating candidate 3/3 (loop_id=5187)", "payload": {}}
+
+data: {"ts": "2026-04-25T17:54:07.564359+00:00", "agent": "investigation", "kind": "start", "message": "Investigation agent invoked", "payload": {}}
+
+: ping - 2026-04-25 17:54:09.130299+00:00
+
+data: {"ts": "2026-04-25T17:54:09.648168+00:00", "agent": "investigation", "kind": "tool", "message": "calling tool: query_db", "payload": {"input_preview": ""}}
+
+data: {"ts": "2026-04-25T17:54:20.114990+00:00", "agent": "investigation", "kind": "tool", "message": "calling tool: build_loop_graph", "payload": {"input_preview": ""}}
+
+: ping - 2026-04-25 17:54:24.142651+00:00
+
+data: {"ts": "2026-04-25T17:54:26.334293+00:00", "agent": "investigation", "kind": "tool", "message": "calling tool: query_db", "payload": {"input_preview": ""}}
+
+: ping - 2026-04-25 17:54:39.149521+00:00
+
+: ping - 2026-04-25 17:54:54.150983+00:00
+
+: ping - 2026-04-25 17:55:09.154381+00:00
+
+data: {"ts": "2026-04-25T17:55:23.487813+00:00", "agent": "investigation", "kind": "complete", "message": "investigation done", "payload": {"output_chars": 14473}}
+
+data: {"ts": "2026-04-25T17:55:23.490018+00:00", "agent": "pipeline", "kind": "step", "message": "Validating dossier 1/3", "payload": {}}
+
+data: {"ts": "2026-04-25T17:55:23.654028+00:00", "agent": "validator", "kind": "start", "message": "Validator agent invoked", "payload": {}}
+
+: ping - 2026-04-25 17:55:24.155837+00:00
+
+data: {"ts": "2026-04-25T17:55:26.554770+00:00", "agent": "validator", "kind": "tool", "message": "calling tool: verify_gift", "payload": {"input_preview": ""}}
+
+data: {"ts": "2026-04-25T17:55:28.301962+00:00", "agent": "validator", "kind": "tool", "message": "calling tool: verify_external_funding", "payload": {"input_preview": ""}}
+
+data: {"ts": "2026-04-25T17:55:33.528578+00:00", "agent": "validator", "kind": "tool", "message": "calling tool: verify_gift", "payload": {"input_preview": ""}}
+
+: ping - 2026-04-25 17:55:39.158106+00:00
+
+: ping - 2026-04-25 17:55:54.159947+00:00
+
+: ping - 2026-04-25 17:56:09.168453+00:00
+
+data: {"ts": "2026-04-25T17:56:14.770575+00:00", "agent": "validator", "kind": "complete", "message": "validator done", "payload": {"output_chars": 7571}}
+
+data: {"ts": "2026-04-25T17:56:14.771469+00:00", "agent": "pipeline", "kind": "step", "message": "Validating dossier 2/3", "payload": {}}
+
+data: {"ts": "2026-04-25T17:56:14.944763+00:00", "agent": "validator", "kind": "start", "message": "Validator agent invoked", "payload": {}}
+
+data: {"ts": "2026-04-25T17:56:17.553408+00:00", "agent": "validator", "kind": "tool", "message": "calling tool: verify_gift", "payload": {"input_preview": ""}}
+
+data: {"ts": "2026-04-25T17:56:19.397162+00:00", "agent": "validator", "kind": "tool", "message": "calling tool: verify_external_funding", "payload": {"input_preview": ""}}
+
+: ping - 2026-04-25 17:56:24.176759+00:00
+
+data: {"ts": "2026-04-25T17:56:24.236710+00:00", "agent": "validator", "kind": "tool", "message": "calling tool: verify_gift", "payload": {"input_preview": ""}}
+
+: ping - 2026-04-25 17:56:39.188163+00:00
+
+: ping - 2026-04-25 17:56:54.189734+00:00
+
+data: {"ts": "2026-04-25T17:56:57.190303+00:00", "agent": "validator", "kind": "complete", "message": "validator done", "payload": {"output_chars": 6003}}
+
+data: {"ts": "2026-04-25T17:56:57.191502+00:00", "agent": "pipeline", "kind": "step", "message": "Validating dossier 3/3", "payload": {}}
+
+data: {"ts": "2026-04-25T17:56:57.326720+00:00", "agent": "validator", "kind": "start", "message": "Validator agent invoked", "payload": {}}
+
+data: {"ts": "2026-04-25T17:56:59.632501+00:00", "agent": "validator", "kind": "tool", "message": "calling tool: verify_gift", "payload": {"input_preview": ""}}
+
+data: {"ts": "2026-04-25T17:57:01.477092+00:00", "agent": "validator", "kind": "tool", "message": "calling tool: verify_external_funding", "payload": {"input_preview": ""}}
+
+data: {"ts": "2026-04-25T17:57:06.972632+00:00", "agent": "validator", "kind": "tool", "message": "calling tool: verify_gift", "payload": {"input_preview": ""}}
+
+: ping - 2026-04-25 17:57:09.191323+00:00
+
+: ping - 2026-04-25 17:57:24.203686+00:00
+
+data: {"ts": "2026-04-25T17:57:38.825738+00:00", "agent": "validator", "kind": "complete", "message": "validator done", "payload": {"output_chars": 6185}}
+
+data: {"ts": "2026-04-25T17:57:38.826615+00:00", "agent": "pipeline", "kind": "step", "message": "2 findings rise to Narrative (top 3)", "payload": {"count": 2}}
+
+data: {"ts": "2026-04-25T17:57:38.826743+00:00", "agent": "pipeline", "kind": "step", "message": "Drafting brief 1/2", "payload": {}}
+
+data: {"ts": "2026-04-25T17:57:38.984014+00:00", "agent": "narrative", "kind": "start", "message": "Narrative agent invoked", "payload": {}}
+
+: ping - 2026-04-25 17:57:39.210376+00:00
+
+data: {"ts": "2026-04-25T17:57:51.858559+00:00", "agent": "narrative", "kind": "complete", "message": "narrative done", "payload": {"output_chars": 1926}}
+
+data: {"ts": "2026-04-25T17:57:51.858959+00:00", "agent": "pipeline", "kind": "step", "message": "Drafting brief 2/2", "payload": {}}
+
+data: {"ts": "2026-04-25T17:57:51.975121+00:00", "agent": "narrative", "kind": "start", "message": "Narrative agent invoked", "payload": {}}
+
+: ping - 2026-04-25 17:57:54.217146+00:00
+
+data: {"ts": "2026-04-25T17:58:06.358160+00:00", "agent": "narrative", "kind": "complete", "message": "narrative done", "payload": {"output_chars": 2535}}
+
+data: {"ts": "2026-04-25T17:58:06.358605+00:00", "agent": "pipeline", "kind": "done", "message": "Investigation complete: 2 Minister-ready briefs", "payload": {"briefs": [{"loop_id": 2096, "lead_number": 31213359, "lead_unit": "dollars", "lead_sentence": "$31,213,359 circulated across a 5-charity, 3-province loop between 2022 and 2023, anchored by a single $20,667,249 transfer from a minimally-governed Calgary trust foundation to a major donor-advised fund vehicle.", "named_entities": ["Cidel Foundation", "Charitable Gift Funds Canada Foundation / Fonds de Bienfaisance Canada", "TORONTO FOUNDATION", "GIVEWISE FOUNDATION CANADA", "WEST VANCOUVER COMMUNITY FOUNDATION"], "mechanism": "Toronto Foundation (ON) transferred $9,035,685 to Cidel Foundation (AB) over 2022\u20132023; Cidel Foundation then sent $20,667,249 in a single 2023 transaction to Charitable Gift Funds Canada Foundation (ON), representing 66% of total loop flow and originating from an entity governed by only 3 trustees including a corporate trustee (Cidel Trust Company) with no staff data on record. Charitable Gift Funds Canada Foundation passed $10,000 to GIVEWISE FOUNDATION CANADA (BC), which in turn sent $1,000,425 to WEST VANCOUVER COMMUNITY FOUNDATION (BC, zero full-time employees), which closed the loop with a $500,000 transfer back to Toronto Foundation \u2014 though the $10,000 edge is 2,000x smaller than the dominant edge and may be incidental rather than coordinated.", "recommendation": "Trigger a CRA T3010 audit on Cidel Foundation (BN 836725820RR0001) and GIVEWISE FOUNDATION CANADA (BN 701032526RR0001) for FY 2022\u20132023, specifically requiring production of donor instruction records underlying the $20,667,249 Cidel-to-CGFCF transfer and a governance review of the non-arm's-length Brandsma family pair (Treasurer and Secretary) at GiveWise.", "evidence_refs": {"total_flow": 31213359, "charity_count": 5, "shared_director_count": 0, "external_fed_ab_total": 65208192, "year_range": [2022, 2023]}, "verdict": "medium_concern"}, {"loop_id": 5187, "lead_number": 30459674, "lead_unit": "dollars", "lead_sentence": "$30,459,674 flowed across a 6-charity cycle spanning BC, ON, and AB between 2020 and 2023, dominated by a single verified $20,667,249 transfer from Cidel Foundation to Charitable Gift Funds Canada Foundation / Fonds de Bienfaisance Canada in 2023.", "named_entities": ["WEST VANCOUVER COMMUNITY FOUNDATION", "TORONTO FOUNDATION", "Cidel Foundation", "Charitable Gift Funds Canada Foundation / Fonds de Bienfaisance Canada", "COMOX VALLEY LAND TRUST", "VANCITY COMMUNITY FOUNDATION"], "mechanism": "The cycle runs: WEST VANCOUVER COMMUNITY FOUNDATION paid $500,000 to TORONTO FOUNDATION (2023); TORONTO FOUNDATION paid $9,035,685 to Cidel Foundation (2022\u20132023, though year-split attribution in the dossier is materially unreliable \u2014 verified combined total matches but individual year figures failed verification by margins of -19% and -81%); Cidel Foundation then disbursed $20,667,249 to Charitable Gift Funds Canada Foundation / Fonds de Bienfaisance Canada in a single 2023 transfer (independently verified at exact match). The remaining closing edges \u2014 Charitable Gift Funds Canada Foundation / Fonds de Bienfaisance Canada to COMOX VALLEY LAND TRUST ($28,500 over 2020\u20132022), COMOX VALLEY LAND TRUST to VANCITY COMMUNITY FOUNDATION ($212,755 in 2023), and VANCITY COMMUNITY FOUNDATION back to WEST VANCOUVER COMMUNITY FOUNDATION ($15,485 in 2022\u20132023) \u2014 are trivially small relative to the dominant Cidel leg and are consistent with routine grant-making. Net flow analysis identifies Charitable Gift Funds Canada Foundation / Fonds de Bienfaisance Canada as the dominant accumulator (+$20,638,749 net) and Cidel Foundation as the dominant distributor (-$11,631,564 net), suggesting terminus rather than pass-through behaviour.", "recommendation": "Trigger a CRA T3010 audit of Cidel Foundation and Charitable Gift Funds Canada Foundation / Fonds de Bienfaisance Canada for FY 2022\u20132023, focusing specifically on the purpose, donor identity, and ultimate charitable use of the $20,667,249 single-year transfer, and require TORONTO FOUNDATION to provide corrected year-by-year disbursement records to resolve the $9,035,685 edge misattribution identified in verification.", "evidence_refs": {"total_flow": 30459674.0, "charity_count": 6, "shared_director_count": 0, "external_fed_ab_total": 107533891.71, "year_range": [2020, 2023]}, "verdict": "medium_concern"}]}}
+
