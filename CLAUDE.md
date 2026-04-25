@@ -81,6 +81,15 @@ Pipeline yields `{ts, agent, kind, message, payload}` dicts. `agent` is one of `
 
 `agent-service/tools/sql.py` opens connections with `set_session(readonly=True)` AND has a deny-list for write keywords. Returns max 200 rows per call as JSON. Statement timeout 60s. The tool's docstring is the schema cheat-sheet the LLM uses — keep it accurate when adding new tables.
 
+### Validator has dedicated verify_* tools, not just SQL
+
+`agent-service/tools/verify.py` exposes four `@tool` functions (`verify_gift`, `verify_director`, `verify_charity_revenue`, `verify_external_funding`) that the Validator agent uses to spot-check Investigation's numerical claims. They exist because spot-checking with raw SQL produced inconsistent verification rigor across runs — these standardise the pass/fail shape (`{verified, claimed, actual, delta_pct, ...}`) and constrain the Validator's prompt to do at most 5 verifications per dossier.
+
+Caveats:
+- `verify_charity_revenue` prefers T3010 `field_4700` (total revenue) and falls back to `field_4500` (tax-receipted gifts) — this distinction matters because v1.0 saw the agent confidently report `field_4500` as "revenue" and inflate a multiple by 3×.
+- `verify_external_funding` for `source='fed'` tries BN match first, then falls back to legal-name match (because KNOWN-DATA-ISSUE F-6 leaves ~55% of fed rows with NULL `recipient_business_number`).
+- Tolerance defaults: 5% for gifts/revenue (clean tables), 10% for external funding (FED-3 amendment double-counting).
+
 ## Important gotchas
 
 - **Next.js 16 ≠ your training data.** `frontend/AGENTS.md` says: read `frontend/node_modules/next/dist/docs/` before writing any Next.js code. App Router conventions, route handler config, caching defaults all changed. Don't assume.
