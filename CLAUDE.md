@@ -8,6 +8,8 @@ Practice-run codebase for the Agency 2026 hackathon (Government of Alberta, Apri
 
 Branches: `main` = stable, `v1.0` = frozen practice baseline (don't move), `v1.1-dev` = active work (default checkout).
 
+**Read this before changing the architecture:** [docs/original-plan.md](docs/original-plan.md) is the practice-run plan we built before writing any code, including the 5-phase execution flow, the empirical-vs-guessing rationale for picking Funding Loops, the v0.1 success criteria (plumbing perfect / content rough), and a "plan-vs-actual" section listing what diverged during execution. Any major architectural change should reconcile against it.
+
 ## Commands
 
 **Two-process dev loop.** Both must be running for the dashboard to work:
