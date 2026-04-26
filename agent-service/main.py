@@ -13,7 +13,9 @@ import sys
 import traceback
 from datetime import datetime, timezone
 
-from fastapi import FastAPI, Query
+from datetime import datetime, timezone
+
+from fastapi import FastAPI, Query, Body
 from fastapi.middleware.cors import CORSMiddleware
 from sse_starlette.sse import EventSourceResponse
 
@@ -88,6 +90,85 @@ async def investigate(mode: str = Query(default="real", pattern="^(real|fake)$")
         except Exception as e:
             tb = traceback.format_exc()
             yield _evt("pipeline", "error", f"Pipeline crashed: {e}", {"trace": tb[:1000]})
+
+    return EventSourceResponse(stream())
+
+
+# In-memory conductor session store (single-process, lost on restart).
+# Each session_id keeps its own Agent instance so conversation context persists.
+_CONDUCTOR_SESSIONS: dict = {}
+
+
+def _conductor_evt(kind: str, message: str, payload: dict | None = None) -> dict:
+    return _sse({
+        "ts": datetime.now(timezone.utc).isoformat(),
+        "agent": "conductor",
+        "kind": kind,
+        "message": message,
+        "payload": payload or {},
+    })
+
+
+@app.post("/ask")
+async def ask(body: dict = Body(...)):
+    """Conductor chat endpoint. Streams reasoning + tool calls + final answer.
+
+    Body: {session_id: <str>, question: <str>}
+    Streams SSE events of shape {ts, agent, kind, message, payload} where
+    kind is one of: start | tool | data | complete | error.
+    """
+    session_id = (body or {}).get("session_id") or "default"
+    question = (body or {}).get("question") or ""
+    if not question.strip():
+        return EventSourceResponse(iter([_conductor_evt("error", "empty question")]))
+
+    print(f"[ask] session={session_id} q={question[:80]!r}", flush=True)
+
+    async def stream():
+        # Lazy-import so /investigate keeps working even if conductor deps are broken.
+        try:
+            from agents.conductor import make_conductor_agent
+        except Exception as e:
+            yield _conductor_evt("error", f"conductor import failed: {e}")
+            return
+
+        agent = _CONDUCTOR_SESSIONS.get(session_id)
+        if agent is None:
+            agent = make_conductor_agent()
+            _CONDUCTOR_SESSIONS[session_id] = agent
+            yield _conductor_evt("start", "new conductor session opened",
+                                 {"session_id": session_id})
+        else:
+            yield _conductor_evt("start", "continuing conductor session",
+                                 {"session_id": session_id})
+
+        last_tool = None
+        text_chunks: list = []
+        try:
+            async for evt in agent.stream_async(question):
+                if "current_tool_use" in evt:
+                    tu = evt["current_tool_use"] or {}
+                    tname = tu.get("name")
+                    if tname and tname != last_tool:
+                        last_tool = tname
+                        input_preview = str(tu.get("input", ""))[:160]
+                        yield _conductor_evt("tool", f"calling tool: {tname}",
+                                             {"input_preview": input_preview})
+                elif "data" in evt:
+                    chunk = evt.get("data", "")
+                    if chunk:
+                        text_chunks.append(chunk)
+                        yield _conductor_evt("data", chunk)
+                elif "result" in evt:
+                    answer = "".join(text_chunks).strip() or str(evt["result"])
+                    yield _conductor_evt("complete", "answer ready",
+                                         {"final_answer": answer})
+                    return
+                elif "force_stop" in evt:
+                    yield _conductor_evt("error", "conductor force-stopped")
+                    return
+        except Exception as e:
+            yield _conductor_evt("error", f"conductor crashed: {e}")
 
     return EventSourceResponse(stream())
 

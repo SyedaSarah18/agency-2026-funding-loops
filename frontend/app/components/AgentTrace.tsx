@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Explainer from "./Explainer";
 import LoopGraph from "./LoopGraph";
+import Chat from "./Chat";
 
 type AgentEvent = {
   ts: string;
@@ -129,10 +130,10 @@ export default function AgentTrace() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-slate-900">
-          Agency 2026 — Funding Loops Investigator
+          Agency 2026 — Procurement Concentration Atlas
         </h1>
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-2 text-sm text-slate-700">
@@ -249,7 +250,17 @@ export default function AgentTrace() {
         </div>
       )}
 
+      <div className="mb-8">
+        <h2 className="text-xl font-bold mb-3 text-slate-900">
+          Ask the Conductor
+        </h2>
+        <Chat />
+      </div>
+
       <div className="space-y-2">
+        <h2 className="text-xl font-bold mb-3 text-slate-900">
+          Pipeline trace
+        </h2>
         {events.length === 0 && !running && (
           <p className="text-slate-500 italic">
             Click &quot;Run Investigation&quot; to launch the 4-agent pipeline.
