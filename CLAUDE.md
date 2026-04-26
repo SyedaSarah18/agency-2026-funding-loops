@@ -11,7 +11,8 @@ Branches:
 - `v1.0` — frozen practice baseline (don't move)
 - `v1.1-dev` — proven funding-loops version (the hard fallback)
 - `v2.0-vendor-concentration` — frozen attempt at agent-first vendor-concentration on `fed.grants_contributions`. Pivoted away from because that table is grants/contributions not procurement; live runs produced 0 briefs. Kept as audit trail.
-- **`v3.0-atlas` — ACTIVE WORK.** Data-first vendor-concentration on `ab.ab_sole_source` (where the real procurement signal lives). New architecture detailed below.
+- **`v3.0-atlas` — DEMO BASELINE.** Data-first vendor-concentration on `ab.ab_sole_source` running locally (FastAPI on :8000 + Next.js on :3000). The hard-fallback for the live demo — proven, low-latency, no cold-start risk.
+- **`v3.1-agentcore` — Phase F: Conductor deployed to AWS Bedrock AgentCore Runtime.** Same Strands code as v3.0, hosted in managed AWS infra (`us-west-2`). Frontend chat has a local/cloud toggle. ARN: `arn:aws:bedrock-agentcore:us-west-2:941377154016:runtime/agency26_conductor-QTN2spEIzM`. See `deployment/conductor-agentcore/README.md` for redeploy + invoke + cost + risks.
 
 **Read these before changing the architecture:**
 - [docs/original-plan.md](docs/original-plan.md) — original Funding Loops plan + plan-vs-actual
