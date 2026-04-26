@@ -109,6 +109,102 @@ def _conductor_evt(kind: str, message: str, payload: dict | None = None) -> dict
     })
 
 
+@app.post("/ask-cloud")
+async def ask_cloud(body: dict = Body(...)):
+    """Conductor chat backed by AWS Bedrock AgentCore Runtime (Phase F).
+
+    Same payload + SSE shape as /ask, but the agent runs in the managed
+    AgentCore Runtime instead of in-process. Looks up the deployed agent ARN
+    from deployment/conductor-agentcore/.bedrock_agentcore.yaml and proxies
+    via boto3 invoke_agent_runtime.
+
+    Body: {session_id, question}
+    """
+    import uuid
+    from pathlib import Path
+
+    import boto3
+    import yaml
+    from botocore.exceptions import BotoCoreError, ClientError
+
+    session_id = (body or {}).get("session_id") or "default"
+    question = (body or {}).get("question") or ""
+    if not question.strip():
+        return EventSourceResponse(iter([_conductor_evt("error", "empty question")]))
+
+    print(f"[ask-cloud] session={session_id} q={question[:80]!r}", flush=True)
+
+    # Load the deployed agent ARN.
+    deploy_yaml = Path(__file__).resolve().parent.parent / "deployment" / "conductor-agentcore" / ".bedrock_agentcore.yaml"
+    if not deploy_yaml.exists():
+        async def _no_yaml():
+            yield _conductor_evt("error",
+                "AgentCore deployment not found. Run `python deployment/conductor-agentcore/deploy.py` first.")
+        return EventSourceResponse(_no_yaml())
+
+    try:
+        cfg = yaml.safe_load(deploy_yaml.read_text())
+        agent_name = cfg.get("default_agent")
+        agent_arn = cfg["agents"][agent_name]["bedrock_agentcore"]["agent_arn"]
+    except Exception as e:
+        async def _bad_yaml():
+            yield _conductor_evt("error", f"failed to read deployment yaml: {e}")
+        return EventSourceResponse(_bad_yaml())
+
+    # AgentCore wants runtimeSessionId >= 33 chars. Pad if needed.
+    rsid = (session_id + "x" * 33)[:64]
+
+    async def stream():
+        yield _conductor_evt("start", f"AgentCore Runtime ({agent_name}) opening...",
+                             {"agent_arn": agent_arn, "session_id": rsid})
+        try:
+            client = boto3.client("bedrock-agentcore", region_name="us-west-2")
+            resp = client.invoke_agent_runtime(
+                agentRuntimeArn=agent_arn,
+                runtimeSessionId=rsid,
+                payload=json.dumps({"prompt": question}).encode("utf-8"),
+                qualifier="DEFAULT",
+            )
+            for chunk in resp.get("response", []):
+                if isinstance(chunk, bytes):
+                    chunk = chunk.decode("utf-8")
+                # AgentCore emits NDJSON. Each line is {"type": "text|tool|done|error", ...}.
+                for line in chunk.splitlines():
+                    line = line.strip()
+                    if not line:
+                        continue
+                    if line.startswith("data:"):
+                        line = line[5:].strip()
+                    if not line:
+                        continue
+                    try:
+                        evt = json.loads(line)
+                    except Exception:
+                        continue
+                    et = evt.get("type")
+                    if et == "tool":
+                        yield _conductor_evt("tool", f"calling tool: {evt.get('name')}",
+                                             {"input_preview": evt.get("input_preview", "")})
+                    elif et == "text":
+                        yield _conductor_evt("data", evt.get("chunk", ""))
+                    elif et == "done":
+                        yield _conductor_evt("complete", "answer ready",
+                                             {"backend": "agentcore", "agent_arn": agent_arn})
+                        return
+                    elif et == "error":
+                        yield _conductor_evt("error", str(evt.get("message", "unknown error")))
+                        return
+            # Stream ended without explicit done.
+            yield _conductor_evt("complete", "answer ready (stream ended)",
+                                 {"backend": "agentcore", "agent_arn": agent_arn})
+        except (BotoCoreError, ClientError) as e:
+            yield _conductor_evt("error", f"AgentCore invoke failed: {e}")
+        except Exception as e:
+            yield _conductor_evt("error", f"unexpected error: {type(e).__name__}: {e}")
+
+    return EventSourceResponse(stream())
+
+
 @app.post("/ask")
 async def ask(body: dict = Body(...)):
     """Conductor chat endpoint. Streams reasoning + tool calls + final answer.

@@ -37,6 +37,9 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [running, setRunning] = useState(false);
   const [sessionId, setSessionId] = useState<string>(PLACEHOLDER_SESSION);
+  // "local" = in-process Conductor on the FastAPI service.
+  // "cloud" = AWS Bedrock AgentCore Runtime (Phase F deployment).
+  const [backend, setBackend] = useState<"local" | "cloud">("local");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Generate the session id only on the client to avoid hydration mismatch.
@@ -64,7 +67,8 @@ export default function Chat() {
     setRunning(true);
 
     try {
-      const res = await fetch("/api/ask", {
+      const endpoint = backend === "cloud" ? "/api/ask-cloud" : "/api/ask";
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -143,7 +147,7 @@ export default function Chat() {
 
   return (
     <div className="bg-white border border-slate-200 rounded-lg flex flex-col h-[600px]">
-      <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+      <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between gap-3">
         <div>
           <div className="font-semibold text-slate-900">Conductor chat</div>
           <div className="text-xs text-slate-500">
@@ -151,8 +155,39 @@ export default function Chat() {
             which tools to use per question.
           </div>
         </div>
-        <div className="text-xs text-slate-400 font-mono">
-          session: {sessionId.slice(-6)}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 text-xs">
+            <span className="text-slate-500">backend:</span>
+            <button
+              type="button"
+              onClick={() => setBackend("local")}
+              disabled={running}
+              className={`px-2 py-1 rounded font-mono ${
+                backend === "local"
+                  ? "bg-slate-900 text-white"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              } disabled:opacity-50`}
+              title="In-process Conductor (FastAPI)"
+            >
+              local
+            </button>
+            <button
+              type="button"
+              onClick={() => setBackend("cloud")}
+              disabled={running}
+              className={`px-2 py-1 rounded font-mono ${
+                backend === "cloud"
+                  ? "bg-orange-600 text-white"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              } disabled:opacity-50`}
+              title="AWS Bedrock AgentCore Runtime"
+            >
+              cloud (AgentCore)
+            </button>
+          </div>
+          <div className="text-xs text-slate-400 font-mono">
+            session: {sessionId.slice(-6)}
+          </div>
         </div>
       </div>
 
