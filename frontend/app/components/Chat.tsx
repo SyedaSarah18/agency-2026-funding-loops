@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 // Stable placeholder so SSR + first client render match. The real id is
 // generated in useEffect after mount so Date.now() doesn't cause hydration drift.
@@ -200,9 +202,91 @@ export default function Chat() {
                   ))}
                 </div>
               )}
-              <div className="whitespace-pre-wrap text-sm leading-snug">
-                {t.text || (t.isStreaming ? "…" : "")}
-              </div>
+              {t.role === "user" ? (
+                <div className="whitespace-pre-wrap text-sm leading-snug">
+                  {t.text}
+                </div>
+              ) : (
+                <div className="text-sm leading-snug chat-md">
+                  {t.text ? (
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        // Excel-like table: bordered cells, monospaced numbers,
+                        // horizontal scroll on overflow so wide tables don't
+                        // break the chat layout.
+                        table: ({ children }) => (
+                          <div className="my-2 overflow-x-auto">
+                            <table className="border-collapse border border-slate-300 text-xs">
+                              {children}
+                            </table>
+                          </div>
+                        ),
+                        thead: ({ children }) => (
+                          <thead className="bg-slate-100">{children}</thead>
+                        ),
+                        th: ({ children }) => (
+                          <th className="border border-slate-300 px-2 py-1 text-left font-semibold text-slate-900">
+                            {children}
+                          </th>
+                        ),
+                        td: ({ children }) => (
+                          <td className="border border-slate-300 px-2 py-1 align-top tabular-nums">
+                            {children}
+                          </td>
+                        ),
+                        code: ({ children, ...props }) => {
+                          const inline = !(
+                            (props as { node?: { tagName?: string } }).node
+                              ?.tagName === "pre"
+                          );
+                          return inline ? (
+                            <code className="bg-slate-200 text-slate-900 px-1 rounded text-[11px]">
+                              {children}
+                            </code>
+                          ) : (
+                            <code className="block bg-slate-100 text-slate-900 p-2 rounded text-[11px] overflow-x-auto">
+                              {children}
+                            </code>
+                          );
+                        },
+                        ul: ({ children }) => (
+                          <ul className="list-disc list-inside space-y-0.5 my-2">
+                            {children}
+                          </ul>
+                        ),
+                        ol: ({ children }) => (
+                          <ol className="list-decimal list-inside space-y-0.5 my-2">
+                            {children}
+                          </ol>
+                        ),
+                        p: ({ children }) => <p className="my-1.5">{children}</p>,
+                        strong: ({ children }) => (
+                          <strong className="font-semibold text-slate-900">
+                            {children}
+                          </strong>
+                        ),
+                        a: ({ children, href }) => (
+                          <a
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-700 underline"
+                          >
+                            {children}
+                          </a>
+                        ),
+                      }}
+                    >
+                      {t.text}
+                    </ReactMarkdown>
+                  ) : t.isStreaming ? (
+                    "…"
+                  ) : (
+                    ""
+                  )}
+                </div>
+              )}
             </div>
           </div>
         ))}
