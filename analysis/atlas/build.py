@@ -303,12 +303,154 @@ def build_atlas_incumbency(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
 
 # ---- Main ------------------------------------------------------------------
 
+# ---- Step 5: atlas_regions ------------------------------------------------
+
+# Normalize messy province strings (e.g. "Alberta"/"AB", "Ontario"/"ON") to a
+# canonical 2-letter code so groupings don't double-count the same place.
+_PROVINCE_CANONICAL = {
+    "alberta": "AB", "ab": "AB",
+    "ontario": "ON", "on": "ON",
+    "british columbia": "BC", "bc": "BC",
+    "saskatchewan": "SK", "sk": "SK",
+    "manitoba": "MB", "mb": "MB",
+    "quebec": "QC", "qc": "QC", "quebec ": "QC",
+    "new brunswick": "NB", "nb": "NB",
+    "nova scotia": "NS", "ns": "NS",
+    "prince edward island": "PE", "pe": "PE",
+    "newfoundland and labrador": "NL", "nl": "NL",
+    "yukon": "YT", "yt": "YT",
+    "northwest territories": "NT", "nt": "NT",
+    "nunavut": "NU", "nu": "NU",
+}
+
+
+def _norm_province(p):
+    if p is None:
+        return None
+    s = str(p).strip().lower()
+    if not s or s in {"na", "n/a", "xx"}:
+        return None
+    return _PROVINCE_CANONICAL.get(s, s.upper()[:20])
+
+
+def _norm_city(c):
+    if c is None:
+        return None
+    s = str(c).strip()
+    if not s:
+        return None
+    # "EDMONTON" -> "Edmonton" (title case), "Edmonton," -> "Edmonton"
+    s = s.rstrip(",.").strip()
+    return s.title()
+
+
+def build_atlas_regions(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
+    """Per (vendor_province, vendor_city, ministry): concentration metrics.
+
+    Surfaces (a) out-of-province dependency by category, (b) regional vendor
+    concentration within Alberta cities, and (c) the in-province / out-of-
+    province / unknown buckets at the headline level.
+    """
+    print("[5/5] Building atlas_regions ...")
+
+    df = con.execute(
+        """
+        SELECT vendor_province AS raw_province,
+               vendor_city AS raw_city,
+               ministry, vendor, amount, contract_services
+        FROM ab_sole_source
+        WHERE amount IS NOT NULL AND amount > 0
+          AND vendor IS NOT NULL AND ministry IS NOT NULL
+        """
+    ).fetchdf()
+
+    df["province"] = df["raw_province"].apply(_norm_province)
+    df["city"] = df["raw_city"].apply(_norm_city)
+    df["region_bucket"] = df["province"].apply(
+        lambda p: "Alberta-based" if p == "AB" else (
+            "Unknown" if p is None else "Out-of-province"
+        )
+    )
+
+    # ---- Tier 1: headline buckets per ministry ----
+    headline = (
+        df.groupby(["ministry", "region_bucket"])
+        .agg(spend=("amount", "sum"), n_contracts=("amount", "count"),
+             n_vendors=("vendor", "nunique"))
+        .reset_index()
+    )
+
+    # ---- Tier 2: top vendors per Alberta city per ministry ----
+    ab_only = df[df["province"] == "AB"].copy()
+    city_rows = []
+    for (city, ministry), grp in ab_only.groupby(["city", "ministry"]):
+        if not city or len(grp) < 2:
+            continue
+        per_v = grp.groupby("vendor")["amount"].sum().sort_values(ascending=False)
+        if per_v.iloc[0] < 100_000:
+            continue
+        total = per_v.sum()
+        city_rows.append({
+            "province": "AB",
+            "city": city,
+            "ministry": ministry,
+            "total_spend": float(total),
+            "n_vendors": int(len(per_v)),
+            "top1_vendor": per_v.index[0],
+            "top1_amount": float(per_v.iloc[0]),
+            "top1_share": float(per_v.iloc[0] / total),
+        })
+    cities = pd.DataFrame(city_rows).sort_values("total_spend", ascending=False)
+
+    # ---- Tier 3: out-of-province dependency per category ----
+    cat_rows = []
+    for category, grp in df.groupby("contract_services"):
+        if not category or grp["amount"].sum() < 5_000_000:
+            continue
+        out_of_prov = grp[grp["region_bucket"] == "Out-of-province"]
+        if out_of_prov.empty:
+            continue
+        oop_share = out_of_prov["amount"].sum() / grp["amount"].sum()
+        if oop_share < 0.50:  # only flag categories where >50% leaves the province
+            continue
+        top_oop = (
+            out_of_prov.groupby(["vendor", "province"])["amount"]
+            .sum().sort_values(ascending=False)
+        )
+        cat_rows.append({
+            "category": category,
+            "total_spend": float(grp["amount"].sum()),
+            "out_of_province_spend": float(out_of_prov["amount"].sum()),
+            "out_of_province_share": float(oop_share),
+            "top_out_of_province_vendor": top_oop.index[0][0] if len(top_oop) else None,
+            "top_out_of_province_province": top_oop.index[0][1] if len(top_oop) else None,
+            "top_out_of_province_amount": float(top_oop.iloc[0]) if len(top_oop) else 0.0,
+        })
+    oop = pd.DataFrame(cat_rows).sort_values("out_of_province_spend", ascending=False)
+
+    # Persist all three as separate parquets so the Atlas tool can serve each
+    headline.to_parquet(ATLAS_DIR / "atlas_regions_headline.parquet", index=False)
+    cities.to_parquet(ATLAS_DIR / "atlas_regions_cities.parquet", index=False)
+    oop.to_parquet(ATLAS_DIR / "atlas_regions_out_of_province.parquet", index=False)
+
+    print(f"  wrote atlas_regions_headline.parquet:  {len(headline):,} ministry x bucket rows")
+    print(f"  wrote atlas_regions_cities.parquet:    {len(cities):,} (city x ministry) concentrations")
+    print(f"  wrote atlas_regions_out_of_province.parquet: {len(oop):,} categories where >50% leaves AB")
+    print(f"  top 5 out-of-province categories by leaving-AB spend:")
+    for _, r in oop.head(5).iterrows():
+        print(f"    ${r['out_of_province_spend']:>13,.0f} ({r['out_of_province_share']:.0%}) "
+              f"-> {r['top_out_of_province_vendor'][:40]} ({r['top_out_of_province_province']}) "
+              f"cat={r['category'][:50]}")
+    return headline
+
+
 def main(force_refresh: bool = False):
     t0 = time.time()
     con = pull_source_tables(force=force_refresh)
     build_atlas_categories(con)
     build_atlas_vendor_dependency(con)
     build_atlas_incumbency(con)
+    build_atlas_regions(con)
     print(f"\nAtlas build complete in {time.time()-t0:.1f}s")
     print(f"Outputs in: {ATLAS_DIR}")
 

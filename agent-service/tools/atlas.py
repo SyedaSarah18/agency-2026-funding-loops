@@ -48,6 +48,21 @@ def _incumbency() -> pd.DataFrame:
     return pd.read_parquet(ATLAS_DIR / "atlas_incumbency.parquet")
 
 
+@lru_cache(maxsize=1)
+def _regions_headline() -> pd.DataFrame:
+    return pd.read_parquet(ATLAS_DIR / "atlas_regions_headline.parquet")
+
+
+@lru_cache(maxsize=1)
+def _regions_cities() -> pd.DataFrame:
+    return pd.read_parquet(ATLAS_DIR / "atlas_regions_cities.parquet")
+
+
+@lru_cache(maxsize=1)
+def _regions_oop() -> pd.DataFrame:
+    return pd.read_parquet(ATLAS_DIR / "atlas_regions_out_of_province.parquet")
+
+
 def _serialize(df: pd.DataFrame, max_rows: int = 50) -> list[dict]:
     """Convert DataFrame to JSON-safe list of dicts, capped."""
     safe = df.head(max_rows).copy()
@@ -142,6 +157,63 @@ def atlas_vendor_footprint(vendor_substr: str, top_n: int = 10) -> str:
     return json.dumps({
         "match_count": len(df),
         "vendors": _serialize(df, max_rows=10),
+    }, default=str)
+
+
+@tool
+def atlas_region_breakdown(view: str = "out_of_province",
+                           ministry: Optional[str] = None,
+                           city: Optional[str] = None,
+                           top_n: int = 15) -> str:
+    """Regional breakdown of Alberta sole-source procurement.
+
+    Three views answer the challenge's "concentration by region" requirement:
+    - 'headline': per ministry, the Alberta-based vs Out-of-province vs Unknown
+      spend split. Surfaces which ministries depend most on out-of-province
+      vendors.
+    - 'cities': within Alberta, per (city x ministry), top vendor + concentration.
+      Surfaces small-town concentration patterns (e.g. one Lethbridge vendor
+      dominating Lethbridge-issued contracts).
+    - 'out_of_province': categories where >50% of spend leaves Alberta. Names
+      the top out-of-province vendor and their province (typically ON for
+      tech giants like Microsoft/IBM Canada Inc).
+
+    Args:
+        view: 'headline' | 'cities' | 'out_of_province' (default).
+        ministry: Optional exact ministry name to filter by (used for headline + cities views).
+        city: Optional substring of city name (used for 'cities' view only).
+        top_n: Max rows to return (default 15).
+
+    Returns:
+        JSON list of rows. Schema depends on view:
+          headline: {ministry, region_bucket, spend, n_contracts, n_vendors}
+          cities:   {province, city, ministry, total_spend, n_vendors,
+                     top1_vendor, top1_amount, top1_share}
+          out_of_province: {category, total_spend, out_of_province_spend,
+                            out_of_province_share, top_out_of_province_vendor,
+                            top_out_of_province_province, top_out_of_province_amount}
+    """
+    if view == "headline":
+        df = _regions_headline()
+        if ministry:
+            df = df[df["ministry"].str.lower().eq(ministry.lower())]
+        df = df.sort_values("spend", ascending=False).head(top_n)
+    elif view == "cities":
+        df = _regions_cities()
+        if ministry:
+            df = df[df["ministry"].str.lower().eq(ministry.lower())]
+        if city:
+            df = df[df["city"].str.contains(city, case=False, na=False)]
+        df = df.sort_values("total_spend", ascending=False).head(top_n)
+    elif view == "out_of_province":
+        df = _regions_oop()
+        df = df.sort_values("out_of_province_spend", ascending=False).head(top_n)
+    else:
+        return json.dumps({"error": f"unknown view {view!r}; expected headline|cities|out_of_province"})
+    return json.dumps({
+        "view": view,
+        "row_count": len(df),
+        "rows": _serialize(df, max_rows=top_n),
     }, default=str)
 
 

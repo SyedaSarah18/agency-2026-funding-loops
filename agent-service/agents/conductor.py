@@ -20,6 +20,7 @@ from strands import Agent
 from llm.client import make_model
 from tools.atlas import (
     atlas_category_detail,
+    atlas_region_breakdown,
     atlas_top_categories,
     atlas_vendor_footprint,
     atlas_vendor_incumbency,
@@ -49,6 +50,18 @@ Tool selection guide:
   vendor's footprint or lock-in across ministries.
 - atlas_vendor_incumbency(ministry, vendor, step_function_only) — when the
   user asks about year-over-year history or sudden emergence.
+- atlas_region_breakdown(view='headline'|'cities'|'out_of_province') — when
+  the user asks about REGIONAL concentration. 'headline' = per ministry,
+  Alberta-based vs out-of-province split. 'cities' = within Alberta, per
+  (city x ministry) top vendor concentration. 'out_of_province' = categories
+  where >50% of spend goes to vendors with a non-Alberta billing address.
+
+  Important nuance: vendor_province in the source data is the BILLING address
+  for that specific contract, not the corporate HQ. Microsoft Canada Inc.
+  always bills from Toronto/Ontario in our data. IBM Canada SPLITS — the
+  Enterprise License Agreement bills to Markham/Ontario, but Mainframe
+  Hosting and IMAGIS Services bill to IBM's Edmonton/Alberta office. Don't
+  conflate corporate HQ with the data field.
 - verify_concentration_share / verify_vendor_ministry_count — when the user
   asks "is X really true?" or wants you to fact-check a specific claim.
 - code_compute(expression) — when the user asks for a NOVEL metric the
@@ -93,6 +106,7 @@ def make_conductor_agent() -> Agent:
             atlas_category_detail,
             atlas_vendor_footprint,
             atlas_vendor_incumbency,
+            atlas_region_breakdown,
             verify_concentration_share,
             verify_vendor_ministry_count,
             list_kb,
