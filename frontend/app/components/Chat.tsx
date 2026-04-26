@@ -2,6 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
+// Stable placeholder so SSR + first client render match. The real id is
+// generated in useEffect after mount so Date.now() doesn't cause hydration drift.
+const PLACEHOLDER_SESSION = "init";
+
 type ConductorEvent = {
   ts: string;
   agent: "conductor";
@@ -30,8 +34,13 @@ export default function Chat() {
   const [turns, setTurns] = useState<ChatTurn[]>([]);
   const [input, setInput] = useState("");
   const [running, setRunning] = useState(false);
-  const sessionId = useRef<string>(`s-${Date.now().toString(36)}`);
+  const [sessionId, setSessionId] = useState<string>(PLACEHOLDER_SESSION);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Generate the session id only on the client to avoid hydration mismatch.
+  useEffect(() => {
+    setSessionId(`s-${Date.now().toString(36)}`);
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -57,7 +66,7 @@ export default function Chat() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          session_id: sessionId.current,
+          session_id: sessionId,
           question,
         }),
       });
@@ -141,7 +150,7 @@ export default function Chat() {
           </div>
         </div>
         <div className="text-xs text-slate-400 font-mono">
-          session: {sessionId.current.slice(-6)}
+          session: {sessionId.slice(-6)}
         </div>
       </div>
 
