@@ -22,6 +22,16 @@ from sse_starlette.sse import EventSourceResponse
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8")
 
+# Load AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY from project-root .env so
+# boto3 (used by /ask-cloud → AgentCore Runtime invoke) finds credentials.
+# config.py already does this via load_dotenv but the local FastAPI runs
+# before that import resolves; do it explicitly here.
+from pathlib import Path  # noqa: E402
+
+from dotenv import load_dotenv  # noqa: E402
+
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+
 app = FastAPI(title="Agency 2026 Agent Service")
 
 app.add_middleware(
@@ -157,6 +167,13 @@ async def ask_cloud(body: dict = Body(...)):
     async def stream():
         yield _conductor_evt("start", f"AgentCore Runtime ({agent_name}) opening...",
                              {"agent_arn": agent_arn, "session_id": rsid})
+        # AgentCore Runtime streams tool inputs character-by-character, so the
+        # agent emits a "tool" event for every partial input chunk. We dedupe:
+        # only emit when (a) we see a different tool name, OR (b) the input
+        # string parses as complete JSON (i.e. arguments are fully formed).
+        last_tool_name = None
+        last_emitted_input = None
+
         try:
             client = boto3.client("bedrock-agentcore", region_name="us-west-2")
             resp = client.invoke_agent_runtime(
@@ -183,8 +200,24 @@ async def ask_cloud(body: dict = Body(...)):
                         continue
                     et = evt.get("type")
                     if et == "tool":
-                        yield _conductor_evt("tool", f"calling tool: {evt.get('name')}",
-                                             {"input_preview": evt.get("input_preview", "")})
+                        tname = evt.get("name")
+                        tinput = evt.get("input_preview", "") or ""
+                        # Emit when tool name changes (new call), OR when the
+                        # input is now complete JSON (so we capture the final
+                        # args of the call). Suppress everything else.
+                        is_new_call = tname and tname != last_tool_name
+                        is_complete_json = False
+                        if tinput.strip().endswith("}"):
+                            try:
+                                json.loads(tinput)
+                                is_complete_json = True
+                            except Exception:
+                                pass
+                        if is_new_call or (is_complete_json and tinput != last_emitted_input):
+                            last_tool_name = tname
+                            last_emitted_input = tinput if is_complete_json else last_emitted_input
+                            yield _conductor_evt("tool", f"calling tool: {tname}",
+                                                 {"input_preview": tinput})
                     elif et == "text":
                         yield _conductor_evt("data", evt.get("chunk", ""))
                     elif et == "done":

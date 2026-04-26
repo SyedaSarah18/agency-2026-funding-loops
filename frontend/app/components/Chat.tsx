@@ -340,7 +340,7 @@ export default function Chat() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask the Conductor anything about the data..."
           disabled={running}
-          className="flex-1 text-sm px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-slate-900 disabled:bg-slate-50"
+          className="flex-1 text-sm text-slate-900 placeholder:text-slate-400 bg-white px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-slate-900 disabled:bg-slate-50"
         />
         <button
           type="submit"
