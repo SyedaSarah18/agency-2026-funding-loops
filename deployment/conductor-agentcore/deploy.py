@@ -30,6 +30,15 @@ PROJECT_ROOT = HERE.parent.parent
 # credentials. .env is gitignored; nothing leaks.
 load_dotenv(PROJECT_ROOT / ".env")
 
+# Add the venv Scripts dir to PATH so shutil.which() inside the toolkit finds
+# our .bat shims (e.g. zip.bat — the toolkit gates on a `zip` binary existing
+# even though the actual zip work uses Python's zipfile module). This is the
+# Windows equivalent of putting /usr/local/bin on PATH.
+if sys.platform == "win32":
+    venv_scripts = str(Path(sys.executable).resolve().parent)
+    if venv_scripts not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = venv_scripts + os.pathsep + os.environ.get("PATH", "")
+
 from bedrock_agentcore_starter_toolkit import Runtime  # noqa: E402
 
 os.chdir(HERE)  # configure + launch read paths relative to cwd
@@ -103,11 +112,33 @@ def cmd_status():
 
 
 def cmd_invoke(prompt: str):
-    runtime = Runtime()
-    print(f"Invoking with prompt: {prompt!r}")
-    result = runtime.invoke({"prompt": prompt})
-    print("Response:")
-    print(result)
+    """Production-style invoke via boto3 — same pattern the frontend will use.
+
+    Reads the deployed agent ARN from .bedrock_agentcore.yaml so this works
+    after a fresh shell with no Runtime() session state.
+    """
+    import uuid
+    import boto3
+    import yaml
+
+    cfg = yaml.safe_load((HERE / ".bedrock_agentcore.yaml").read_text())
+    default_agent_name = cfg.get("default_agent")
+    agent_cfg = cfg["agents"][default_agent_name]
+    agent_arn = agent_cfg["bedrock_agentcore"]["agent_arn"]
+    print(f"Invoking {default_agent_name} ({agent_arn.split('/')[-1]}) with prompt: {prompt!r}")
+
+    client = boto3.client("bedrock-agentcore", region_name=REGION)
+    resp = client.invoke_agent_runtime(
+        agentRuntimeArn=agent_arn,
+        runtimeSessionId=str(uuid.uuid4()).replace("-", "") + "x" * 33,  # AgentCore wants >=33 chars
+        payload=json.dumps({"prompt": prompt}).encode("utf-8"),
+        qualifier="DEFAULT",
+    )
+    print("--- streaming response ---")
+    for chunk in resp.get("response", []):
+        sys.stdout.write(chunk.decode("utf-8") if isinstance(chunk, bytes) else str(chunk))
+        sys.stdout.flush()
+    print()
 
 
 if __name__ == "__main__":

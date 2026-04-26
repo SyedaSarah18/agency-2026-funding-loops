@@ -30,8 +30,8 @@ agents:
         idle_runtime_session_timeout: null
         max_lifetime: null
     bedrock_agentcore:
-      agent_id: null
-      agent_arn: null
+      agent_id: agency26_conductor-QTN2spEIzM
+      agent_arn: arn:aws:bedrock-agentcore:us-west-2:941377154016:runtime/agency26_conductor-QTN2spEIzM
       agent_session_id: null
     codebuild:
       project_name: null
