@@ -9,3 +9,4 @@ analysis/schema.json
 analysis/profile.json
 analysis/triage_results.json
 .DS_Store
+analysis/atlas_data/atlas.duckdb

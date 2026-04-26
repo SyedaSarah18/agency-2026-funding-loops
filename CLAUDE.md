@@ -6,9 +6,44 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Practice-run codebase for the Agency 2026 hackathon (Government of Alberta, April 29 2026). A 4-agent Strands pipeline that surfaces suspicious circular funding patterns in Canadian charity data (~23M rows in the organizer's hosted PostgreSQL). Goal: dollar-quantified, named-entity findings a Minister could read in 60 seconds.
 
-Branches: `main` = stable, `v1.0` = frozen practice baseline (don't move), `v1.1-dev` = active work (default checkout).
+Branches:
+- `main` — stable
+- `v1.0` — frozen practice baseline (don't move)
+- `v1.1-dev` — proven funding-loops version (the hard fallback)
+- `v2.0-vendor-concentration` — frozen attempt at agent-first vendor-concentration on `fed.grants_contributions`. Pivoted away from because that table is grants/contributions not procurement; live runs produced 0 briefs. Kept as audit trail.
+- **`v3.0-atlas` — ACTIVE WORK.** Data-first vendor-concentration on `ab.ab_sole_source` (where the real procurement signal lives). New architecture detailed below.
 
-**Read this before changing the architecture:** [docs/original-plan.md](docs/original-plan.md) is the practice-run plan we built before writing any code, including the 5-phase execution flow, the empirical-vs-guessing rationale for picking Funding Loops, the v0.1 success criteria (plumbing perfect / content rough), and a "plan-vs-actual" section listing what diverged during execution. Any major architectural change should reconcile against it.
+**Read these before changing the architecture:**
+- [docs/original-plan.md](docs/original-plan.md) — original Funding Loops plan + plan-vs-actual
+- [analysis/scorecard.md](analysis/scorecard.md) — empirical scorecard, including the deep Phase 6d re-probe of Ch.5 that revealed the right table is `ab.ab_sole_source` not `fed.grants_contributions`
+
+## v3.0 Atlas architecture (active plan)
+
+**Why we pivoted:** v1.1 worked end-to-end on Funding Loops but the user wanted to maximise scoring on Ch.5 Vendor Concentration (5/5 Impact + 5/5 Innovation, IBM-relevant). Honest data probing showed `fed.grants_contributions` is grants/contributions (recipients are universities, NPOs, treaty obligations) — the procurement scandals (ArriveCAN, McKinsey, sole-source IT) live in a different dataset. **`ab.ab_sole_source` (15,533 rows, $18.2B in Alberta sole-source procurement) is where Ch.5's signal actually is.**
+
+**The 5-layer architecture (data-first, agents-second):**
+
+1. **Data layer** (Python + DuckDB + pandas, no LLM) — pre-computes the **Procurement Concentration Atlas**: tables of category-level concentration metrics (Herfindahl, top-1 share, top-3 share), cross-ministry vendor dependency, time-series incumbency, statistical baselines. Output: `atlas_*.parquet` files.
+2. **Eval layer** (deterministic pytest harness, NOT the Validator agent) — known-cases test suite asserts the system flags real Canadian procurement issues at risk ≥ 60. Runs only when agent code changes; catches regressions; provides defensibility ("how do you know your method works?").
+3. **Pipeline agents** (Mode 1 — structured discovery) — Discovery → Investigation → Validator → Narrative, each reading from the Atlas (NOT running analytical SQL). Produces ranked Minister briefs on click.
+4. **Conductor agent** (Mode 2 — adaptive reasoning chat) — single Strands agent with `query_atlas` / `query_db` / `verify_*` / `read_kb` / `compute` / `code_compute` (constrained pandas) tools. Receives any natural-language question, picks tools per question, streams reasoning + tool calls + final answer. The autonomy story.
+5. **Visualization layer** — ConcentrationHeatmap (ministry × category), VendorFootprint sunburst, Watchlist cards, Conductor chat panel.
+
+**The two operating modes are the autonomy story.** Pipeline = systematic discovery without prompting. Chat = adaptive reasoning to any judge question. Both share the Atlas + verify_* tools but use different agent architectures.
+
+**Critical disciplines for v3.0:**
+- **Agents never run analytical SQL.** They read pre-computed Atlas tables. The data layer owns the math; the agent layer owns synthesis + narrative + Q&A.
+- **All thresholds derived from data percentiles.** No magic numbers. "Top-1 share ≥ 0.80" is justified as "99th percentile of the actual distribution" — defensible against "how do you know this isn't noise?"
+- **Validator (LLM, runtime) and eval suite (deterministic, dev-time) are different things.** Don't merge.
+- **Conductor's `code_compute` tool is constrained** — pandas method-chain expressions on safelisted DataFrames only. NOT full Python. Full Bedrock CodeInterpreter is a v3.1 stretch.
+
+**Top monopoly findings the data already surfaced (the demo material):**
+- 2025-2030 Microsoft Azure: $60M, 100% sole-source, 1 vendor
+- IBM Canada: 3 separate 100% sole-source enterprise monopolies ($129M combined: software licensing, mainframe hosting, IMAGIS)
+- Alberta Blue Cross: $1.48B benefit administration, 100%, 1 vendor
+- Telus Health, TD Merchant Services, TransAlta, Enmax — each 100% sole-source in their category
+
+**Phase plan:** A (data layer, 3hr) → B (rewire agents to Atlas, 2hr) → C (viz, 1.5hr) → D (Conductor + chat, 2hr) → E (pitch + cache + CLAUDE.md update, 1hr). Total ~9.5 hr.
 
 ## Commands
 
