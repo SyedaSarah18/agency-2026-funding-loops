@@ -1,0 +1,7 @@
+bedrock-agentcore>=0.1.0
+strands-agents>=1.37
+boto3>=1.40
+psycopg2-binary>=2.9
+pandas>=2.0
+pyarrow>=17.0
+numpy>=1.26
