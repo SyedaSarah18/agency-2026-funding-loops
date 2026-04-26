@@ -56,6 +56,138 @@ def _delta_pct(claimed: float, actual: Optional[float]) -> Optional[float]:
 
 
 @tool
+def verify_concentration_share(ministry: str, category_substr: str,
+                               claimed_top_share: float,
+                               claimed_top_vendor: str,
+                               tolerance_pct: float = 5.0) -> str:
+    """Verify a vendor-concentration claim against ab.ab_sole_source.
+
+    Re-runs the share computation for the given ministry x category and
+    confirms (a) the top vendor matches and (b) the share is within tolerance.
+
+    Args:
+        ministry: Exact ministry name (e.g. "Service Alberta").
+        category_substr: Substring of contract_services (case-insensitive).
+        claimed_top_share: 0.0-1.0 share Investigation reported.
+        claimed_top_vendor: Vendor name Investigation reported as top.
+        tolerance_pct: Allowed share difference in percentage points (default 5%).
+
+    Returns:
+        JSON with keys: verified (bool), claimed_share, actual_share,
+        share_delta_pct, claimed_vendor, actual_top_vendor,
+        vendor_matches (bool), total_spend, n_vendors.
+    """
+    conn, cur = _conn()
+    try:
+        cur.execute("""
+            WITH per_vendor AS (
+                SELECT vendor, SUM(amount) AS amt
+                FROM ab.ab_sole_source
+                WHERE ministry = %s
+                  AND lower(contract_services) LIKE '%%' || lower(%s) || '%%'
+                  AND amount IS NOT NULL AND amount > 0
+                  AND vendor IS NOT NULL
+                GROUP BY vendor
+            )
+            SELECT
+                (SELECT vendor FROM per_vendor ORDER BY amt DESC LIMIT 1) AS top_v,
+                (SELECT amt FROM per_vendor ORDER BY amt DESC LIMIT 1) AS top_amt,
+                SUM(amt) AS total,
+                COUNT(*) AS n_v
+            FROM per_vendor
+        """, (ministry, category_substr))
+        top_v, top_amt, total, n_v = cur.fetchone()
+        top_amt_f = _f(top_amt)
+        total_f = _f(total)
+        actual_share = (top_amt_f / total_f) if (top_amt_f is not None and total_f) else None
+        share_delta = (actual_share * 100 - claimed_top_share * 100) if actual_share is not None else None
+        vendor_matches = (
+            top_v is not None and claimed_top_vendor.lower() in top_v.lower()
+        ) or (top_v is not None and top_v.lower() in claimed_top_vendor.lower())
+        verified = (
+            vendor_matches
+            and actual_share is not None
+            and share_delta is not None
+            and abs(share_delta) <= tolerance_pct
+        )
+        return json.dumps({
+            "verified": verified,
+            "claimed_share": claimed_top_share,
+            "actual_share": actual_share,
+            "share_delta_pct": share_delta,
+            "claimed_vendor": claimed_top_vendor,
+            "actual_top_vendor": top_v,
+            "vendor_matches": vendor_matches,
+            "total_spend": total_f,
+            "n_vendors": n_v or 0,
+        })
+    except Exception as e:
+        return json.dumps({"error": f"{type(e).__name__}: {str(e)[:200]}"})
+    finally:
+        conn.close()
+
+
+@tool
+def verify_vendor_ministry_count(vendor_substr: str, claimed_ministry_count: int,
+                                  claimed_total_spend: float,
+                                  tolerance_pct: float = 5.0) -> str:
+    """Verify a vendor's cross-ministry footprint claim.
+
+    Counts distinct ministries the vendor appears in across ab.ab_sole_source
+    + ab.ab_contracts and sums their total spend.
+
+    Args:
+        vendor_substr: Substring of vendor name (case-insensitive).
+        claimed_ministry_count: Number of ministries Investigation reported.
+        claimed_total_spend: Total spend across all ministries Investigation reported.
+        tolerance_pct: Allowed difference in percent (default 5%).
+
+    Returns:
+        JSON with keys: verified, claimed_count, actual_count, count_delta,
+        claimed_total, actual_total, total_delta_pct, ministries (list).
+    """
+    conn, cur = _conn()
+    try:
+        cur.execute("""
+            WITH unioned AS (
+                SELECT vendor, ministry, amount FROM ab.ab_sole_source
+                WHERE amount IS NOT NULL AND amount > 0 AND vendor IS NOT NULL
+                  AND lower(vendor) LIKE '%%' || lower(%s) || '%%'
+                UNION ALL
+                SELECT recipient, ministry, amount FROM ab.ab_contracts
+                WHERE amount IS NOT NULL AND amount > 0 AND recipient IS NOT NULL
+                  AND lower(recipient) LIKE '%%' || lower(%s) || '%%'
+            )
+            SELECT COUNT(DISTINCT ministry) AS n_min,
+                   SUM(amount) AS total,
+                   array_agg(DISTINCT ministry) AS ministries
+            FROM unioned
+        """, (vendor_substr, vendor_substr))
+        n_min, total, ministries = cur.fetchone()
+        total_f = _f(total)
+        count_delta = (n_min or 0) - claimed_ministry_count
+        total_delta = _delta_pct(claimed_total_spend, total_f)
+        verified = (
+            n_min is not None and abs(count_delta) <= 1
+            and total_delta is not None and abs(total_delta) <= tolerance_pct
+        )
+        return json.dumps({
+            "verified": verified,
+            "claimed_count": claimed_ministry_count,
+            "actual_count": n_min or 0,
+            "count_delta": count_delta,
+            "claimed_total": claimed_total_spend,
+            "actual_total": total_f,
+            "total_delta_pct": total_delta,
+            "ministries": list(ministries) if ministries else [],
+        })
+    except Exception as e:
+        return json.dumps({"error": f"{type(e).__name__}: {str(e)[:200]}"})
+    finally:
+        conn.close()
+
+
+@tool
 def verify_gift(donor_bn: str, donee_bn: str, year: int, claimed_amount: float,
                 tolerance_pct: float = 5.0) -> str:
     """Verify a single charity-to-charity gift claim against cra.cra_qualified_donees.

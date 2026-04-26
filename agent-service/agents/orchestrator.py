@@ -98,14 +98,14 @@ async def run_pipeline() -> AsyncIterator[dict]:
 
     Yields SSE-shaped event dicts the caller can serialize and stream.
     """
-    yield _evt("pipeline", "start", "4-agent funding-loops investigation begins")
+    yield _evt("pipeline", "start", "4-agent vendor-concentration investigation begins")
 
     # ---- 1. Discovery ----
     discovery = make_discovery_agent(top_n=DISCOVERY_TOP_N)
     discovery_final = None
     async for evt in _run_agent_streamed(
         discovery,
-        f"Find the top {DISCOVERY_TOP_N} suspicious funding loops in cra.loops. Return strict JSON only.",
+        f"Surface the top {DISCOVERY_TOP_N} highest-signal candidates from the Atlas per your system instructions. Return strict JSON only.",
         "discovery",
     ):
         if "__final__" in evt:
@@ -121,12 +121,13 @@ async def run_pipeline() -> AsyncIterator[dict]:
     # ---- 2. Investigation per candidate (fresh agent each — Strands agents are stateful) ----
     dossiers = []
     for i, cand in enumerate(candidates[:DISCOVERY_TOP_N], 1):
-        yield _evt("pipeline", "step", f"Investigating candidate {i}/{len(candidates)} (loop_id={cand.get('loop_id')})")
+        ident = cand.get("candidate_id") or cand.get("loop_id") or cand.get("program_key") or "?"
+        yield _evt("pipeline", "step", f"Investigating candidate {i}/{len(candidates)} ({ident})")
         investigation = make_investigation_agent()
         dossier_final = None
         async for evt in _run_agent_streamed(
             investigation,
-            f"Build a dossier for this candidate cycle:\n{json.dumps(cand)}",
+            f"Build a dossier for this candidate per your system instructions:\n{json.dumps(cand)}",
             "investigation",
         ):
             if "__final__" in evt:
@@ -189,9 +190,17 @@ async def run_pipeline() -> AsyncIterator[dict]:
             b["verifications"] = finding.get("verifications", [])
             b["risk_score"] = finding.get("risk_score")
             b["score_breakdown"] = finding.get("score_breakdown", {})
-            # Slim dossier excerpt so the frontend can render the loop as a
-            # graph without re-querying the DB.
-            b["graph_data"] = {
+            # Slim dossier excerpt for the frontend to render the right chart
+            # shape per challenge. v3.x ships vendor-concentration shape;
+            # frontend dispatches by which fields are present (recipients vs
+            # charities/edges).
+            b["chart_data"] = {
+                "ministry": dossier.get("ministry"),
+                "category": dossier.get("category"),
+                "recipients": dossier.get("recipients", []),
+                "time_series": dossier.get("time_series", []),
+                "top_vendor": dossier.get("top_vendor", {}),
+                # v1.x funding-loop fields (will be empty in v3.x dossiers)
                 "charities": dossier.get("charities", []),
                 "edges": dossier.get("edges", []),
             }
