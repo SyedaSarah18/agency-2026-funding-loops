@@ -169,7 +169,7 @@ export default function AgentTrace() {
     <div className="w-full max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-slate-900">
-          Agency 2026 — Funding Loops Investigator
+          Agency 2026 — Vendor Concentration Investigator
         </h1>
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-2 text-sm text-slate-700">

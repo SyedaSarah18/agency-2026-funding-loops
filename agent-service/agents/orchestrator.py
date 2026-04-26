@@ -105,7 +105,7 @@ async def run_pipeline() -> AsyncIterator[dict]:
     discovery_final = None
     async for evt in _run_agent_streamed(
         discovery,
-        f"Find the top {DISCOVERY_TOP_N} suspicious funding loops in cra.loops. Return strict JSON only.",
+        f"Find the top {DISCOVERY_TOP_N} highest-signal candidates per your system instructions. Return strict JSON only.",
         "discovery",
     ):
         if "__final__" in evt:
@@ -121,12 +121,14 @@ async def run_pipeline() -> AsyncIterator[dict]:
     # ---- 2. Investigation per candidate (fresh agent each — Strands agents are stateful) ----
     dossiers = []
     for i, cand in enumerate(candidates[:DISCOVERY_TOP_N], 1):
-        yield _evt("pipeline", "step", f"Investigating candidate {i}/{len(candidates)} (loop_id={cand.get('loop_id')})")
+        # Identifier may be loop_id (v1.x funding loops) or program_key (v2.x concentration).
+        ident = cand.get("loop_id") or cand.get("program_key") or cand.get("program") or "?"
+        yield _evt("pipeline", "step", f"Investigating candidate {i}/{len(candidates)} ({ident})")
         investigation = make_investigation_agent()
         dossier_final = None
         async for evt in _run_agent_streamed(
             investigation,
-            f"Build a dossier for this candidate cycle:\n{json.dumps(cand)}",
+            f"Build a dossier for this candidate per your system instructions:\n{json.dumps(cand)}",
             "investigation",
         ):
             if "__final__" in evt:

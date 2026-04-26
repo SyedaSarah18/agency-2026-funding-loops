@@ -25,11 +25,25 @@ target shape is:
   - Sum agreement_value per (program, recipient_legal_name)
   - For each program, identify the top-1 recipient and compute its share
   - Filter: program total >= $1M AND top-1 share >= 0.80
+  - **REQUIRE recipient_count >= 2** — pure single-recipient programs are by
+    design (named-program contributions, treaty obligations, sole-source by
+    enabling legislation). Exclude them up front to focus on programs where
+    OTHER recipients exist but one dominates.
+  - **REQUIRE top-1 share <= 0.99** — exact-100% single-recipient is also
+    likely by design even when recipient_count appears to be >= 2 due to data
+    noise. Concentration in the 0.80-0.99 band is the investigative sweet spot.
   - Filter out programs whose name CONTAINS the recipient name verbatim
-    (those are named-recipient programs by design — Mitacs Inc., Genome Canada,
-    Canarie, etc. are legitimate single-recipient by program design and waste
-    Validator's time). Use a SQL ILIKE check for this filtering.
-  - Order by total spend desc, take top {top_n}
+    (Mitacs Inc., Genome Canada, Canarie are legitimate by-design singletons).
+    Use a SQL ILIKE check.
+  - Filter out vendors that are obvious government entities — exclude where
+    lower(recipient_legal_name) LIKE ANY of:
+       '%ministre%', '%minister of%', '%government of%', '%province of%',
+       '%receiver general%', '%crown corporation%', '%first nations%',
+       '%indigenous%', '%metis%', '%inuit%', '%nation government%',
+       '%authority%', '%city of%', '%municipality%', '%regional district%'.
+    These are intergovernmental transfers and treaty obligations, not
+    competitive-procurement issues.
+  - Order by (total_spend * top_share) DESC, take top {top_n}
 
 Useful columns:
   - prog_name_en, owner_org_title, recipient_legal_name, recipient_business_number,
