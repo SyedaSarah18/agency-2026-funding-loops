@@ -105,9 +105,9 @@ Reusing a `strands.Agent` across loop iterations raises `Agent is already proces
 
 Pipeline yields `{ts, agent, kind, message, payload}` dicts. `agent` is one of `discovery|investigation|validator|narrative|pipeline`. `kind` is one of `start|step|tool|complete|done|error`. `frontend/app/components/AgentTrace.tsx` types this as `AgentEvent` and color-codes by agent. The final `pipeline:done` event carries `payload.briefs` — that's how the Minister Briefs panel populates. Don't break this shape without updating both ends.
 
-### Discovery agent must filter cross-entity cycles
+### Discovery agent must filter cross-entity cycles (v1.x ONLY — historical note)
 
-`cra.loops` includes ~600 same-org sub-registration cycles (Salvation Army has 600+ chapters under BN root `107951618`). Money flowing between them is internal accounting, not fraud. Discovery's prompt requires the SQL filter `(SELECT COUNT(DISTINCT substring(bn FROM 1 FOR 9)) FROM unnest(path_bns) AS bn) >= 2`. Without it, the Validator correctly throws every candidate out as `likely_legitimate` and Narrative produces zero briefs.
+In v1.x funding loops, `cra.loops` included ~600 same-org sub-registration cycles (Salvation Army has 600+ chapters under BN root `107951618`). Discovery's prompt required a cross-BN-root filter or every candidate got ruled `likely_legitimate`. v3.x doesn't use `cra.loops` — the equivalent v3.x discipline is the `headline_risk_score` floor at $10M total spend (see `analysis/atlas/build.py`'s `build_atlas_categories` function), which keeps small research-grant categories from outranking real lock-in patterns.
 
 ### Narrative has a hard no-hallucinated-numbers constraint
 
@@ -119,12 +119,19 @@ Pipeline yields `{ts, agent, kind, message, payload}` dicts. `agent` is one of `
 
 ### Validator has dedicated verify_* tools, not just SQL
 
-`agent-service/tools/verify.py` exposes four `@tool` functions (`verify_gift`, `verify_director`, `verify_charity_revenue`, `verify_external_funding`) that the Validator agent uses to spot-check Investigation's numerical claims. They exist because spot-checking with raw SQL produced inconsistent verification rigor across runs — these standardise the pass/fail shape (`{verified, claimed, actual, delta_pct, ...}`) and constrain the Validator's prompt to do at most 5 verifications per dossier.
+`agent-service/tools/verify.py` exposes six `@tool` functions. v3.x active uses:
+- `verify_concentration_share(ministry, category_substr, claimed_share, claimed_vendor)` — re-runs the share math against `ab.ab_sole_source` to confirm the headline concentration claim.
+- `verify_vendor_ministry_count(vendor_substr, claimed_count, claimed_total)` — sums the vendor's full footprint across `ab.ab_sole_source + ab.ab_contracts`.
+
+v1.x verify tools kept for back-compat (unused on v3.x but harmless if Validator decides a recipient IS a charity):
+- `verify_gift`, `verify_director`, `verify_charity_revenue`, `verify_external_funding`.
+
+Why dedicated verify tools instead of letting the Validator write SQL: standardises the pass/fail shape (`{verified, claimed, actual, delta_pct, ...}`), constrains the Validator's prompt to do at most ~4 verifications per dossier, makes the audit trail uniform.
 
 Caveats:
 - `verify_charity_revenue` prefers T3010 `field_4700` (total revenue) and falls back to `field_4500` (tax-receipted gifts) — this distinction matters because v1.0 saw the agent confidently report `field_4500` as "revenue" and inflate a multiple by 3×.
-- `verify_external_funding` for `source='fed'` tries BN match first, then falls back to legal-name match (because KNOWN-DATA-ISSUE F-6 leaves ~55% of fed rows with NULL `recipient_business_number`).
-- Tolerance defaults: 5% for gifts/revenue (clean tables), 10% for external funding (FED-3 amendment double-counting).
+- `verify_external_funding` for `source='fed'` tries BN match first, then falls back to legal-name match (KNOWN-DATA-ISSUE F-6: ~55% of fed rows have NULL `recipient_business_number`).
+- Tolerance defaults: 5% for gifts/revenue/share (clean tables), 10% for external funding + vendor totals (FED-3 amendment double-counting).
 
 ## Improving agents — discipline for future sessions
 
@@ -166,15 +173,124 @@ Agents don't train the way ML models do. There's no gradient descent, no labelle
 
 ## Data foundation
 
-Pre-built tables that the pipeline depends on:
-- `cra.loops` (5,808 rows) — pre-detected gift cycles with `path_bns`, `total_flow`, `min_year`, `max_year`. Discovery's primary source.
-- `cra.cra_qualified_donees` (1.66M) — charity-to-charity gifts; column is `total_gifts`, NOT `amount`.
-- `cra.cra_directors` (2.87M) — `first_name` + `last_name`, `at_arms_length` flag for related-party detection.
-- `general.entity_golden_records` (851K) — cross-dataset entity resolution; `cra_profile`/`fed_profile`/`ab_profile` are pre-aggregated JSONB.
-- `general.entity_source_links` (5.16M) — maps source rows to canonical entities; columns are `source_schema` + `source_table` (NOT `source_dataset`).
+### v3.x active source tables (procurement)
 
-See `analysis/scorecard.md` for the full per-challenge probe results and the rationale for picking Funding Loops.
+- `ab.ab_sole_source` (15,533 rows, $18.2B) — Alberta sole-source procurement. The PRIMARY signal table. Columns we use: `ministry`, `vendor`, `vendor_city`, `vendor_province`, `start_date`, `end_date`, `amount`, `contract_services`, `permitted_situations`, `display_fiscal_year`.
+- `ab.ab_contracts` (67,079 rows) — broader Alberta procurement. Thin schema (id, fy, recipient, amount, ministry).
+- `fed.grants_contributions` (1.28M rows) — federal grants. NOT used for v3.x. Briefly attempted in v2.x and abandoned because it's grants/contributions not procurement, so the politically-resonant scandals (ArriveCAN, McKinsey) live elsewhere (PSPC contracts disclosure on open.canada.ca, NOT ingested).
+- `cra.*` and `general.*` schemas — used by v1.x funding loops, dormant in v3.x.
+
+### Pre-computed Atlas (the 6 parquet files agents read)
+
+Built once by `analysis/atlas/build.py`. Agents NEVER read raw SQL for analytical work — they read these parquets via `tools/atlas.py`:
+
+| File | Rows | What it answers |
+|---|---:|---|
+| `atlas_categories.parquet` | 2,219 | Per (ministry × category): top-1 vendor, share, Herfindahl, composite_risk_score, headline_risk_score (zeroed below $10M floor) |
+| `atlas_vendor_dependency.parquet` | 2,920 | Per vendor: cross-ministry breadth, sole-source share, total spend, lockin_score |
+| `atlas_incumbency.parquet` | 530 | Per (vendor × ministry): yearly history, temporal_zscore, is_step_function (z>5) |
+| `atlas_regions_headline.parquet` | 124 | Per ministry: Alberta-based vs Out-of-province vs Unknown spend split |
+| `atlas_regions_cities.parquet` | 572 | Within Alberta, per (city × ministry): top vendor + concentration |
+| `atlas_regions_out_of_province.parquet` | 35 | Categories where >50% of spend leaves Alberta |
+
+### lockin_score formula (atlas_vendor_dependency)
+
+Composed in `analysis/atlas/build.py` `build_atlas_vendor_dependency()`. Max 100:
+- Cross-ministry breadth: `n_ministries × 1.5`, capped at 30
+- Total spend (sqrt-scaled): `√(total_spend / $10M) × 5`, capped at 30
+- Sole-source share: `sole_source_share × 20`
+- Category breadth: `n_categories × 0.8`, capped at 20
+
+IBM Canada example: 20 min × 1.5 = 30, √(341.3/10) × 5 = 29.2, 0.421 × 20 = 8.4, 6 × 0.8 = 4.8 → 72.4. Catholic Social Services: 7.5 + 30 + 20 + 20 (capped) → 77.5.
+
+Weights are first-pass; not tuned against ground truth. Calibration target = `analysis/atlas/known_cases.py` true positives.
+
+### View any Atlas table from the CLI
+
+`analysis/view_atlas.py` (sortable, filterable, money-formatted):
+
+```bash
+.venv/Scripts/python analysis/view_atlas.py                              # default: top 20 vendors by lockin
+.venv/Scripts/python analysis/view_atlas.py --table categories           # categories by headline_risk_score
+.venv/Scripts/python analysis/view_atlas.py --table regions_oop          # out-of-province dependency
+.venv/Scripts/python analysis/view_atlas.py --table incumbency           # year-over-year + step functions
+.venv/Scripts/python analysis/view_atlas.py --filter ibm                 # rows matching "ibm"
+.venv/Scripts/python analysis/view_atlas.py --schema-only                # dtypes + describe()
+```
+
+### Honest caveats from the data
+
+- **`vendor_province` is the contract billing address, NOT corporate HQ.** Microsoft Canada always bills Toronto/Ontario in our data. IBM Canada SPLITS — Enterprise License Agreement bills to Markham/Ontario, but Mainframe Hosting + IMAGIS bill to Edmonton/Alberta. Don't claim "IBM is Ontario-based" — claim what the field actually says per contract.
+- **Data quality findings worth surfacing**: `SUNDRY, OTHER VENDORS BELOW $10,000` placeholder vendor aggregates $172M across 61 ministries. IBM appears under 2 entity-name variants. Province strings inconsistent (Alberta/AB/Ontario/ON/NA/XX).
+- `permitted_situations` field is a single-letter code (a-l, z) without a lookup table in our data. Top: `d` ($12.7B), `b` ($3.6B), `g` ($1.2B).
 
 ## How challenge selection was made
 
-Don't re-pick the challenge — it's locked. Empirically chosen via `analysis/triage.py` (one SQL probe per challenge against the live DB). Funding Loops scored 18/20 because `cra.loops` was pre-built (~2hr head start) and the 4-agent pattern maps cleanly. The decision rationale + raw probe numbers are in `analysis/scorecard.md`.
+Don't re-pick the challenge — it's locked on Ch.5 Vendor Concentration. Original empirical scorecard at `analysis/scorecard.md` (Phase 1c probes against the live DB). User pivoted to Ch.5 mid-build because (a) Phase 6d deep re-probe of the original triage revealed Ch.5 was 100x undercounted (we'd only sliced AB ministries; the right framing is FED program-level + AB sole-source), (b) Ch.5 is IBM-relevant for the user's internal pitch — IBM appears with 3 separate 100% sole-source category monopolies in the data.
+
+## Phase F: AgentCore deployment (v3.1-agentcore branch)
+
+Conductor agent deployed to AWS Bedrock AgentCore Runtime in `us-west-2`.
+
+- **ARN:** `arn:aws:bedrock-agentcore:us-west-2:941377154016:runtime/agency26_conductor-QTN2spEIzM`
+- **Account:** 941377154016
+- **Execution role:** `AmazonBedrockAgentCoreSDKRuntime-us-west-2-fb94713b8d` (auto-created)
+- **S3 staging bucket:** `bedrock-agentcore-codebuild-sources-941377154016-us-west-2`
+- **Memory mode:** `NO_MEMORY` (session affinity gives free multi-turn within ~8hr per `runtimeSessionId`)
+- **Deployment package:** ~204 MB (Strands + Bedrock + boto3 + pandas + pyarrow + psycopg2-binary + our code + parquets + kb)
+- **CloudWatch log group:** `/aws/bedrock-agentcore/runtimes/agency26_conductor-QTN2spEIzM-DEFAULT`
+
+### Deploy commands
+
+```bash
+# fresh deploy or redeploy (uses bedrock_agentcore_starter_toolkit Runtime SDK)
+cd deployment/conductor-agentcore
+../../.venv/Scripts/python deploy.py
+
+# CLI smoke test (boto3 invoke_agent_runtime)
+../../.venv/Scripts/python deploy.py --invoke "Show me IBM's footprint"
+
+# from frontend chat: toggle "cloud (AgentCore)" button in the Chat header.
+# Frontend hits /api/ask-cloud -> FastAPI /ask-cloud -> boto3 invoke_agent_runtime
+```
+
+### Two backends for the chat
+
+- `/api/ask` (Next.js) → FastAPI `/ask` → in-process Conductor (local, lowest latency, demo-default)
+- `/api/ask-cloud` (Next.js) → FastAPI `/ask-cloud` → boto3 → AgentCore Runtime (cloud, sponsor-architecture parity)
+
+Same prompt, same tools, same SSE event shape. Toggle in `frontend/app/components/Chat.tsx`.
+
+### Phase F deployment gotchas (lessons learned the hard way)
+
+1. **No Docker on Windows.** Toolkit's default container path needs Docker/Finch/Podman. Switch to `deployment_type="direct_code_deploy"` + `runtime_type="PYTHON_3_13"` to skip Docker entirely. AgentCore packages server-side via S3.
+2. **`uv` required** for direct_code_deploy — `pip install uv` once. The toolkit uses uv to cross-compile dependencies for `aarch64-manylinux2014`.
+3. **`zip` CLI gate on Windows.** Toolkit's precondition checks `shutil.which("zip")` even though actual zip work uses Python's `zipfile` module. Workaround: a no-op `.venv/Scripts/zip.bat` shim (gitignored). `deploy.py` adds `.venv/Scripts` to PATH at startup so `shutil.which` finds the shim.
+4. **`aws-opentelemetry-distro` cross-compile fails from Windows.** Toolkit detects it in `requirements.txt`, sets the runtime to OTel mode, but the `opentelemetry-instrument` CLI binary doesn't make it into the ARM64 zip — runtime then refuses to start with "OpenTelemetry instrumentation executable not found." Fix: keep OTel out of `requirements.txt`. Logs go to CloudWatch via stdout (see `agent.py` logging config). X-Ray traces deferred to a Linux build host.
+5. **Observability flag sticks in the YAML.** Once `.bedrock_agentcore.yaml` has `observability: enabled: true`, every subsequent deploy demands OTel deps even after you remove the dep. To unwind: `boto3 bedrock-agentcore-control delete_agent_runtime` + delete `.bedrock_agentcore.yaml` + redeploy fresh.
+6. **`runtimeSessionId` must be ≥33 characters.** The boto3 invoke fails with a validation error otherwise. We pad short session IDs in `/ask-cloud`: `(session_id + "x" * 33)[:64]`.
+7. **AgentCore Runtime streams tool inputs character-by-character.** Without dedup the chat UI shows 5-8 duplicate `⚙ tool_name` badges per actual call. `/ask-cloud` dedupes: emit only on tool name change OR when input parses as complete JSON.
+8. **First invoke after >15 min idle has 3-8s cold start.** Hit it with a warmup ping 60s before any live demo.
+9. **IAM permissions.** `AmazonBedrockFullAccess` is for runtime invoke only. Deploy + manage Runtime resources needs ECR + CodeBuild + IAM:CreateRole + S3 + CloudFormation. For the hackathon timeline, attach `AdministratorAccess` to the IAM user (zero cost difference vs. fine-grained policies — IAM permissions are free, AWS bills for services used). Detach + delete keys post-event.
+10. **Cost.** AgentCore Runtime: $0.0895/vCPU-hour + $0.00945/GB-hour, billed only during active CPU. A 10-invocation demo session ≈ $0.009 of Runtime cost. Bedrock model tokens billed separately.
+
+### When NOT to use AgentCore primitives
+
+- **Gateway** — for wrapping external Lambdas/APIs as MCP tools or cross-team tool sharing. Our tools are use-case-specific in-process Python (parquet readers, verify, pandas eval). Lab 3 of the AWS workshop teaches the same boundary: keep use-case-specific tools local. Don't reach for Gateway.
+- **Memory** — for cross-session recall ($0.25/1k events). Session affinity gives free multi-turn within a session.
+- **Identity** — for OAuth/JWT inbound auth on the runtime. Not needed; frontend uses IAM creds via boto3.
+- **Bedrock Agents** (the original 2023 product) — declarative JSON + Lambda tools. We're on AgentCore Runtime (the newer flexible product) which hosts our Strands code as a container.
+
+## Frontend gotchas (collected this session)
+
+- **SSE through Next.js needs careful proxying.** `route.ts` must use a `TransformStream` re-pipe of `upstream.body` and set `X-Accel-Buffering: no` headers; otherwise Next.js buffers the entire stream until the upstream closes. See `frontend/app/api/investigate/route.ts` and `frontend/app/api/ask-cloud/route.ts` for the pattern.
+- **SSE event boundaries can be `\n\n` OR `\r\n\r\n`** depending on whether the proxy normalizes line endings. Chat.tsx splits on `/\r?\n\r?\n/` — accept both.
+- **Hydration mismatch from `Date.now()` at module init.** Next.js server-renders the component once and the client renders again; if the value differs (e.g. session id from `Date.now()`) you get a hydration error and the tree re-renders. Fix: generate the value in a `useEffect` after mount; SSR ships a stable placeholder.
+- **Chat input text was white-on-white** — Tailwind didn't auto-color the `<input>`. Set `text-slate-900 placeholder:text-slate-400 bg-white` explicitly.
+- **`tools/atlas.py` and `tools/kb.py` use different ROOT calculations** depending on which tree they're in. In `agent-service/`, `ROOT = parent.parent.parent` (project root). In `deployment/conductor-agentcore/`, `ROOT = parent.parent` (package root). The tools are otherwise identical between trees.
+- **Markdown tables in chat need `react-markdown` + `remark-gfm`.** The Conductor returns markdown tables; without proper renderer columns are misaligned. `Chat.tsx` uses ReactMarkdown with custom `table`/`th`/`td` components for Excel-like grid styling + `tabular-nums` for digit alignment.
+- **Both servers' state survives branch checkouts.** When you `git checkout` to a different branch, the running FastAPI/Next.js processes keep the previously-loaded code in memory. Restart processes (kill + re-run) to pick up code from the new branch.
+
+## Architecture diagram
+
+`docs/architecture-diagram.md` has both ASCII (paste into slides) and Mermaid (renders on GitHub) diagrams of the full system.
