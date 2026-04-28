@@ -23,6 +23,29 @@ You will be working with [real government data]: (https://github.com/GovAlta/age
 CRA: charity filings, FED - Federal Grants & Contributions - Federal contract data, corporate registeries, AB — Alberta Open Data.
 
 [The challenges are: 10 life problems.](https://luma.com/5e83iia8?tk=95SBvc)
+### Important Info from the Luma Link
+Agency 2026 – Ottawa is a one-day AI hackathon bringing together public sector leaders, industry, and innovators to explore new approaches to social spending and accountability.
+Participants will use modern AI tools and emerging agentic technologies to develop solutions to a live challenge focused on improving transparency, insights, and outcomes in government.
+The event is designed to:
+Showcase whatʼs possible with applied AI in government
+Encourage new ideas and approaches to complex public challenges
+Provide a platform for teams to build, demonstrate, and share their work
+Strengthen collaboration across jurisdictions, sectors, and disciplines
+
+Teams will present their work at the end of the day, with selected
+participants recognized through awards. The event will bring together
+hyperscalers and leading AI companies, alongside the Minister of Alberta
+Technology and Innovation and federal, provincial, and territorial ministers
+and deputy ministers.
+
+Challenge Chosen:
+5. Vendor Concentration
+In any given category of government spending, how many vendors are actually competing? 
+Identify areas where a single supplier or a small group of suppliers receives a disproportionate share of contracts. 
+Measure concentration by category, department, and region.
+Where has incumbency replaced competition?
+Where has government become dependent on a vendor it can no longer walk away from?
+
 Your job as hacker will be to 'Analyze government spending data to find waste, inefficiency, and gaps that are invisible today because nobody build a tooling to see them so you - then build a working AI solution that reveals real, actionable insights'.
 
 ### Who will be in the room
