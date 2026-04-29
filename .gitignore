@@ -1,12 +1,27 @@
+# Secrets
 .env
+.env.local
+
+# Python
 .venv/
 __pycache__/
 *.pyc
+*.egg-info/
+build/
+dist/
+
+# Node / Next.js
 node_modules/
 .next/
 out/
-analysis/schema.json
-analysis/profile.json
-analysis/triage_results.json
+.turbo/
+
+# Local data caches (gitignored — rebuilt at runtime)
+data/duckdb_cache/
+data/*.parquet
+
+# IDE / OS
+.vscode/
+.idea/
 .DS_Store
-analysis/atlas_data/atlas.duckdb
+Thumbs.db
