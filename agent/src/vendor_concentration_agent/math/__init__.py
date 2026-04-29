@@ -13,14 +13,38 @@ from vendor_concentration_agent.math.types import MathResult
 from vendor_concentration_agent.math.concentration import (
     hhi_by_category,
     cr_n_by_category,
+    gini_by_category,
     top_concentrated_categories,
 )
-from vendor_concentration_agent.math.procurement import sole_source_rate
+from vendor_concentration_agent.math.procurement import (
+    sole_source_rate,
+    incumbency_streak,
+    vendor_footprint,
+    competition_count,
+)
+from vendor_concentration_agent.math.crosscheck import (
+    cross_dataset_lookup,
+    divergence_check,
+)
+from vendor_concentration_agent.math.explainers import EXPLAINERS, get as get_explainer
 
 __all__ = [
+    # types
     "MathResult",
+    # concentration
     "hhi_by_category",
     "cr_n_by_category",
+    "gini_by_category",
     "top_concentrated_categories",
+    # procurement
     "sole_source_rate",
+    "incumbency_streak",
+    "vendor_footprint",
+    "competition_count",
+    # cross-check
+    "cross_dataset_lookup",
+    "divergence_check",
+    # explainers
+    "EXPLAINERS",
+    "get_explainer",
 ]

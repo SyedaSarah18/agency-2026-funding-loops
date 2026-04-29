@@ -1,4 +1,5 @@
-"""Market concentration formulas — HHI, CR_n, top-N concentrated categories.
+"""Market concentration formulas — HHI, CR_n, Gini, plus a discovery
+helper that ranks every category in a dataset by single-vendor share.
 
 All values are computed in SQL on the source-of-truth Postgres tables.
 Each function returns a MathResult with the SQL, source rows, per-term
@@ -13,22 +14,13 @@ from vendor_concentration_agent.math.types import MathResult
 
 
 # ---------------------------------------------------------------------------
-# HHI — Herfindahl-Hirschman Index
+# Internal: load per-vendor amounts for a category (used by HHI, CR_n, Gini)
 # ---------------------------------------------------------------------------
 
-def hhi_by_category(dataset: str, category: str) -> MathResult:
-    """HHI for a single category in a single dataset.
-
-    HHI = Σ (sᵢ)²  where sᵢ is vendor i's market share as a percentage 0–100.
-    Range 0–10,000. DOJ/FTC bands: <1500 competitive · 1500–2500 moderate ·
-    >2500 highly concentrated.
-
-    Reference: DOJ/FTC Horizontal Merger Guidelines §5.3.
-    """
+def _vendor_amounts(dataset: str, category: str) -> tuple[str, list[dict]]:
     ds = _get_dataset(dataset)
     if ds.category_col is None:
         raise ValueError(f"dataset {dataset!r} has no category column")
-
     sql = f"""
         SELECT {ds.vendor_col} AS vendor,
                SUM({ds.amount_col})::numeric AS vendor_amt
@@ -40,6 +32,19 @@ def hhi_by_category(dataset: str, category: str) -> MathResult:
         ORDER BY vendor_amt DESC
     """
     rows = query(sql, {"cat": category})
+    return sql.strip(), rows
+
+
+# ---------------------------------------------------------------------------
+# HHI — Herfindahl-Hirschman Index
+# ---------------------------------------------------------------------------
+
+def hhi_by_category(dataset: str, category: str) -> MathResult:
+    """HHI = Σ (sᵢ)²  where sᵢ is vendor i's market share as a percentage 0–100.
+    Range 0–10,000. DOJ/FTC bands: <1500 competitive · 1500–2500 moderate ·
+    >2500 highly concentrated.
+    """
+    sql, rows = _vendor_amounts(dataset, category)
     total = sum(float(r["vendor_amt"]) for r in rows)
 
     trace_steps: list[dict] = []
@@ -58,7 +63,7 @@ def hhi_by_category(dataset: str, category: str) -> MathResult:
     return MathResult(
         value=round(hhi, 2),
         formula_id="hhi",
-        sql=sql.strip(),
+        sql=sql,
         source_rows=[{"vendor": r["vendor"], "vendor_amt": float(r["vendor_amt"])} for r in rows],
         trace_steps=trace_steps,
         references=["doj_hhi"],
@@ -71,28 +76,13 @@ def hhi_by_category(dataset: str, category: str) -> MathResult:
 # ---------------------------------------------------------------------------
 
 def cr_n_by_category(dataset: str, category: str, n: int = 4) -> MathResult:
-    """CR_n: combined market share of the top n vendors in a category, as a
-    percentage 0–100. CR_1 = single-vendor share; CR_4 = standard
-    industrial-org concentration ratio.
+    """Combined market share of the top n vendors in a category, 0–100.
+    CR_1 = single-vendor share; CR_4 = standard industrial-org concentration ratio.
     """
     if n < 1:
         raise ValueError("n must be >= 1")
 
-    ds = _get_dataset(dataset)
-    if ds.category_col is None:
-        raise ValueError(f"dataset {dataset!r} has no category column")
-
-    sql = f"""
-        SELECT {ds.vendor_col} AS vendor,
-               SUM({ds.amount_col})::numeric AS vendor_amt
-        FROM {ds.table}
-        WHERE {ds.category_col} = %(cat)s
-          AND {ds.amount_col} IS NOT NULL
-          AND {ds.amount_col} > 0
-        GROUP BY {ds.vendor_col}
-        ORDER BY vendor_amt DESC
-    """
-    rows = query(sql, {"cat": category})
+    sql, rows = _vendor_amounts(dataset, category)
     total = sum(float(r["vendor_amt"]) for r in rows)
     top = rows[:n]
     top_total = sum(float(r["vendor_amt"]) for r in top)
@@ -111,11 +101,58 @@ def cr_n_by_category(dataset: str, category: str, n: int = 4) -> MathResult:
     return MathResult(
         value=round(cr, 4),
         formula_id="cr_n",
-        sql=sql.strip(),
+        sql=sql,
         source_rows=[{"vendor": r["vendor"], "vendor_amt": float(r["vendor_amt"])} for r in rows],
         trace_steps=trace_steps,
-        references=["fred_concentration_ratio"],
+        references=[],
         inputs={"dataset": dataset, "category": category, "n": n, "category_total": total, "vendor_count": len(rows)},
+    )
+
+
+# ---------------------------------------------------------------------------
+# Gini — coefficient of inequality across vendor amounts in a category
+# ---------------------------------------------------------------------------
+
+def gini_by_category(dataset: str, category: str) -> MathResult:
+    """Gini coefficient of contract-value distribution across vendors in a
+    category. 0 = perfect equality (all vendors win equal $); ~1 = one vendor
+    takes everything.
+
+    Implementation uses the sorted-array form:
+        G = ( 2·Σ(i·xᵢ) ) / ( n·Σxᵢ )  −  (n + 1) / n
+    where xᵢ are vendor amounts sorted ascending and i is 1-indexed.
+
+    Reference: Statistics Canada Gini methodology.
+    """
+    sql, rows = _vendor_amounts(dataset, category)
+    amounts = sorted(float(r["vendor_amt"]) for r in rows)
+    n = len(amounts)
+    total = sum(amounts)
+    if n == 0 or total == 0:
+        gini = 0.0
+        trace_steps: list[dict] = []
+    else:
+        weighted = sum((i + 1) * x for i, x in enumerate(amounts))
+        gini = (2.0 * weighted) / (n * total) - (n + 1) / n
+        trace_steps = [
+            {"rank_asc": i + 1, "vendor_amt": x, "i_times_amt": (i + 1) * x}
+            for i, x in enumerate(amounts)
+        ]
+
+    return MathResult(
+        value=round(gini, 6),
+        formula_id="gini",
+        sql=sql,
+        source_rows=[{"vendor": r["vendor"], "vendor_amt": float(r["vendor_amt"])} for r in rows],
+        trace_steps=trace_steps,
+        references=["worldbank_gini"],
+        inputs={
+            "dataset": dataset,
+            "category": category,
+            "n_vendors": n,
+            "category_total": total,
+            "weighted_sum": sum((i + 1) * x for i, x in enumerate(amounts)) if n else 0,
+        },
     )
 
 
@@ -189,7 +226,7 @@ def top_concentrated_categories(
         ],
         formula_id="top_concentrated_categories",
         sql=sql.strip(),
-        source_rows=[{k: (float(v) if hasattr(v, "is_integer") or str(type(v).__name__) == "Decimal" else v) for k, v in r.items()} for r in rows],
+        source_rows=[{k: (float(v) if str(type(v).__name__) == "Decimal" else v) for k, v in r.items()} for r in rows],
         trace_steps=[],
         references=[],
         inputs={"dataset": dataset, "min_total": min_total, "limit": limit},
