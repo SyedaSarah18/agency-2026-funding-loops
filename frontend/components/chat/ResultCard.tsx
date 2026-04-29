@@ -309,29 +309,38 @@ function DivergenceCard({ data }: { data: any }) {
 
 function CategoriesCard({ data }: { data: any }) {
   const rows: any[] = Array.isArray(data.value) ? data.value : []
+  const ds: string | undefined = data.inputs?.dataset
+  const hasContracts = rows.some((r) => r.contract_count != null)
   return (
-    <Shell title="Top concentrated categories">
+    <Shell title="Top concentrated categories" pill={ds ? (DATASET_LABEL[ds] ?? ds) : undefined}>
+      {ds && <div className="mb-1.5"><DatasetPill dataset={ds} /></div>}
       <div className="overflow-x-auto">
         <table className="w-full text-[11px] border border-border/40 rounded">
           <thead>
             <tr className="bg-muted text-foreground">
-              <th className="text-left font-semibold px-2 py-1 w-[28px]">#</th>
-              <th className="text-left font-semibold px-2 py-1">Top vendor</th>
-              <th className="text-right font-semibold px-2 py-1 w-[90px]">Total spend</th>
-              <th className="text-right font-semibold px-2 py-1 w-[80px]" title="Top-1 vendor's share of total spend in this category">
-                Top-1 share
-              </th>
+              <th className="text-left font-semibold px-2 py-1 w-[24px]">#</th>
               <th className="text-left font-semibold px-2 py-1">Category</th>
+              <th className="text-left font-semibold px-2 py-1">Top vendor</th>
+              <th className="text-right font-semibold px-2 py-1 w-[80px]">Spend</th>
+              <th className="text-right font-semibold px-2 py-1 w-[60px]" title="Top-1 vendor's share">Top-1</th>
+              <th className="text-right font-semibold px-2 py-1 w-[56px]" title="Distinct vendors">Vendors</th>
+              {hasContracts && (
+                <th className="text-right font-semibold px-2 py-1 w-[64px]">Contracts</th>
+              )}
             </tr>
           </thead>
           <tbody>
-            {rows.slice(0, 5).map((r, i) => (
+            {rows.slice(0, 10).map((r, i) => (
               <tr key={i} className="border-t border-border/30 align-top">
                 <td className="px-2 py-1.5 text-muted-foreground tabular-nums">{i + 1}</td>
+                <td className="px-2 py-1.5 break-words leading-snug text-muted-foreground">{r.category ?? r.name ?? ''}</td>
                 <td className="px-2 py-1.5 break-words leading-snug">{r.top_vendor}</td>
-                <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">{fmtMoney(Number(r.cat_total))}</td>
+                <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">{fmtMoney(Number(r.cat_total ?? r.total_spend ?? 0))}</td>
                 <td className="px-2 py-1.5 text-right tabular-nums font-semibold whitespace-nowrap">{fmtPct(Number(r.top1_share_pct))}</td>
-                <td className="px-2 py-1.5 break-words leading-snug text-muted-foreground">{r.category}</td>
+                <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">{r.vendor_count != null ? Number(r.vendor_count).toLocaleString() : '—'}</td>
+                {hasContracts && (
+                  <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">{r.contract_count != null ? Number(r.contract_count).toLocaleString() : '—'}</td>
+                )}
               </tr>
             ))}
           </tbody>
@@ -343,6 +352,21 @@ function CategoriesCard({ data }: { data: any }) {
 
 function DiscoveryPlanCard({ data }: { data: any }) {
   const candidates: any[] = data.candidates ?? []
+
+  // Group by dataset, preserving first-appearance order
+  const datasetOrder: string[] = []
+  const byDataset: Record<string, any[]> = {}
+  for (const c of candidates) {
+    const ds = c.dataset ?? 'unknown'
+    if (!byDataset[ds]) { byDataset[ds] = []; datasetOrder.push(ds) }
+    byDataset[ds].push({
+      ...c,
+      // normalise field names so FindingsTable can read them
+      name: c.category ?? c.ministry ?? c.name ?? '',
+      total_spend: c.total_spend ?? c.cat_total ?? c.ministry_total ?? 0,
+    })
+  }
+
   return (
     <Shell title="Discovery plan" pill={data.sub_theme}>
       {data.scope && (
@@ -350,37 +374,22 @@ function DiscoveryPlanCard({ data }: { data: any }) {
           {data.scope}
         </div>
       )}
-      {candidates.length > 0 && (
-        <div className="overflow-x-auto">
-          <table className="w-full text-[11px] border border-border/40 rounded">
-            <thead>
-              <tr className="bg-muted text-foreground">
-                <th className="text-left font-semibold px-2 py-1 w-[28px]">#</th>
-                <th className="text-left font-semibold px-2 py-1 w-[110px]">Source dataset</th>
-                <th className="text-left font-semibold px-2 py-1">Top vendor</th>
-                <th className="text-right font-semibold px-2 py-1 w-[90px]">Total spend</th>
-                <th className="text-right font-semibold px-2 py-1 w-[70px]" title="Top-1 vendor's share of total spend in this category/ministry">
-                  Top-1
-                </th>
-                <th className="text-left font-semibold px-2 py-1">Category / ministry</th>
-              </tr>
-            </thead>
-            <tbody>
-              {candidates.slice(0, 6).map((c, i) => (
-                <tr key={i} className="border-t border-border/30 align-top">
-                  <td className="px-2 py-1.5 text-muted-foreground tabular-nums">{i + 1}</td>
-                  <td className="px-2 py-1.5"><DatasetPill dataset={c.dataset} /></td>
-                  <td className="px-2 py-1.5 break-words leading-snug">{c.top_vendor}</td>
-                  <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">{fmtMoney(Number(c.cat_total ?? c.ministry_total ?? c.total_spend ?? 0))}</td>
-                  <td className="px-2 py-1.5 text-right tabular-nums font-semibold whitespace-nowrap">{fmtPct(Number(c.top1_share_pct ?? 0))}</td>
-                  <td className="px-2 py-1.5 break-words leading-snug text-muted-foreground">{c.category ?? c.ministry ?? c.name ?? ''}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="text-[10px] text-muted-foreground/70 italic mt-1 px-1 leading-snug">
-            <strong>Top-1 share</strong> = largest single vendor's share of total spend in that category or ministry. 100% means one supplier holds it entirely.
-          </div>
+      {datasetOrder.length > 0 && (
+        <div className="space-y-3">
+          {datasetOrder.map((ds) => {
+            const rows = byDataset[ds]
+            const sliceLabel = rows[0]?.ministry != null && rows[0]?.category == null
+              ? 'Ministry' : 'Category'
+            return (
+              <div key={ds}>
+                <div className="flex items-center gap-2 mb-1">
+                  <DatasetPill dataset={ds} />
+                  <span className="text-[10px] text-muted-foreground">{rows.length} candidates</span>
+                </div>
+                <FindingsTable rows={rows} sliceLabel={sliceLabel} />
+              </div>
+            )
+          })}
         </div>
       )}
     </Shell>
@@ -536,45 +545,92 @@ function VerdictCard({ data }: { data: any }) {
   )
 }
 
-// ─── Multi-dataset scan — full table with per-row dataset attribution ───
+// ─── Shared sub-table for scan / discovery findings ──────────────────────
+
+function FindingsTable({ rows, sliceLabel }: { rows: any[]; sliceLabel: string }) {
+  if (rows.length === 0) return null
+  const hasContracts = rows.some((r) => r.contract_count != null)
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-[11px] border border-border/40 rounded">
+        <thead>
+          <tr className="bg-muted text-foreground">
+            <th className="text-left font-semibold px-2 py-1 w-[24px]">#</th>
+            <th className="text-left font-semibold px-2 py-1">{sliceLabel}</th>
+            <th className="text-left font-semibold px-2 py-1">Top vendor</th>
+            <th className="text-right font-semibold px-2 py-1 w-[80px]">Spend</th>
+            <th className="text-right font-semibold px-2 py-1 w-[60px]" title="Top-1 vendor's share of total spend">Top-1</th>
+            <th className="text-right font-semibold px-2 py-1 w-[56px]" title="Distinct vendors">Vendors</th>
+            {hasContracts && (
+              <th className="text-right font-semibold px-2 py-1 w-[64px]" title="Contract count">Contracts</th>
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r, i) => (
+            <tr key={i} className="border-t border-border/30 align-top">
+              <td className="px-2 py-1.5 text-muted-foreground tabular-nums">{i + 1}</td>
+              <td className="px-2 py-1.5 break-words leading-snug text-muted-foreground">
+                {r.name ?? r.category ?? r.ministry ?? '—'}
+              </td>
+              <td className="px-2 py-1.5 break-words leading-snug">{r.top_vendor ?? '—'}</td>
+              <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">
+                {fmtMoney(Number(r.total_spend ?? r.cat_total ?? r.ministry_total ?? 0))}
+              </td>
+              <td className="px-2 py-1.5 text-right tabular-nums font-semibold whitespace-nowrap">
+                {fmtPct(Number(r.top1_share_pct ?? 0))}
+              </td>
+              <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">
+                {Number(r.vendor_count ?? 0).toLocaleString()}
+              </td>
+              {hasContracts && (
+                <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">
+                  {r.contract_count != null ? Number(r.contract_count).toLocaleString() : '—'}
+                </td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+// ─── Multi-dataset scan — one sub-table per dataset ───────────────────────
 
 function MultiDatasetScanCard({ data }: { data: any }) {
   const findings: any[] = (data.findings ?? []).filter((f: any) => !f.error)
   const errors: any[] = (data.findings ?? []).filter((f: any) => f.error)
-  const datasets = Array.from(new Set(findings.map((f) => f.dataset)))
+
+  // Group findings by dataset, preserving order of first appearance
+  const datasetOrder: string[] = []
+  const byDataset: Record<string, any[]> = {}
+  for (const f of findings) {
+    const ds = f.dataset ?? 'unknown'
+    if (!byDataset[ds]) { byDataset[ds] = []; datasetOrder.push(ds) }
+    byDataset[ds].push(f)
+  }
+
   return (
-    <Shell title="Multi-dataset scan" pill={`${datasets.length} datasets · ${findings.length} findings`}>
-      <div className="overflow-x-auto">
-        <table className="w-full text-[11px] border border-border/40 rounded">
-          <thead>
-            <tr className="bg-muted text-foreground">
-              <th className="text-left font-semibold px-2 py-1 w-[110px]">Source dataset</th>
-              <th className="text-left font-semibold px-2 py-1 w-[90px]">Slice</th>
-              <th className="text-left font-semibold px-2 py-1">Top vendor</th>
-              <th className="text-right font-semibold px-2 py-1 w-[90px]">Total spend</th>
-              <th className="text-right font-semibold px-2 py-1 w-[70px]" title="Top-1 vendor's share of total spend in this slice">Top-1</th>
-              <th className="text-right font-semibold px-2 py-1 w-[60px]" title="Distinct vendors who ever appeared in this slice">Vendors</th>
-              <th className="text-left font-semibold px-2 py-1">Category / ministry</th>
-            </tr>
-          </thead>
-          <tbody>
-            {findings.map((f, i) => (
-              <tr key={i} className="border-t border-border/30 align-top">
-                <td className="px-2 py-1.5"><DatasetPill dataset={f.dataset} /></td>
-                <td className="px-2 py-1.5 text-muted-foreground text-[10px] uppercase tracking-wider">{f.slice_type ?? ''}</td>
-                <td className="px-2 py-1.5 break-words leading-snug">{f.top_vendor ?? '—'}</td>
-                <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">{fmtMoney(Number(f.total_spend ?? 0))}</td>
-                <td className="px-2 py-1.5 text-right tabular-nums font-semibold whitespace-nowrap">{fmtPct(Number(f.top1_share_pct ?? 0))}</td>
-                <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">{Number(f.vendor_count ?? 0).toLocaleString()}</td>
-                <td className="px-2 py-1.5 break-words leading-snug text-muted-foreground">{f.name ?? ''}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <Shell title="Multi-dataset scan" pill={`${datasetOrder.length} datasets · ${findings.length} findings`}>
+      <div className="space-y-3">
+        {datasetOrder.map((ds) => {
+          const rows = byDataset[ds]
+          const sliceLabel = rows[0]?.slice_type === 'ministry' ? 'Ministry' : 'Category'
+          return (
+            <div key={ds}>
+              <div className="flex items-center gap-2 mb-1">
+                <DatasetPill dataset={ds} />
+                <span className="text-[10px] text-muted-foreground">{rows.length} results</span>
+              </div>
+              <FindingsTable rows={rows} sliceLabel={sliceLabel} />
+            </div>
+          )
+        })}
       </div>
       {errors.length > 0 && (
         <div className="mt-2 text-[10px] text-muted-foreground italic">
-          {errors.length} dataset(s) errored: {errors.map((e) => `${e.dataset}: ${e.error}`).join('; ')}
+          {errors.length} dataset(s) errored: {errors.map((e: any) => `${e.dataset}: ${e.error}`).join('; ')}
         </div>
       )}
     </Shell>
