@@ -476,26 +476,27 @@ function VerdictCard({ data }: { data: any }) {
         )}
       </div>
       {checks.length > 0 && (
-        <div className="overflow-x-auto">
-          <table className="w-full text-[11px] border border-border/40 rounded">
-            <thead>
-              <tr className="bg-muted text-foreground">
-                <th className="text-left font-semibold px-2 py-1 w-[70px]">Result</th>
-                <th className="text-left font-semibold px-2 py-1">Check</th>
-              </tr>
-            </thead>
-            <tbody>
-              {checks.slice(0, 3).map((c, i) => (
-                <tr key={i} className="border-t border-border/30 align-top">
-                  <td className="px-2 py-1.5 font-bold uppercase tracking-wider text-[10px] whitespace-nowrap"
-                      style={{ color: colors[c.verdict] ?? color }}>
+        <div className="space-y-1 mt-1">
+          {checks.slice(0, 3).map((c, i) => {
+            const passed = c.verdict === 'MATCH'
+            return (
+              <div key={i} className="flex items-start gap-2">
+                <span className={cn(
+                  'shrink-0 inline-flex items-center justify-center w-4 h-4 rounded-full text-[9px] font-bold mt-0.5',
+                  passed ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                )}>
+                  {passed ? '✓' : '!'}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <span className="text-[9px] font-bold uppercase tracking-wider mr-1.5"
+                        style={{ color: colors[c.verdict] ?? color }}>
                     {c.verdict}
-                  </td>
-                  <td className="px-2 py-1.5 break-words leading-snug text-muted-foreground">{c.what}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </span>
+                  <span className="text-[11px] text-muted-foreground break-words leading-snug">{c.what}</span>
+                </div>
+              </div>
+            )
+          })}
         </div>
       )}
       {xd?.canonical_name && (

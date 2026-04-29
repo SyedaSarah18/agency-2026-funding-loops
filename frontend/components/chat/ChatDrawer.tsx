@@ -41,42 +41,48 @@ interface ChatDrawerProps {
 
 // ── Pipeline architecture (drives the right-side trace panel) ──────────────
 
+// Semantic agent colours — same mapping as v3.0-atlas (blue/purple/amber/green)
 const PIPELINE_NODES = [
   {
     name: 'discovery',
     label: 'Discovery',
     sublabel: 'Reframe · pick scope',
     icon: <Compass className="h-3.5 w-3.5" />,
-    color: 'hsl(var(--chart-2))',
+    color: '#3b82f6',   // blue-500
+    bg:   '#eff6ff',   // blue-50
   },
   {
     name: 'investigation',
     label: 'Investigation',
     sublabel: 'Run math · gather findings',
     icon: <Calculator className="h-3.5 w-3.5" />,
-    color: 'hsl(var(--chart-4))',
+    color: '#a855f7',   // purple-500
+    bg:   '#faf5ff',   // purple-50
   },
   {
     name: 'validator',
     label: 'Validator',
     sublabel: 'Cross-check · enforce gates',
     icon: <ShieldCheck className="h-3.5 w-3.5" />,
-    color: 'hsl(var(--chart-1))',
+    color: '#f59e0b',   // amber-500
+    bg:   '#fffbeb',   // amber-50
   },
   {
     name: 'narrative',
     label: 'Narrative',
     sublabel: 'Plain-English brief',
     icon: <Sparkles className="h-3.5 w-3.5" />,
-    color: 'hsl(var(--chart-5))',
+    color: '#10b981',   // emerald-500
+    bg:   '#ecfdf5',   // emerald-50
   },
 ] as const
 
 const SUGGESTIONS = [
-  'Find the worst vendor lock-in in Alberta IT spending',
+  "Show me IBM Canada's full Alberta footprint",
   'Which categories have the highest HHI?',
-  'Is the IBM mainframe contract really 100% sole-source?',
-  'Show me vendors locked in across both Alberta and federal',
+  'Where has incumbency replaced competition?',
+  'Find the worst vendor lock-in across federal and Alberta',
+  'How is the Gini coefficient calculated?',
 ]
 
 // ── Suggestions block (empty state) ────────────────────────────────────────
@@ -84,14 +90,14 @@ function QuickStart({ onSuggest }: { onSuggest: (s: string) => void }) {
   return (
     <div className="flex flex-col gap-3">
       <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">
-        Quick Start
+        Try asking
       </p>
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-wrap gap-1.5">
         {SUGGESTIONS.map((s) => (
           <button
             key={s}
             onClick={() => onSuggest(s)}
-            className="text-left text-[11px] text-muted-foreground hover:text-foreground leading-snug px-3 py-2.5 rounded-lg bg-muted/40 hover:bg-muted border border-border/50 hover:border-border transition-all duration-150"
+            className="text-left text-[10px] text-muted-foreground hover:text-foreground leading-snug px-2 py-1.5 rounded-md bg-muted/50 hover:bg-muted border border-border/40 hover:border-border transition-all duration-150"
           >
             {s}
           </button>
@@ -125,10 +131,11 @@ function useElapsedTime(active: boolean): number {
 }
 
 function AgentCard({
-  icon, color, label, role, sublabel, state, badge,
+  icon, color, bg, label, role, sublabel, state, badge,
 }: {
   icon: React.ReactNode
   color: string
+  bg?: string
   label: string
   role: string
   sublabel?: string
@@ -137,29 +144,27 @@ function AgentCard({
 }) {
   const elapsed = useElapsedTime(state === 'active')
   return (
-    <div className={cn(
-      'relative rounded-md border overflow-hidden transition-all duration-500',
-      state === 'idle' && 'border-border/15 opacity-40',
-      state === 'active' && 'border-border/50',
-      state === 'done' && 'border-border/35',
-    )}>
-      <div
-        className="absolute left-0 top-0 bottom-0 w-[3px] transition-all duration-500"
-        style={{
-          backgroundColor:
-            state === 'done' ? 'hsl(var(--chart-3))' :
-            state === 'active' ? color : 'transparent',
-        }}
-      />
-      <div className="pl-3.5 pr-2.5 py-2">
+    <div
+      className={cn(
+        'relative rounded-md border-l-4 border border-border/20 overflow-hidden transition-all duration-500',
+        state === 'idle' && 'opacity-35',
+        state === 'active' && 'border-border/40',
+        state === 'done' && 'border-border/25',
+      )}
+      style={{
+        borderLeftColor: state === 'idle' ? 'transparent' : color,
+        backgroundColor: state === 'active' && bg ? bg : undefined,
+      }}
+    >
+      <div className="pl-3 pr-2.5 py-2">
         <div className="flex items-center justify-between mb-1">
           <span
             className="text-[8px] font-bold uppercase tracking-[0.12em] transition-colors duration-300"
             style={{
               color:
                 state === 'active' ? color :
-                state === 'done' ? 'hsl(var(--chart-3))' :
-                'hsl(var(--muted-foreground) / 0.3)',
+                state === 'done' ? '#6b7280' :
+                '#d1d5db',
             }}
           >{role}</span>
           <div className="flex items-center gap-1">
@@ -168,9 +173,9 @@ function AgentCard({
                 {elapsed}s
               </span>
             )}
-            {state === 'active' && <Loader2 className="h-2.5 w-2.5 text-primary animate-spin" />}
+            {state === 'active' && <Loader2 className="h-2.5 w-2.5 animate-spin" style={{ color }} />}
             {state === 'done' && (
-              <CheckCircle2 className="h-2.5 w-2.5" style={{ color: 'hsl(var(--chart-3))' }} />
+              <CheckCircle2 className="h-2.5 w-2.5 text-emerald-500" />
             )}
             {state === 'idle' && <div className="h-1.5 w-1.5 rounded-full bg-border/25" />}
           </div>
@@ -178,7 +183,7 @@ function AgentCard({
         <div className="flex items-center gap-1.5">
           <span
             className="shrink-0 transition-colors duration-300"
-            style={{ color: state === 'idle' ? 'hsl(var(--muted-foreground) / 0.3)' : color }}
+            style={{ color: state === 'idle' ? '#d1d5db' : color }}
           >{icon}</span>
           <span className={cn(
             'text-[12px] font-semibold tracking-tight transition-colors duration-300',
@@ -194,7 +199,7 @@ function AgentCard({
         </div>
         {sublabel && state !== 'idle' && (
           <p className={cn(
-            'text-[10px] mt-1.5 pl-[22px] leading-snug break-words line-clamp-2 transition-colors duration-300',
+            'text-[10px] mt-1 pl-[22px] leading-snug break-words line-clamp-2 transition-colors duration-300',
             state === 'active' ? 'text-muted-foreground' : 'text-muted-foreground/40',
           )}>{sublabel}</p>
         )}
@@ -262,7 +267,8 @@ function PipelinePanel({
 
       <AgentCard
         icon={<Zap className="h-3.5 w-3.5" />}
-        color={routerState === 'done' ? 'hsl(var(--chart-3))' : 'hsl(var(--primary))'}
+        color="#6366f1"
+        bg="#eef2ff"
         label="Router"
         role="coordinator"
         sublabel={
@@ -285,6 +291,7 @@ function PipelinePanel({
               key={node.name}
               icon={node.icon}
               color={node.color}
+              bg={node.bg}
               label={node.label}
               role="agent"
               sublabel={node.sublabel}
