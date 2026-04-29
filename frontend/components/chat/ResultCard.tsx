@@ -22,6 +22,33 @@ function hhiBand(v: number): { label: string; color: string } {
   return { label: 'competitive', color: 'hsl(var(--chart-3))' }
 }
 
+// ─── Dataset display labels ──────────────────────────────────────────────
+const DATASET_LABEL: Record<string, string> = {
+  ab_sole_source: 'AB sole-source',
+  ab_contracts: 'AB competitive',
+  fed_contracts: 'Federal contracts',
+  fed_grants: 'Federal grants',
+}
+const DATASET_COLOR: Record<string, string> = {
+  ab_sole_source: 'hsl(var(--destructive))',
+  ab_contracts: 'hsl(var(--chart-2))',
+  fed_contracts: 'hsl(var(--chart-4))',
+  fed_grants: 'hsl(var(--chart-5))',
+}
+function DatasetPill({ dataset }: { dataset?: string | null }) {
+  if (!dataset) return null
+  const label = DATASET_LABEL[dataset] ?? dataset
+  const color = DATASET_COLOR[dataset] ?? 'hsl(var(--muted-foreground))'
+  return (
+    <span
+      className="text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded border whitespace-nowrap"
+      style={{ color, borderColor: color }}
+    >
+      {label}
+    </span>
+  )
+}
+
 function fmtMoney(n: number): string {
   if (n >= 1e9) return `$${(n / 1e9).toFixed(2)}B`
   if (n >= 1e6) return `$${(n / 1e6).toFixed(1)}M`
@@ -118,6 +145,7 @@ function HhiCard({ data }: { data: any }) {
   const v = Number(data.value ?? 0)
   const band = hhiBand(v)
   const cat = data.inputs?.category as string | undefined
+  const ds = data.inputs?.dataset as string | undefined
   return (
     <Shell title="HHI (Herfindahl-Hirschman Index)" pill={band.label} pillColor={band.color}>
       <KvTable rows={[
@@ -125,6 +153,7 @@ function HhiCard({ data }: { data: any }) {
         { k: 'Value', v: <span className="font-bold tabular-nums" style={{ color: band.color }}>{v.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span> },
         { k: 'Range', v: '0 – 10,000 (raw integer, NOT a percentage)' },
         { k: 'Interpretation', v: band.label },
+        ...(ds ? [{ k: 'Source dataset', v: <DatasetPill dataset={ds} /> }] : []),
         ...(cat ? [{ k: 'Category', v: cat }] : []),
       ]} />
     </Shell>
@@ -135,12 +164,14 @@ function CrNCard({ data }: { data: any }) {
   const v = Number(data.value ?? 0)
   const n = data.inputs?.n as number | undefined
   const cat = data.inputs?.category as string | undefined
+  const ds = data.inputs?.dataset as string | undefined
   return (
     <Shell title={`CR_${n ?? 'n'} — Concentration Ratio`} pill={n === 1 ? 'top vendor share' : `top ${n} share`}>
       <KvTable rows={[
         { k: 'Metric', v: `CR_${n ?? 'n'}` },
         { k: 'Value', v: <span className="font-bold tabular-nums">{fmtPct(v)}</span> },
         { k: 'Meaning', v: n === 1 ? "Largest single vendor's share of category spend" : `Top ${n} vendors' combined share` },
+        ...(ds ? [{ k: 'Source dataset', v: <DatasetPill dataset={ds} /> }] : []),
         ...(cat ? [{ k: 'Category', v: cat }] : []),
       ]} />
     </Shell>
@@ -325,28 +356,30 @@ function DiscoveryPlanCard({ data }: { data: any }) {
             <thead>
               <tr className="bg-muted text-foreground">
                 <th className="text-left font-semibold px-2 py-1 w-[28px]">#</th>
+                <th className="text-left font-semibold px-2 py-1 w-[110px]">Source dataset</th>
                 <th className="text-left font-semibold px-2 py-1">Top vendor</th>
                 <th className="text-right font-semibold px-2 py-1 w-[90px]">Total spend</th>
-                <th className="text-right font-semibold px-2 py-1 w-[80px]" title="Top-1 vendor's share of total spend in this category">
-                  Top-1 share
+                <th className="text-right font-semibold px-2 py-1 w-[70px]" title="Top-1 vendor's share of total spend in this category/ministry">
+                  Top-1
                 </th>
-                <th className="text-left font-semibold px-2 py-1">Category</th>
+                <th className="text-left font-semibold px-2 py-1">Category / ministry</th>
               </tr>
             </thead>
             <tbody>
-              {candidates.slice(0, 5).map((c, i) => (
+              {candidates.slice(0, 6).map((c, i) => (
                 <tr key={i} className="border-t border-border/30 align-top">
                   <td className="px-2 py-1.5 text-muted-foreground tabular-nums">{i + 1}</td>
+                  <td className="px-2 py-1.5"><DatasetPill dataset={c.dataset} /></td>
                   <td className="px-2 py-1.5 break-words leading-snug">{c.top_vendor}</td>
-                  <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">{fmtMoney(Number(c.cat_total ?? 0))}</td>
+                  <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">{fmtMoney(Number(c.cat_total ?? c.ministry_total ?? c.total_spend ?? 0))}</td>
                   <td className="px-2 py-1.5 text-right tabular-nums font-semibold whitespace-nowrap">{fmtPct(Number(c.top1_share_pct ?? 0))}</td>
-                  <td className="px-2 py-1.5 break-words leading-snug text-muted-foreground">{c.category}</td>
+                  <td className="px-2 py-1.5 break-words leading-snug text-muted-foreground">{c.category ?? c.ministry ?? c.name ?? ''}</td>
                 </tr>
               ))}
             </tbody>
           </table>
           <div className="text-[10px] text-muted-foreground/70 italic mt-1 px-1 leading-snug">
-            <strong>Top-1 share</strong> = the largest single vendor's share of all spend in that category. 100% means a single supplier holds the entire category.
+            <strong>Top-1 share</strong> = largest single vendor's share of total spend in that category or ministry. 100% means one supplier holds it entirely.
           </div>
         </div>
       )}
@@ -503,6 +536,51 @@ function VerdictCard({ data }: { data: any }) {
   )
 }
 
+// ─── Multi-dataset scan — full table with per-row dataset attribution ───
+
+function MultiDatasetScanCard({ data }: { data: any }) {
+  const findings: any[] = (data.findings ?? []).filter((f: any) => !f.error)
+  const errors: any[] = (data.findings ?? []).filter((f: any) => f.error)
+  const datasets = Array.from(new Set(findings.map((f) => f.dataset)))
+  return (
+    <Shell title="Multi-dataset scan" pill={`${datasets.length} datasets · ${findings.length} findings`}>
+      <div className="overflow-x-auto">
+        <table className="w-full text-[11px] border border-border/40 rounded">
+          <thead>
+            <tr className="bg-muted text-foreground">
+              <th className="text-left font-semibold px-2 py-1 w-[110px]">Source dataset</th>
+              <th className="text-left font-semibold px-2 py-1 w-[90px]">Slice</th>
+              <th className="text-left font-semibold px-2 py-1">Top vendor</th>
+              <th className="text-right font-semibold px-2 py-1 w-[90px]">Total spend</th>
+              <th className="text-right font-semibold px-2 py-1 w-[70px]" title="Top-1 vendor's share of total spend in this slice">Top-1</th>
+              <th className="text-right font-semibold px-2 py-1 w-[60px]" title="Distinct vendors who ever appeared in this slice">Vendors</th>
+              <th className="text-left font-semibold px-2 py-1">Category / ministry</th>
+            </tr>
+          </thead>
+          <tbody>
+            {findings.map((f, i) => (
+              <tr key={i} className="border-t border-border/30 align-top">
+                <td className="px-2 py-1.5"><DatasetPill dataset={f.dataset} /></td>
+                <td className="px-2 py-1.5 text-muted-foreground text-[10px] uppercase tracking-wider">{f.slice_type ?? ''}</td>
+                <td className="px-2 py-1.5 break-words leading-snug">{f.top_vendor ?? '—'}</td>
+                <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">{fmtMoney(Number(f.total_spend ?? 0))}</td>
+                <td className="px-2 py-1.5 text-right tabular-nums font-semibold whitespace-nowrap">{fmtPct(Number(f.top1_share_pct ?? 0))}</td>
+                <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">{Number(f.vendor_count ?? 0).toLocaleString()}</td>
+                <td className="px-2 py-1.5 break-words leading-snug text-muted-foreground">{f.name ?? ''}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {errors.length > 0 && (
+        <div className="mt-2 text-[10px] text-muted-foreground italic">
+          {errors.length} dataset(s) errored: {errors.map((e) => `${e.dataset}: ${e.error}`).join('; ')}
+        </div>
+      )}
+    </Shell>
+  )
+}
+
 // ─── Final Brief — the headline answer card for full pipeline runs ───────
 // Fully tabular. Every field is a row in either a key-value summary
 // table or the metrics table or the caveats table. No prose paragraphs.
@@ -639,6 +717,7 @@ const RENDERERS: Record<string, (props: { data: any }) => React.ReactElement> = 
   findings: FindingsCard,
   verdict: VerdictCard,
   final_brief: FinalBriefCard,
+  multi_dataset_scan: MultiDatasetScanCard,
   // 'route' kind has no renderer — the chat thread skips it via
   // the early-return in ResultCard below; the trace panel uses it
   // as a badge on the Router card.

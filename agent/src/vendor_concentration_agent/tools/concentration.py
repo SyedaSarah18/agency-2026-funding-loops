@@ -89,6 +89,133 @@ def list_vendor_counts_by_ministry(
     return summarize_for_llm(result, new_call_id("vendor_counts"))
 
 
+def _scan_all_impl(min_total: float, per_dataset_limit: int) -> dict[str, Any]:
+    """Underlying implementation of scan_all_procurement_datasets, called
+    by both the @tool wrapper and our smoke tests.
+    """
+    return _scan_all_impl_body(min_total, per_dataset_limit)
+
+
+@tool
+def scan_all_procurement_datasets(
+    min_total: float = 10_000_000.0,
+    per_dataset_limit: int = 3,
+) -> dict[str, Any]:
+    """Scan ALL THREE procurement datasets in a single call and return
+    the top concentrated findings from each, tagged with which dataset
+    they came from. Use this whenever the question is broad (Canadian
+    government overall, "any category," competition landscape, etc.) so
+    every answer covers federal AND provincial AND sole-source.
+
+    Returns a single unified result whose .findings list contains
+    entries from:
+      - ab_sole_source (top categories by single-vendor share)
+      - ab_contracts   (top ministries by single-vendor share, competitive)
+      - fed_contracts  (top federal departments by single-vendor share)
+
+    Args:
+        min_total: drop categories/ministries below this $ threshold.
+        per_dataset_limit: max items per dataset (default 3 → up to 9 total).
+    """
+    return _scan_all_impl_body(min_total, per_dataset_limit)
+
+
+def _scan_all_impl_body(min_total: float, per_dataset_limit: int) -> dict[str, Any]:
+    findings: list[dict[str, Any]] = []
+
+    # Pull from each dataset; tolerate any one failure rather than
+    # bailing on the whole scan.
+    try:
+        r1 = top_concentrated_categories(
+            dataset="ab_sole_source",
+            min_total=min_total,
+            limit=per_dataset_limit,
+        )
+        for c in r1.value:
+            findings.append({
+                "dataset": "ab_sole_source",
+                "slice_type": "category",
+                "slice_label": "Service category",
+                "name": c["category"],
+                "top_vendor": c["top_vendor"],
+                "total_spend": c["cat_total"],
+                "vendor_count": c["vendor_count"],
+                "top1_share_pct": c["top1_share_pct"],
+                "call_id": new_call_id("scan_ab_ss"),
+            })
+    except Exception as e:
+        findings.append({"dataset": "ab_sole_source", "error": str(e)})
+
+    try:
+        r2 = top_concentrated_ministries(
+            dataset="ab_contracts",
+            min_total=min_total,
+            limit=per_dataset_limit,
+        )
+        for c in r2.value:
+            findings.append({
+                "dataset": "ab_contracts",
+                "slice_type": "ministry",
+                "slice_label": "Alberta ministry",
+                "name": c["ministry"],
+                "top_vendor": c["top_vendor"],
+                "total_spend": c["ministry_total"],
+                "vendor_count": c["vendor_count"],
+                "top1_share_pct": c["top1_share_pct"],
+                "call_id": new_call_id("scan_ab_c"),
+            })
+    except Exception as e:
+        findings.append({"dataset": "ab_contracts", "error": str(e)})
+
+    try:
+        r3 = top_concentrated_ministries(
+            dataset="fed_contracts",
+            min_total=min_total,
+            limit=per_dataset_limit,
+        )
+        for c in r3.value:
+            findings.append({
+                "dataset": "fed_contracts",
+                "slice_type": "ministry",
+                "slice_label": "Federal department",
+                "name": c["ministry"],
+                "top_vendor": c["top_vendor"],
+                "total_spend": c["ministry_total"],
+                "vendor_count": c["vendor_count"],
+                "top1_share_pct": c["top1_share_pct"],
+                "call_id": new_call_id("scan_fed"),
+            })
+    except Exception as e:
+        findings.append({"dataset": "fed_contracts", "error": str(e)})
+
+    # Emit one consolidated tool_result so the chat thread shows ONE
+    # multi-dataset card instead of three single-dataset cards.
+    from vendor_concentration_agent.trace.events import current_bus
+    import asyncio as _asyncio
+    bus = current_bus()
+    if bus is not None:
+        try:
+            loop = _asyncio.get_running_loop()
+            loop.create_task(bus.emit_tool_result(
+                "multi_dataset_scan",
+                {"findings": findings, "min_total": min_total},
+                call_id=new_call_id("scan_all"),
+            ))
+        except RuntimeError:
+            pass
+
+    return {
+        "findings": findings,
+        "datasets_scanned": ["ab_sole_source", "ab_contracts", "fed_contracts"],
+        "min_total": min_total,
+        "instruction_for_agent": (
+            "Use these findings as your candidate list. Every candidate has a "
+            "'dataset' field — preserve it through your plan so the user can "
+            "see which jurisdiction each finding came from."
+        ),
+    }
+
+
 @tool
 def hhi_for_category(dataset: str, category: str) -> dict[str, Any]:
     """Compute the Herfindahl-Hirschman Index (HHI) for a specific category

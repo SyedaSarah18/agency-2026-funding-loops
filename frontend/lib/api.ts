@@ -72,6 +72,25 @@ export type ToolResult =
       data: { route: string; reason: string }
       call_id?: string
     }
+  | {
+      kind: 'multi_dataset_scan'
+      data: {
+        findings: Array<{
+          dataset: string
+          slice_type?: string
+          slice_label?: string
+          name?: string
+          top_vendor?: string
+          total_spend?: number
+          vendor_count?: number
+          top1_share_pct?: number
+          call_id?: string
+          error?: string
+        }>
+        min_total?: number
+      }
+      call_id?: string
+    }
 
 export type ChatEvent =
   | { type: 'text'; text: string }

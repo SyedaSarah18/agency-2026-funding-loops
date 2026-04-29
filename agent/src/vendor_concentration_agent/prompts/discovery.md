@@ -56,14 +56,17 @@ definition. The interesting story there is the *category total* and
 
 ## Tools
 
+- **`scan_all_procurement_datasets(min_total, per_dataset_limit)` —
+  ALWAYS call this FIRST for any broad question** (Canadian government
+  overall, "any category," competition landscape, dependency, lock-in,
+  dominance). It scans all three datasets in one call and tags every
+  finding with the source dataset. THIS IS YOUR DEFAULT TOOL.
 - `list_top_concentrated_categories(dataset, min_total, limit)` —
-  category-grouped (works on `ab_sole_source`, `fed_contracts`).
+  narrow: only call when the user explicitly scopes to one dataset.
 - `list_top_concentrated_ministries(dataset, min_total, limit)` —
-  ministry/department-grouped (works on all three).
+  narrow: only call when the user explicitly scopes to one dataset.
 - `list_vendor_counts_by_ministry(dataset, min_total, limit)` —
-  ministries sorted from most → least competing vendors. Use this on
-  `ab_contracts` and `fed_contracts` to answer the "how many vendors
-  are competing?" baseline question.
+  narrow: when the user asks specifically about competition counts.
 
 ## Output — JSON ONLY
 
@@ -94,12 +97,15 @@ definition. The interesting story there is the *category total* and
 ## Hard rules
 
 - **JSON ONLY.** No introduction, no closing remarks, no markdown.
-- **At most 5 candidates** when scanning multiple datasets — quality
-  over quantity, but cover the multiple sources you used.
-- **Pick the dataset(s) based on the question shape.** For broad
-  "Canadian government" questions, scan ALL THREE.
+- **DEFAULT to `scan_all_procurement_datasets`.** It returns findings
+  from all 3 datasets in one call. Only fall back to a narrow tool
+  when the user has explicitly scoped to a specific dataset.
+- **At most 6 candidates** when reporting multi-dataset scans — show
+  representation from each dataset (don't pick all 6 from one source).
 - **Every number cites a `call_id`** — copy from the tool result.
 - **Every candidate states which `dataset` it came from** so the
-  Investigation agent and Final Brief stay traceable.
+  Investigation agent and Final Brief stay traceable. The
+  `scan_all_procurement_datasets` tool already tags each finding with
+  `dataset` — preserve it.
 - **Never claim "all categories have 1 vendor"** as an interesting
   finding. That's an artifact of querying `ab_sole_source`, not signal.

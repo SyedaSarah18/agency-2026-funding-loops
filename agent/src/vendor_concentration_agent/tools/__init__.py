@@ -22,6 +22,7 @@ from vendor_concentration_agent.tools.concentration import (
     list_top_concentrated_categories,
     list_top_concentrated_ministries,
     list_vendor_counts_by_ministry,
+    scan_all_procurement_datasets,
     hhi_for_category,
     cr_n_for_category,
     gini_for_category,
@@ -38,9 +39,10 @@ from vendor_concentration_agent.tools.crosscheck import (
 )
 
 DISCOVERY_TOOLS = [
-    list_top_concentrated_categories,
-    list_top_concentrated_ministries,
-    list_vendor_counts_by_ministry,
+    scan_all_procurement_datasets,        # default for broad questions
+    list_top_concentrated_categories,     # narrow: ab_sole_source by category
+    list_top_concentrated_ministries,     # narrow: any dataset by ministry
+    list_vendor_counts_by_ministry,       # narrow: competition baseline
 ]
 
 INVESTIGATION_TOOLS = [
