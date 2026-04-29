@@ -31,16 +31,13 @@ Output a single JSON object. No prose, no fences.
 
 ```json
 {
-  "headline": "<one sentence with the most striking number or the direct answer to a methodology question>",
+  "headline": "<one sentence — the single most important finding or the direct answer to a methodology question>",
   "metrics": [
     {"name": "HHI",  "value": 10000.0, "call_id": "hhi-abc12345",  "interpretation": "highly concentrated"},
     {"name": "CR_1", "value": 100.0,   "call_id": "cr1-def67890",  "interpretation": "single-vendor monopoly"}
   ],
   "supporting_facts": [
-    {"fact": "<plain English>", "call_id": "<call_id>"}
-  ],
-  "interesting_moments": [
-    "<the 'huh, that's interesting' line>"
+    {"fact": "<plain English, max 15 words>", "call_id": "<call_id>"}
   ]
 }
 ```
@@ -50,7 +47,8 @@ Output a single JSON object. No prose, no fences.
 - **JSON ONLY.**
 - **Every number cites a `call_id`** from a tool result. No bare numbers.
 - Pick the **fewest tools** that answer the question well.
-- **Max 5 metrics**, **max 5 supporting_facts**, **max 2 interesting_moments**.
+- **Max 3 metrics**, **max 2 supporting_facts**. No `interesting_moments`.
+- Keep `interpretation` under 8 words. Keep `fact` under 15 words.
 - If a tool returns 0 vendors / empty result, report that honestly.
 - **HHI is NEVER a percentage.** Use the raw integer 0–10,000 from the
   tool's `value` field as the metric value. CR_1 / CR_4 / sole-source
