@@ -16,6 +16,8 @@ from vendor_concentration_agent.math import (
     cr_n_by_category,
     gini_by_category,
     top_concentrated_categories,
+    top_concentrated_ministries,
+    vendor_count_per_ministry,
 )
 from vendor_concentration_agent.tools._wrap import new_call_id, summarize_for_llm
 
@@ -26,20 +28,65 @@ def list_top_concentrated_categories(
     min_total: float = 10_000_000.0,
     limit: int = 10,
 ) -> dict[str, Any]:
-    """List categories ranked by single-vendor share, filtered to those with
-    cumulative spend at or above min_total.
+    """List categories ranked by single-vendor share. ONLY works on
+    `ab_sole_source` (the only dataset with a category column).
+    Use this to find sole-source LOCK-IN by service category.
 
-    Use this at Discovery time to pick which category deserves a deep look.
-    Returns a ranked list with each entry's top vendor, vendor count,
-    cumulative spend, and CR_1 share (top-1 vendor's percentage).
+    Returns: ranked list of categories, each with top vendor, vendor count,
+    cumulative spend, and CR_1 share.
 
     Args:
-        dataset: which procurement dataset to scan. Allowed: "ab_sole_source".
-        min_total: drop categories whose total spend is below this threshold.
-        limit: max number of categories to return.
+        dataset: must be "ab_sole_source".
+        min_total: drop categories below this $ threshold.
+        limit: max categories to return.
     """
     result = top_concentrated_categories(dataset=dataset, min_total=min_total, limit=limit)
     return summarize_for_llm(result, new_call_id("top_categories"))
+
+
+@tool
+def list_top_concentrated_ministries(
+    dataset: str = "ab_contracts",
+    min_total: float = 10_000_000.0,
+    limit: int = 10,
+) -> dict[str, Any]:
+    """List ministries ranked by single-vendor dominance. Works on
+    `ab_contracts` (Alberta competitive procurement) and `ab_sole_source`.
+    Use this when you want to see which DEPARTMENT is most dependent on
+    one vendor — the natural concentration unit when there's no per-
+    contract category column.
+
+    Returns: ranked list of ministries, each with top vendor, distinct
+    vendor count, cumulative spend, and CR_1 share.
+
+    Args:
+        dataset: "ab_contracts" (competitive baseline) or "ab_sole_source".
+        min_total: drop ministries below this $ threshold.
+        limit: max ministries to return.
+    """
+    result = top_concentrated_ministries(dataset=dataset, min_total=min_total, limit=limit)
+    return summarize_for_llm(result, new_call_id("top_ministries"))
+
+
+@tool
+def list_vendor_counts_by_ministry(
+    dataset: str = "ab_contracts",
+    min_total: float = 1_000_000.0,
+    limit: int = 20,
+) -> dict[str, Any]:
+    """For each ministry in the dataset, count distinct vendors and total
+    spend. Sorted from MOST competition to LEAST. This is the honest
+    answer to 'how many vendors are actually competing?' — DO use this
+    on `ab_contracts` (the competitive procurement table), NOT on
+    `ab_sole_source` (which by definition is single-vendor per row).
+
+    Args:
+        dataset: "ab_contracts" recommended.
+        min_total: drop ministries below this $ threshold.
+        limit: max ministries to return.
+    """
+    result = vendor_count_per_ministry(dataset=dataset, min_total=min_total, limit=limit)
+    return summarize_for_llm(result, new_call_id("vendor_counts"))
 
 
 @tool

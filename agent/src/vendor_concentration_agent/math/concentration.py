@@ -166,8 +166,8 @@ def top_concentrated_categories(
     limit: int = 20,
 ) -> MathResult:
     """Rank categories by single-vendor share, filtered to those with
-    cumulative spend ≥ min_total. Used by the Discovery agent to pick which
-    categories deserve a deep look.
+    cumulative spend ≥ min_total. Used by the Discovery agent on
+    datasets that have a category column (ab_sole_source).
     """
     ds = _get_dataset(dataset)
     if ds.category_col is None:
@@ -225,6 +225,146 @@ def top_concentrated_categories(
             for r in rows
         ],
         formula_id="top_concentrated_categories",
+        sql=sql.strip(),
+        source_rows=[{k: (float(v) if str(type(v).__name__) == "Decimal" else v) for k, v in r.items()} for r in rows],
+        trace_steps=[],
+        references=[],
+        inputs={"dataset": dataset, "min_total": min_total, "limit": limit},
+    )
+
+
+# ---------------------------------------------------------------------------
+# Discovery helper #2 — ranking by ministry (works on competitive datasets
+# that lack a category column, e.g. ab_contracts and fed_grants).
+# ---------------------------------------------------------------------------
+
+def top_concentrated_ministries(
+    dataset: str,
+    min_total: float = 10_000_000,
+    limit: int = 20,
+) -> MathResult:
+    """For datasets that don't carry a per-contract category (ab_contracts,
+    fed_grants), the natural concentration unit is the MINISTRY/DEPARTMENT.
+    For each ministry: who's the top vendor, how many distinct vendors
+    have ever appeared, what's the top-1 share of total ministry spend.
+
+    Filtered to ministries with cumulative spend ≥ min_total.
+
+    Use this on `ab_contracts` for the Alberta competitive-procurement
+    baseline. Compare with top_concentrated_categories on ab_sole_source
+    to see where competition has been replaced by sole-source lock-in.
+    """
+    ds = _get_dataset(dataset)
+    if ds.ministry_col is None:
+        raise ValueError(f"dataset {dataset!r} has no ministry column")
+
+    sql = f"""
+        WITH per AS (
+          SELECT {ds.ministry_col} AS ministry,
+                 {ds.vendor_col} AS vendor,
+                 SUM({ds.amount_col}) AS vendor_amt
+          FROM {ds.table}
+          WHERE {ds.ministry_col} IS NOT NULL
+            AND {ds.vendor_col} IS NOT NULL
+            AND {ds.amount_col} IS NOT NULL
+            AND {ds.amount_col} > 0
+          GROUP BY {ds.ministry_col}, {ds.vendor_col}
+        ),
+        totals AS (
+          SELECT ministry,
+                 SUM(vendor_amt) AS min_total,
+                 COUNT(DISTINCT vendor) AS vendor_count
+          FROM per
+          GROUP BY ministry
+        ),
+        ranked AS (
+          SELECT per.ministry, per.vendor, per.vendor_amt,
+                 totals.min_total, totals.vendor_count,
+                 ROW_NUMBER() OVER (
+                   PARTITION BY per.ministry ORDER BY per.vendor_amt DESC
+                 ) AS rk
+          FROM per
+          JOIN totals USING (ministry)
+          WHERE totals.min_total >= %(min_total)s
+        )
+        SELECT ministry,
+               vendor AS top_vendor,
+               min_total::numeric AS ministry_total,
+               vendor_count,
+               (100.0 * vendor_amt / min_total)::numeric AS top1_share_pct
+        FROM ranked
+        WHERE rk = 1
+        ORDER BY top1_share_pct DESC, ministry_total DESC
+        LIMIT %(limit)s
+    """
+    rows = query(sql, {"min_total": min_total, "limit": limit})
+
+    return MathResult(
+        value=[
+            {
+                "ministry": r["ministry"],
+                "top_vendor": r["top_vendor"],
+                "ministry_total": float(r["ministry_total"]),
+                "vendor_count": int(r["vendor_count"]),
+                "top1_share_pct": round(float(r["top1_share_pct"]), 2),
+            }
+            for r in rows
+        ],
+        formula_id="top_concentrated_ministries",
+        sql=sql.strip(),
+        source_rows=[{k: (float(v) if str(type(v).__name__) == "Decimal" else v) for k, v in r.items()} for r in rows],
+        trace_steps=[],
+        references=[],
+        inputs={"dataset": dataset, "min_total": min_total, "limit": limit},
+    )
+
+
+# ---------------------------------------------------------------------------
+# Direct vendor-count baseline (for "how many vendors are actually competing")
+# ---------------------------------------------------------------------------
+
+def vendor_count_per_ministry(
+    dataset: str,
+    min_total: float = 1_000_000,
+    limit: int = 20,
+) -> MathResult:
+    """For each ministry in `dataset`, count distinct vendors and total
+    spend. Sorted from MOST competition to LEAST. The honest answer to
+    'how many vendors are actually competing?' — directly answerable on
+    ab_contracts.
+    """
+    ds = _get_dataset(dataset)
+    if ds.ministry_col is None:
+        raise ValueError(f"dataset {dataset!r} has no ministry column")
+
+    sql = f"""
+        SELECT {ds.ministry_col} AS ministry,
+               COUNT(DISTINCT {ds.vendor_col}) AS vendor_count,
+               COUNT(*) AS contract_count,
+               SUM({ds.amount_col})::numeric AS total_spend
+        FROM {ds.table}
+        WHERE {ds.ministry_col} IS NOT NULL
+          AND {ds.vendor_col} IS NOT NULL
+          AND {ds.amount_col} IS NOT NULL
+          AND {ds.amount_col} > 0
+        GROUP BY {ds.ministry_col}
+        HAVING SUM({ds.amount_col}) >= %(min_total)s
+        ORDER BY vendor_count DESC, total_spend DESC
+        LIMIT %(limit)s
+    """
+    rows = query(sql, {"min_total": min_total, "limit": limit})
+
+    return MathResult(
+        value=[
+            {
+                "ministry": r["ministry"],
+                "vendor_count": int(r["vendor_count"]),
+                "contract_count": int(r["contract_count"]),
+                "total_spend": float(r["total_spend"]),
+            }
+            for r in rows
+        ],
+        formula_id="vendor_count_per_ministry",
         sql=sql.strip(),
         source_rows=[{k: (float(v) if str(type(v).__name__) == "Decimal" else v) for k, v in r.items()} for r in rows],
         trace_steps=[],

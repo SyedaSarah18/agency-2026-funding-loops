@@ -15,6 +15,8 @@ from vendor_concentration_agent.math.concentration import (
     cr_n_by_category,
     gini_by_category,
     top_concentrated_categories,
+    top_concentrated_ministries,
+    vendor_count_per_ministry,
 )
 from vendor_concentration_agent.math.procurement import (
     sole_source_rate,
@@ -36,6 +38,8 @@ __all__ = [
     "cr_n_by_category",
     "gini_by_category",
     "top_concentrated_categories",
+    "top_concentrated_ministries",
+    "vendor_count_per_ministry",
     # procurement
     "sole_source_rate",
     "incumbency_streak",

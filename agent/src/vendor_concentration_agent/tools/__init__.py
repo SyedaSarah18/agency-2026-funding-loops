@@ -20,6 +20,8 @@ Validator agent tools:
 
 from vendor_concentration_agent.tools.concentration import (
     list_top_concentrated_categories,
+    list_top_concentrated_ministries,
+    list_vendor_counts_by_ministry,
     hhi_for_category,
     cr_n_for_category,
     gini_for_category,
@@ -37,6 +39,8 @@ from vendor_concentration_agent.tools.crosscheck import (
 
 DISCOVERY_TOOLS = [
     list_top_concentrated_categories,
+    list_top_concentrated_ministries,
+    list_vendor_counts_by_ministry,
 ]
 
 INVESTIGATION_TOOLS = [
