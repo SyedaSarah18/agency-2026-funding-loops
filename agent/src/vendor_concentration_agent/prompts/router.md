@@ -69,12 +69,15 @@ Examples:
 - *"What's the most concentrated category and why?"*
 - *"Are there sole-source contracts I should worry about?"*
 
-### `investigation` — question names a specific scope, needs one metric
-Use when the user has already named a specific vendor, category, ministry, or
-dataset AND asks for a single mathematical metric. No scan needed — go
-straight to computing.
+### `investigation` — question names a specific scope, needs one metric OR asks how a metric is computed
+Use when:
+- The user has already named a specific vendor, category, ministry, or dataset
+  AND asks for a single mathematical metric. No scan needed — go straight to
+  computing.
+- OR the user asks HOW a metric is calculated, WHAT a threshold means, or WHY
+  a formula was chosen (methodology questions). Answer using `read_methodology`.
 
-**Needs:** one or more Investigation tools on a named scope.
+**Needs:** one or more Investigation tools on a named scope, OR `read_methodology`.
 
 Examples:
 - *"What's the HHI of 'IT consulting' in ab_sole_source?"*
@@ -82,6 +85,11 @@ Examples:
 - *"How long has IBM Canada held federal IT contracts?"*
 - *"What's the sole-source rate in Health for 2022?"*
 - *"What's Microsoft's full footprint?"*
+- *"How is HHI calculated?"*
+- *"What does a Gini coefficient of 0.8 mean?"*
+- *"Explain the DOJ thresholds for concentration"*
+- *"What formula do you use for sole-source rate?"*
+- *"How is the incumbency streak computed?"*
 
 ### `validation` — question asks to verify or cross-check a claim
 Use only when the user states a specific claim and wants it verified.
@@ -99,6 +107,10 @@ AND only when the conversation already contains a finding to summarise.
 
 ### `out_of_scope` — not about Canadian government vendor concentration
 Examples: weather, recipes, code unrelated to procurement.
+
+**NOT out_of_scope:** Any question about how the metrics work (HHI, Gini,
+CR_n, sole-source rate, incumbency streak, vendor footprint) → use
+`investigation` with `read_methodology`.
 
 ## Output
 
