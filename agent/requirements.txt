@@ -8,8 +8,9 @@ httpx-sse==0.4.3
 pandas==2.2.3
 polars==1.40.1
 connectorx==0.4.5
+pyarrow>=15.0,<22.0
 psycopg2-binary==2.9.12
 python-dotenv==1.2.2
-pydantic==2.9.2
+pydantic>=2.11.0,<3.0.0
 strands-agents==1.37.0
 uvicorn==0.46.0

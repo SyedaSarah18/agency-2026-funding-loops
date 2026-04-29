@@ -1,8 +1,13 @@
 # Vendor Concentration agent — FastAPI + Strands on AWS Bedrock.
 # Built for AWS App Runner: linux/amd64, Python 3.11.
 #
-# Build:  docker build -t vendor-concentration-agent ./agent
-# Run:    docker run -p 8000:8000 --env-file .env vendor-concentration-agent
+# Build context = repo ROOT (not agent/) so we can include the references/
+# registry that lives at root level.
+#
+# Build from repo root:
+#   docker build -t vendor-concentration-agent -f agent/Dockerfile .
+# Run:
+#   docker run -p 8000:8000 --env-file .env vendor-concentration-agent
 
 FROM --platform=linux/amd64 python:3.11-slim AS base
 
@@ -20,16 +25,15 @@ RUN apt-get update \
 WORKDIR /app
 
 # Layer 1: deps (cached unless requirements.txt changes)
-COPY requirements.txt /app/requirements.txt
+COPY agent/requirements.txt /app/requirements.txt
 RUN pip install -r /app/requirements.txt
 
 # Layer 2: agent source
-COPY src/ /app/src/
-COPY api.py /app/api.py
-COPY pyproject.toml /app/pyproject.toml
+COPY agent/src/ /app/src/
+COPY agent/api.py /app/api.py
+COPY agent/pyproject.toml /app/pyproject.toml
 
-# References registry lives one level up from the agent/ dir in the repo,
-# but in the deployed container we copy a snapshot in.
+# References registry lives at repo root.
 COPY references /app/references
 
 # uvicorn reads PYTHONPATH; src/ layout means the package is at /app/src/
