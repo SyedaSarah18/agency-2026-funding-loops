@@ -322,7 +322,7 @@ function CategoriesCard({ data }: { data: any }) {
               <th className="text-left font-semibold px-2 py-1">Category</th>
               <th className="text-left font-semibold px-2 py-1">Top vendor</th>
               <th className="text-right font-semibold px-2 py-1 w-[80px]">Spend</th>
-              <th className="text-right font-semibold px-2 py-1 w-[60px]" title="Top-1 vendor's share">Top-1</th>
+              <th className="text-right font-semibold px-2 py-1 w-[60px]" title="CR-1: largest single vendor's share of total spend (%)">CR-1 (%)</th>
               <th className="text-right font-semibold px-2 py-1 w-[56px]" title="Distinct vendors">Vendors</th>
               {hasContracts && (
                 <th className="text-right font-semibold px-2 py-1 w-[64px]">Contracts</th>
@@ -559,7 +559,7 @@ function FindingsTable({ rows, sliceLabel }: { rows: any[]; sliceLabel: string }
             <th className="text-left font-semibold px-2 py-1">{sliceLabel}</th>
             <th className="text-left font-semibold px-2 py-1">Top vendor</th>
             <th className="text-right font-semibold px-2 py-1 w-[80px]">Spend</th>
-            <th className="text-right font-semibold px-2 py-1 w-[60px]" title="Top-1 vendor's share of total spend">Top-1</th>
+            <th className="text-right font-semibold px-2 py-1 w-[60px]" title="CR-1: largest single vendor's share of total spend in this slice (%)">CR-1 (%)</th>
             <th className="text-right font-semibold px-2 py-1 w-[56px]" title="Distinct vendors">Vendors</th>
             {hasContracts && (
               <th className="text-right font-semibold px-2 py-1 w-[64px]" title="Contract count">Contracts</th>
