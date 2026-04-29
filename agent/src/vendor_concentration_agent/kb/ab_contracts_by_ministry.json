@@ -1,0 +1,522 @@
+{
+  "dataset": "ab_contracts",
+  "slice": "ministry",
+  "column": "ministry",
+  "note": "Competitively procured contracts. vendor_count reflects real competition.",
+  "generated_at": "2026-04-29T15:45:54.728346+00:00",
+  "row_count": 64,
+  "rows": [
+    {
+      "ministry": "Office of the Public Interest Commission",
+      "total_spend": 335.48,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "SUNDRY, OTHER VENDORS BELOW $10,000",
+      "top1_share_pct": 100.0
+    },
+    {
+      "ministry": "Public Safety and Emergency Services",
+      "total_spend": 1502100750.78,
+      "vendor_count": 1539,
+      "contract_count": 1539,
+      "top_vendor": "RECEIVER GENERAL FOR CANADA CANADA REVENUE AGENCY",
+      "top1_share_pct": 80.77
+    },
+    {
+      "ministry": "Energy and Minerals",
+      "total_spend": 175697851.55,
+      "vendor_count": 293,
+      "contract_count": 293,
+      "top_vendor": "FINANCE CANADA",
+      "top1_share_pct": 77.74
+    },
+    {
+      "ministry": "Assisted Living and Social Services",
+      "total_spend": 689772501.26,
+      "vendor_count": 344,
+      "contract_count": 344,
+      "top_vendor": "COMMUNITY ACCESS SUPPORT PROGRAM",
+      "top1_share_pct": 71.32
+    },
+    {
+      "ministry": "Community and Social Services",
+      "total_spend": 1937698082.43,
+      "vendor_count": 504,
+      "contract_count": 504,
+      "top_vendor": "COMMUNITY ACCESS SUPPORT PROGRAM",
+      "top1_share_pct": 70.96
+    },
+    {
+      "ministry": "Seniors, Community and Social Services",
+      "total_spend": 3392137138.7,
+      "vendor_count": 843,
+      "contract_count": 843,
+      "top_vendor": "COMMUNITY ACCESS SUPPORT PROGRAM",
+      "top1_share_pct": 70.57
+    },
+    {
+      "ministry": "Jobs, Economy and innovation",
+      "total_spend": 175000.0,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "REGIONAL ECONOMIC MODELS, INC. (REMI)",
+      "top1_share_pct": 68.57
+    },
+    {
+      "ministry": "Trade, Immigration and Multiculturalism",
+      "total_spend": 9793864.61,
+      "vendor_count": 125,
+      "contract_count": 125,
+      "top_vendor": "RECEIVER GENERAL FOR CANADA CANADA REVENUE AGENCY",
+      "top1_share_pct": 65.16
+    },
+    {
+      "ministry": "Justice and Solicitor General",
+      "total_spend": 1536093738.65,
+      "vendor_count": 1270,
+      "contract_count": 1270,
+      "top_vendor": "RECEIVER GENERAL FOR CANADA CANADA REVENUE AGENCY",
+      "top1_share_pct": 64.86
+    },
+    {
+      "ministry": "Jobs, Economy and Innovation",
+      "total_spend": 29540738.77,
+      "vendor_count": 175,
+      "contract_count": 175,
+      "top_vendor": "RECEIVER GENERAL FOR CANADA CANADA REVENUE AGENCY",
+      "top1_share_pct": 62.17
+    },
+    {
+      "ministry": "Seniors and Housing",
+      "total_spend": 4498671.36,
+      "vendor_count": 92,
+      "contract_count": 92,
+      "top_vendor": "ALBERTA SOCIAL HOUSING CORPORATION",
+      "top1_share_pct": 61.47
+    },
+    {
+      "ministry": "Affordability and Utilities",
+      "total_spend": 48564830.36,
+      "vendor_count": 207,
+      "contract_count": 207,
+      "top_vendor": "AESO ALBERTA ELECTRIC SYSTEM OPERATOR",
+      "top1_share_pct": 53.4
+    },
+    {
+      "ministry": "Advanced Education",
+      "total_spend": 176527619.99,
+      "vendor_count": 462,
+      "contract_count": 462,
+      "top_vendor": "DH CORPORATIONSOCIETE DH DH STUDENT LENDING CORPORATION",
+      "top1_share_pct": 53.36
+    },
+    {
+      "ministry": "Agriculture, Forestry and Rural Economic Development",
+      "total_spend": 4009188.85,
+      "vendor_count": 238,
+      "contract_count": 238,
+      "top_vendor": "SUNDRY, OTHER VENDORS BELOW $10,000",
+      "top1_share_pct": 49.9
+    },
+    {
+      "ministry": "Children's Services",
+      "total_spend": 1767592743.59,
+      "vendor_count": 647,
+      "contract_count": 647,
+      "top_vendor": "CHILD INTERVENTION SERVICES",
+      "top1_share_pct": 48.64
+    },
+    {
+      "ministry": "Children and Family Services",
+      "total_spend": 1576367698.06,
+      "vendor_count": 758,
+      "contract_count": 758,
+      "top_vendor": "CHILD INTERVENTION SERVICES",
+      "top1_share_pct": 47.64
+    },
+    {
+      "ministry": "Justice",
+      "total_spend": 458133589.14,
+      "vendor_count": 1475,
+      "contract_count": 1475,
+      "top_vendor": "RECEIVER GENERAL FOR CANADA CANADA REVENUE AGENCY",
+      "top1_share_pct": 47.53
+    },
+    {
+      "ministry": "Treasury Board and Finance",
+      "total_spend": 382793807.64,
+      "vendor_count": 752,
+      "contract_count": 752,
+      "top_vendor": "MOTOR VEHICLE ACCIDENT CLAIMS",
+      "top1_share_pct": 46.01
+    },
+    {
+      "ministry": "Office of the Ethics Commissioner",
+      "total_spend": 803716.42,
+      "vendor_count": 45,
+      "contract_count": 45,
+      "top_vendor": "FCIAS FCI ACCELERATED SOLUTIONS INC",
+      "top1_share_pct": 44.54
+    },
+    {
+      "ministry": "Executive Council",
+      "total_spend": 49472651.08,
+      "vendor_count": 461,
+      "contract_count": 461,
+      "top_vendor": "RECEIVER GENERAL FOR CANADA CANADA REVENUE AGENCY",
+      "top1_share_pct": 41.56
+    },
+    {
+      "ministry": "Office of the Auditor General",
+      "total_spend": 45173511.63,
+      "vendor_count": 254,
+      "contract_count": 254,
+      "top_vendor": "KPMG LLP",
+      "top1_share_pct": 39.74
+    },
+    {
+      "ministry": "Jobs, Economy, and Northern Development",
+      "total_spend": 463491.4,
+      "vendor_count": 101,
+      "contract_count": 101,
+      "top_vendor": "SUNDRY, OTHER VENDORS BELOW $10,000",
+      "top1_share_pct": 38.94
+    },
+    {
+      "ministry": "Office of the Chief Electoral Officer",
+      "total_spend": 67414249.9,
+      "vendor_count": 240,
+      "contract_count": 240,
+      "top_vendor": "PAYWORKS INC.",
+      "top1_share_pct": 37.61
+    },
+    {
+      "ministry": "OfficeofthePublicInterestCommissioner",
+      "total_spend": 47660.73,
+      "vendor_count": 10,
+      "contract_count": 10,
+      "top_vendor": "ACTIVE RMP TRADE NAME OF MSP OPERATIONAL CORP.",
+      "top1_share_pct": 36.01
+    },
+    {
+      "ministry": "Hospital and Surgical Health Services",
+      "total_spend": 75061.51,
+      "vendor_count": 44,
+      "contract_count": 44,
+      "top_vendor": "SUNDRY, OTHER VENDORS BELOW $10,000",
+      "top1_share_pct": 35.61
+    },
+    {
+      "ministry": "Office of Information and Privacy Commissioner",
+      "total_spend": 1447396.74,
+      "vendor_count": 41,
+      "contract_count": 41,
+      "top_vendor": "LONG VIEW SYSTEMS CORPORATION",
+      "top1_share_pct": 32.85
+    },
+    {
+      "ministry": "Office of the Information and Privacy Commissioner",
+      "total_spend": 6219053.04,
+      "vendor_count": 122,
+      "contract_count": 122,
+      "top_vendor": "LONG VIEW SYSTEMS CORPORATION",
+      "top1_share_pct": 27.42
+    },
+    {
+      "ministry": "Culture, Multiculturalism and Status of Women",
+      "total_spend": 10829691.28,
+      "vendor_count": 208,
+      "contract_count": 208,
+      "top_vendor": "GLENBOW-ALBERTA INSTITUTE",
+      "top1_share_pct": 24.85
+    },
+    {
+      "ministry": "Mental Health and Addiction",
+      "total_spend": 18520468.59,
+      "vendor_count": 154,
+      "contract_count": 154,
+      "top_vendor": "ELEVATE CONSULTING INC.",
+      "top1_share_pct": 24.61
+    },
+    {
+      "ministry": "OfficeofInformation&PrivacyCommissioner",
+      "total_spend": 1314124.82,
+      "vendor_count": 46,
+      "contract_count": 46,
+      "top_vendor": "LONG VIEW SYSTEMS CORPORATION",
+      "top1_share_pct": 23.21
+    },
+    {
+      "ministry": "Indigenous Relations",
+      "total_spend": 8799410.24,
+      "vendor_count": 306,
+      "contract_count": 306,
+      "top_vendor": "NORTON ROSE FULBRIGHT CANADA LLP",
+      "top1_share_pct": 23.14
+    },
+    {
+      "ministry": "Energy",
+      "total_spend": 1405603056.87,
+      "vendor_count": 275,
+      "contract_count": 275,
+      "top_vendor": "CANADIAN PACIFIC RAILWAY COMPANY",
+      "top1_share_pct": 22.74
+    },
+    {
+      "ministry": "Tourism and Sport",
+      "total_spend": 2804435.45,
+      "vendor_count": 164,
+      "contract_count": 164,
+      "top_vendor": "CANADIAN NORTH TRADE NAME OF BRADLEY AIR SERVICES LIMITED",
+      "top1_share_pct": 21.69
+    },
+    {
+      "ministry": "Education and Childcare",
+      "total_spend": 19461360.99,
+      "vendor_count": 205,
+      "contract_count": 205,
+      "top_vendor": "SUNDRY, OTHER VENDORS BELOW $10,000",
+      "top1_share_pct": 21.37
+    },
+    {
+      "ministry": "Jobs, Economy and Northern Development",
+      "total_spend": 31985396.36,
+      "vendor_count": 220,
+      "contract_count": 220,
+      "top_vendor": "MANPOWER SERVICES (ALBERTA) LTD.",
+      "top1_share_pct": 21.25
+    },
+    {
+      "ministry": "Forestry, Parks and Tourism",
+      "total_spend": 21296067.04,
+      "vendor_count": 829,
+      "contract_count": 829,
+      "top_vendor": "SUNDRY, OTHER VENDORS BELOW $10,000",
+      "top1_share_pct": 20.71
+    },
+    {
+      "ministry": "Labour and Immigration",
+      "total_spend": 92510423.71,
+      "vendor_count": 353,
+      "contract_count": 353,
+      "top_vendor": "MANPOWER SERVICES (ALBERTA) LTD.",
+      "top1_share_pct": 19.92
+    },
+    {
+      "ministry": "Office of the Public Interest Commissioner",
+      "total_spend": 382782.42,
+      "vendor_count": 44,
+      "contract_count": 44,
+      "top_vendor": "SHORES JARDINE LLP",
+      "top1_share_pct": 19.67
+    },
+    {
+      "ministry": "Primary and Preventative Health Services",
+      "total_spend": 154815801.49,
+      "vendor_count": 369,
+      "contract_count": 369,
+      "top_vendor": "ALBERTA BLUE CROSS",
+      "top1_share_pct": 17.25
+    },
+    {
+      "ministry": "Culture and Status of Women",
+      "total_spend": 13467981.51,
+      "vendor_count": 234,
+      "contract_count": 234,
+      "top_vendor": "GLENBOW-ALBERTA INSTITUTE",
+      "top1_share_pct": 16.99
+    },
+    {
+      "ministry": "Jobs, Economy and Trade",
+      "total_spend": 78295481.84,
+      "vendor_count": 600,
+      "contract_count": 600,
+      "top_vendor": "MANPOWER SERVICES (ALBERTA) LTD.",
+      "top1_share_pct": 16.87
+    },
+    {
+      "ministry": "Culture",
+      "total_spend": 18342921.97,
+      "vendor_count": 344,
+      "contract_count": 344,
+      "top_vendor": "FRIENDS OF THE ALBERTA JUBILEE AUDITORIA SOCIETY",
+      "top1_share_pct": 16.84
+    },
+    {
+      "ministry": "Office of the Child & Youth Advocate",
+      "total_spend": 10234797.87,
+      "vendor_count": 116,
+      "contract_count": 116,
+      "top_vendor": "LONG VIEW SYSTEMS CORPORATION",
+      "top1_share_pct": 15.78
+    },
+    {
+      "ministry": "Health",
+      "total_spend": 1490104367.99,
+      "vendor_count": 894,
+      "contract_count": 894,
+      "top_vendor": "ALBERTA BLUE CROSS",
+      "top1_share_pct": 15.54
+    },
+    {
+      "ministry": "Arts, Culture and Status of Women",
+      "total_spend": 52218774.02,
+      "vendor_count": 659,
+      "contract_count": 659,
+      "top_vendor": "FRIENDS OF THE ALBERTA JUBILEE AUDITORIA SOCIETY",
+      "top1_share_pct": 14.63
+    },
+    {
+      "ministry": "Office of the Ombudsman",
+      "total_spend": 1777080.84,
+      "vendor_count": 117,
+      "contract_count": 117,
+      "top_vendor": "MICROTEK CORPORATION",
+      "top1_share_pct": 13.95
+    },
+    {
+      "ministry": "Office of the Child and Youth Advocate",
+      "total_spend": 25635732.3,
+      "vendor_count": 350,
+      "contract_count": 350,
+      "top_vendor": "LONG VIEW SYSTEMS CORPORATION",
+      "top1_share_pct": 13.78
+    },
+    {
+      "ministry": "Technology and Innovation",
+      "total_spend": 1340035454.53,
+      "vendor_count": 656,
+      "contract_count": 656,
+      "top_vendor": "ACCENTURE INC.",
+      "top1_share_pct": 13.55
+    },
+    {
+      "ministry": "Skilled Trades and Professions",
+      "total_spend": 999138.67,
+      "vendor_count": 102,
+      "contract_count": 102,
+      "top_vendor": "CANADIAN STANDARDS ASSOCIATION",
+      "top1_share_pct": 12.07
+    },
+    {
+      "ministry": "Service Alberta",
+      "total_spend": 1264177256.7,
+      "vendor_count": 758,
+      "contract_count": 758,
+      "top_vendor": "CGI INFORMATION SYSTEMS AND MANAGEMENT CONSULTANTS INC.",
+      "top1_share_pct": 11.81
+    },
+    {
+      "ministry": "Infrastructure",
+      "total_spend": 8906830788.75,
+      "vendor_count": 2149,
+      "contract_count": 2149,
+      "top_vendor": "PCL CONSTRUCTION MANAGEMENT INC.",
+      "top1_share_pct": 11.7
+    },
+    {
+      "ministry": "Municipal Affairs",
+      "total_spend": 226465006.27,
+      "vendor_count": 657,
+      "contract_count": 657,
+      "top_vendor": "COVID-19-DIRECT COSTS",
+      "top1_share_pct": 11.33
+    },
+    {
+      "ministry": "Environment and Protected Areas",
+      "total_spend": 428971361.93,
+      "vendor_count": 1985,
+      "contract_count": 1985,
+      "top_vendor": "RECEIVER GENERAL FOR CANADA CANADA REVENUE AGENCY",
+      "top1_share_pct": 11.18
+    },
+    {
+      "ministry": "Jobs, Economy, Trade and Immigration",
+      "total_spend": 22818430.13,
+      "vendor_count": 279,
+      "contract_count": 279,
+      "top_vendor": "MANPOWER SERVICES (ALBERTA) LTD.",
+      "top1_share_pct": 10.97
+    },
+    {
+      "ministry": "Immigration and Multiculturalism",
+      "total_spend": 3116772.98,
+      "vendor_count": 167,
+      "contract_count": 167,
+      "top_vendor": "SUNDRY, OTHER VENDORS BELOW $10,000",
+      "top1_share_pct": 9.71
+    },
+    {
+      "ministry": "Education",
+      "total_spend": 157664724.0,
+      "vendor_count": 584,
+      "contract_count": 584,
+      "top_vendor": "THE EDMONTON SCHOOL DIVISION",
+      "top1_share_pct": 9.3
+    },
+    {
+      "ministry": "Agriculture and Forestry",
+      "total_spend": 157671741.77,
+      "vendor_count": 915,
+      "contract_count": 915,
+      "top_vendor": "CONAIR GROUP INC.",
+      "top1_share_pct": 8.9
+    },
+    {
+      "ministry": "Transportation",
+      "total_spend": 5472697504.84,
+      "vendor_count": 1064,
+      "contract_count": 1064,
+      "top_vendor": "ELLISDON CONSTRUCTION SERVICES INC.",
+      "top1_share_pct": 8.83
+    },
+    {
+      "ministry": "Service Alberta and Red Tape Reduction",
+      "total_spend": 605824833.71,
+      "vendor_count": 898,
+      "contract_count": 898,
+      "top_vendor": "CGI INFORMATION SYSTEMS AND MANAGEMENT CONSULTANTS INC.",
+      "top1_share_pct": 8.4
+    },
+    {
+      "ministry": "Transportation and Economic Corridors",
+      "total_spend": 6929795840.6,
+      "vendor_count": 1532,
+      "contract_count": 1532,
+      "top_vendor": "LEDCOR HIGHWAYS LTD.",
+      "top1_share_pct": 7.58
+    },
+    {
+      "ministry": "Agriculture, Forest and Rural Econ",
+      "total_spend": 196460976.46,
+      "vendor_count": 922,
+      "contract_count": 922,
+      "top_vendor": "CONAIR GROUP INC.",
+      "top1_share_pct": 7.36
+    },
+    {
+      "ministry": "Environment and Parks",
+      "total_spend": 313267055.47,
+      "vendor_count": 1591,
+      "contract_count": 1591,
+      "top_vendor": "WOOD BUFFALO ENVIRONMENTAL ASSOCIATION",
+      "top1_share_pct": 7.02
+    },
+    {
+      "ministry": "Agriculture and Irrigation",
+      "total_spend": 281097352.44,
+      "vendor_count": 1534,
+      "contract_count": 1534,
+      "top_vendor": "TA ALBERTA HYDRO LP TA ALBERTA HYDRO INC.",
+      "top1_share_pct": 4.67
+    },
+    {
+      "ministry": "Forestry and Parks",
+      "total_spend": 2399431088.19,
+      "vendor_count": 3155,
+      "contract_count": 3155,
+      "top_vendor": "AIR SPRAY (1967) LTD.",
+      "top1_share_pct": 3.26
+    }
+  ]
+}

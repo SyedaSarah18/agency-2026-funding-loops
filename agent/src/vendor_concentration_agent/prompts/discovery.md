@@ -39,19 +39,24 @@ improvisation.
 
 ### Q1 — "How many vendors are actually competing in any given category?"
 
-Call ALL THREE tools to build a category-level picture across every
-jurisdiction:
+Call live tools first with a large `limit` for comprehensive coverage:
 
-1. `list_top_concentrated_categories(dataset="ab_sole_source")` — vendor
-   counts by service category in Alberta sole-source procurement
-2. `list_top_concentrated_categories(dataset="fed_contracts")` — vendor
-   counts by economic object code in federal procurement  
-3. `list_vendor_counts_by_ministry(dataset="ab_contracts")` — vendor counts
-   by Alberta ministry (ab_contracts has no category column; ministry is
-   the next-best slice)
+1. `list_top_concentrated_categories(dataset="ab_sole_source", limit=50)`
+2. `list_top_concentrated_categories(dataset="fed_contracts", limit=50)`
+3. `list_vendor_counts_by_ministry(dataset="ab_contracts", limit=64)`
 
-Report all three result sets in your `candidates`. Tag each with its
-`dataset` field.
+**After seeing the live results, reason about quality.** If results are
+empty, too sparse, or don't address what the user is asking well enough —
+fall back to the KB tools:
+- `query_kb_categories(dataset="ab_sole_source", sort_by="vendor_count")`
+- `query_kb_categories(dataset="fed_contracts", sort_by="vendor_count")`
+- `query_kb_ministries_departments(dataset="ab_contracts", sort_by="vendor_count")`
+- `query_kb_ministries_departments(dataset="fed_contracts", sort_by="vendor_count")`
+
+If the user names a specific topic (e.g. "IT", "healthcare"), add
+`search="<keyword>"` to filter KB results to matching categories only.
+
+Report all result sets in `candidates`. Tag each with its `dataset` field.
 
 ### Q2 — "Identify areas where a single supplier or small group receives a disproportionate share of contracts"
 
@@ -107,18 +112,27 @@ definition. The interesting story there is the *category total* and
 
 ## Tools
 
+### Primary live tools — always try these first
 - **`scan_all_procurement_datasets(min_total, per_dataset_limit)`** —
-  broad-question default. Scans all three datasets and tags every finding
-  with source dataset. Use for Q2, Q3, Q5, and any unlisted broad question.
+  top-N concentrated findings across all 3 datasets. Use for Q2, Q3, Q5.
 - **`list_top_concentrated_categories(dataset, min_total, limit)`** —
-  category-level breakdown. Works on `"ab_sole_source"` AND `"fed_contracts"`
-  (both have category columns). Call TWICE (once per dataset) for Q1.
-  Narrow use only — do NOT call this alone for broad questions.
+  category breakdown for `"ab_sole_source"` or `"fed_contracts"`. Pass a
+  large `limit` (50+) for Q1 to get broad coverage, not just the top 10.
 - `list_top_concentrated_ministries(dataset, min_total, limit)` —
-  ministry-level: `"ab_contracts"` or `"fed_contracts"`. Narrow use only.
+  ministry breakdown: `"ab_contracts"` or `"fed_contracts"`.
 - `list_vendor_counts_by_ministry(dataset, min_total, limit)` —
-  vendor count per ministry. Use on `"ab_contracts"` for Q1's provincial
-  ministry slice (ab_contracts has no category column).
+  vendor count per ministry (ab_contracts has no category column).
+
+### KB fallback tools — use only when live tools are insufficient
+Call these when: (a) live query returns empty, (b) live results are too
+sparse to answer the question well, or (c) the question asks for full
+coverage that the top-N live tools can't provide.
+- **`query_kb_categories(dataset, search, sort_by, limit)`** — pre-computed
+  all-categories table for `"ab_sole_source"` (4 431 rows) or
+  `"fed_contracts"` (386 rows). Use `search=` to filter by keyword.
+- **`query_kb_ministries_departments(dataset, search, sort_by, limit)`** —
+  pre-computed all-ministries/departments for `"ab_contracts"` (64) or
+  `"fed_contracts"` (31 departments).
 
 ## Output — JSON ONLY
 

@@ -1,0 +1,3098 @@
+{
+  "dataset": "fed_contracts",
+  "slice": "category",
+  "column": "economic_object_code",
+  "note": "Federal Proactive Disclosure. contract_value is TEXT; non-numeric strings cast to NULL.",
+  "generated_at": "2026-04-29T15:46:26.181367+00:00",
+  "row_count": 386,
+  "rows": [
+    {
+      "category": "2411",
+      "total_spend": 1974020.95,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "University of Calgary",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0424",
+      "total_spend": 750000.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Sign Language Interpreting Associates Ottawa",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "222",
+      "total_spend": 710269.57,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "ROGERS BUSINESS SOLUTIONS",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "1228",
+      "total_spend": 584535.03,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "IBM CANADA LIMITED",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "099",
+      "total_spend": 492708.25,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "The Right Door Consulting",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "6085",
+      "total_spend": 389083.45,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "TETRA TECH CANADA INC.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0407",
+      "total_spend": 376563.97,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "ALTIS HUMAN RESOURCES",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "2434",
+      "total_spend": 320958.93,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "AON REED STENHOUSE INC.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "480",
+      "total_spend": 294133.79,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "IT/NET-OTTAWA INC.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "477",
+      "total_spend": 226385.78,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "ALTRUISTIC INFORMATICS",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0207",
+      "total_spend": 209500.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "TRANSFEREASE RELOCATION INC",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "1370",
+      "total_spend": 186865.84,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "2449214 ONTARIO INC",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "479",
+      "total_spend": 184862.55,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "SI SYSTEMS LTD.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "3251",
+      "total_spend": 172462.5,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "C-CORE",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0264",
+      "total_spend": 135838.75,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "CHANNEL SYSTEMS INC",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "025",
+      "total_spend": 119513.72,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "First Air",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0331",
+      "total_spend": 112496.74,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "CANADIAN NUCLEAR ASSOCIATION",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "476",
+      "total_spend": 112071.89,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "CORADIX TECHNOLOGY CONSULTING",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "405",
+      "total_spend": 102902.63,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "LES INSTALLATIONS ELECTRIQUES",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0406",
+      "total_spend": 97728.75,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "POINT-PAR-POINT",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "406",
+      "total_spend": 85658.1,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "SIMPLEX INDUSTRIES INC.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0046",
+      "total_spend": 84637.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "iFanthom Corporation",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0315",
+      "total_spend": 75032.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Lexum informatique juridique Inc",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "4559",
+      "total_spend": 75000.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "CCI Inc",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "211",
+      "total_spend": 68985.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "PERIMETER AVIATION LP",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "3459",
+      "total_spend": 60553.46,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "HOOTSUITE MEDIA INC",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "1113",
+      "total_spend": 53240.64,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "ALERE ULC",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "5130",
+      "total_spend": 47248.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Microsoft Canada Inc",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "478",
+      "total_spend": 45950.84,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "DONNA CONA INC.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "1295",
+      "total_spend": 45358.64,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "TERAMACH TECHNOLOGIES INC.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "4620",
+      "total_spend": 45150.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "High Clouds, Inc.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "3425",
+      "total_spend": 44939.25,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "MITSUBISHI MOTOR SALES",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "449",
+      "total_spend": 43476.75,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "LES ENQUETES HENRI INC.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "414",
+      "total_spend": 40000.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "MacKinnon-Charlton Ltd.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "044",
+      "total_spend": 37036.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Project Management Center Inc",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0702",
+      "total_spend": 36750.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "SUPERIOR PROPANE",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0500",
+      "total_spend": 36037.5,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "CANON CANADA INC.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "089",
+      "total_spend": 32898.5,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Cloud 9 Productions",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "1227",
+      "total_spend": 30898.5,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "NISHA TECHNOLOGIES INC.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0265",
+      "total_spend": 28334.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "CASSELMAN WOODCRAFT LTD",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0254",
+      "total_spend": 27192.77,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "DOUBLETREE BY HILTON",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0941",
+      "total_spend": 26586.85,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Fleximation Systems Inc.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "1301",
+      "total_spend": 24995.57,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "9184-6337 QUEBEC INC",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "903",
+      "total_spend": 24983.75,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "PureSpirit Solutions Inc.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "481",
+      "total_spend": 24949.58,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "ACQUIUM INC",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "1148",
+      "total_spend": 24125.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "NEW BRUNSWICK CONSTRUCTION SAFETY ASSOCIATION",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "8225",
+      "total_spend": 21611.1,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "ARCADIS CANADA INC.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0743",
+      "total_spend": 19112.06,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "IDS Systems Consultants Inc.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "4621",
+      "total_spend": 18742.5,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "1441866 Alberta Corp. o/a Explore Leadership",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "914",
+      "total_spend": 18617.79,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Encore Business Solutions Inc.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "1153",
+      "total_spend": 18594.3,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Uniform Works Limited",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "122",
+      "total_spend": 18323.2,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Onx Enterprise Solutions Incs",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0443",
+      "total_spend": 17650.6,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "PRIORITY MANAGEMENT S.T.C.G. THE STANFORD",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "1281",
+      "total_spend": 17481.6,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "VANTAGE CANADA",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "2412",
+      "total_spend": 16800.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Homewood Health Inc",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0481",
+      "total_spend": 15311.68,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "IRON MOUNTAIN CANADA CORP.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "501",
+      "total_spend": 13560.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "ROBINSON PROPERTIES INC",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "4047",
+      "total_spend": 12656.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "RIMtech Consulting",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0703",
+      "total_spend": 12430.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "SMITH'S SEPTIC TANK",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0454",
+      "total_spend": 11300.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Cira Health Solutions Inc.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "Offi",
+      "total_spend": 11196.45,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Sustema Inc.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "5423",
+      "total_spend": 10595.0,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "ORACLE CORPORATION CANADA INC.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "702",
+      "total_spend": 10433.81,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Abloy Canada Inc.",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "0526",
+      "total_spend": 10239.5,
+      "vendor_count": 1,
+      "contract_count": 1,
+      "top_vendor": "Citrix",
+      "top1_share_pct": 100.0
+    },
+    {
+      "category": "816",
+      "total_spend": 152335273.22,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "D+H CORPORATION",
+      "top1_share_pct": 99.94
+    },
+    {
+      "category": "0466",
+      "total_spend": 11302093.4,
+      "vendor_count": 4,
+      "contract_count": 4,
+      "top_vendor": "S.i. Systems",
+      "top1_share_pct": 98.83
+    },
+    {
+      "category": "0671",
+      "total_spend": 17147985.89,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Ricoh Canada Inc.",
+      "top1_share_pct": 98.46
+    },
+    {
+      "category": "6099",
+      "total_spend": 74901577.88,
+      "vendor_count": 6,
+      "contract_count": 6,
+      "top_vendor": "COM DEV LTD",
+      "top1_share_pct": 98.19
+    },
+    {
+      "category": "634",
+      "total_spend": 9967906.55,
+      "vendor_count": 6,
+      "contract_count": 6,
+      "top_vendor": "Canquest Communications (wireless)",
+      "top1_share_pct": 97.15
+    },
+    {
+      "category": "0640",
+      "total_spend": 290963.0,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Bell Canada Inc",
+      "top1_share_pct": 96.29
+    },
+    {
+      "category": "423",
+      "total_spend": 5510643339.06,
+      "vendor_count": 91,
+      "contract_count": 91,
+      "top_vendor": "MACDONALD, DETTWILER AND ASSOCIATES CORPORATION",
+      "top1_share_pct": 95.16
+    },
+    {
+      "category": "0230",
+      "total_spend": 25739273.92,
+      "vendor_count": 13,
+      "contract_count": 13,
+      "top_vendor": "BELL CANADA",
+      "top1_share_pct": 95.05
+    },
+    {
+      "category": "263",
+      "total_spend": 669019.37,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "SAMSON & ASSOCI\u00c9S",
+      "top1_share_pct": 95.03
+    },
+    {
+      "category": "0682",
+      "total_spend": 958901.86,
+      "vendor_count": 5,
+      "contract_count": 5,
+      "top_vendor": "ARI FINANCIAL SERVICES INC",
+      "top1_share_pct": 94.55
+    },
+    {
+      "category": "482",
+      "total_spend": 2442618.93,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "MICROSOFT CORPORATION",
+      "top1_share_pct": 94.32
+    },
+    {
+      "category": "454",
+      "total_spend": 902400.0,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "ALBERTA PARAMEDICAL SERVICES LTD",
+      "top1_share_pct": 94.3
+    },
+    {
+      "category": "0630",
+      "total_spend": 28442574.32,
+      "vendor_count": 29,
+      "contract_count": 29,
+      "top_vendor": "Perceptics LLC",
+      "top1_share_pct": 92.97
+    },
+    {
+      "category": "1253",
+      "total_spend": 28212701.24,
+      "vendor_count": 10,
+      "contract_count": 10,
+      "top_vendor": "COMMUNICATIONS & POWER INDUSTRIES CANADA INC.",
+      "top1_share_pct": 92.78
+    },
+    {
+      "category": "498",
+      "total_spend": 1243709.25,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "6771581 Canada inc",
+      "top1_share_pct": 92.45
+    },
+    {
+      "category": "0420",
+      "total_spend": 2390615.71,
+      "vendor_count": 6,
+      "contract_count": 6,
+      "top_vendor": "BOT ENGINEERING LTD.",
+      "top1_share_pct": 91.99
+    },
+    {
+      "category": "1173",
+      "total_spend": 42081236.11,
+      "vendor_count": 69,
+      "contract_count": 69,
+      "top_vendor": "BARGREEN ELLINGSON INC",
+      "top1_share_pct": 91.44
+    },
+    {
+      "category": "352",
+      "total_spend": 61725172.25,
+      "vendor_count": 59,
+      "contract_count": 59,
+      "top_vendor": "DONNA CONA INC",
+      "top1_share_pct": 90.77
+    },
+    {
+      "category": "404",
+      "total_spend": 2487442.77,
+      "vendor_count": 5,
+      "contract_count": 5,
+      "top_vendor": "MNP LLP",
+      "top1_share_pct": 90.45
+    },
+    {
+      "category": "709",
+      "total_spend": 985151.44,
+      "vendor_count": 5,
+      "contract_count": 5,
+      "top_vendor": "GOVERNMENT OF NUNAVUT",
+      "top1_share_pct": 90.39
+    },
+    {
+      "category": "0301",
+      "total_spend": 41986194.09,
+      "vendor_count": 27,
+      "contract_count": 27,
+      "top_vendor": "COSSETTE MEDIA INC.",
+      "top1_share_pct": 90.0
+    },
+    {
+      "category": "4565",
+      "total_spend": 192150.0,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Eisan Consulting Inc",
+      "top1_share_pct": 89.62
+    },
+    {
+      "category": "852",
+      "total_spend": 1663937.03,
+      "vendor_count": 8,
+      "contract_count": 8,
+      "top_vendor": "Donna Cona Inc.",
+      "top1_share_pct": 87.05
+    },
+    {
+      "category": "0628",
+      "total_spend": 2322269.0,
+      "vendor_count": 9,
+      "contract_count": 9,
+      "top_vendor": "CHAREX INC",
+      "top1_share_pct": 86.39
+    },
+    {
+      "category": "420",
+      "total_spend": 1546671921.73,
+      "vendor_count": 122,
+      "contract_count": 122,
+      "top_vendor": "MACDONALD, DETTWILER AND ASSOCIATES CORPORATION",
+      "top1_share_pct": 86.33
+    },
+    {
+      "category": "0322",
+      "total_spend": 115980.25,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "MEDIAPLUS",
+      "top1_share_pct": 86.25
+    },
+    {
+      "category": "0854",
+      "total_spend": 161636.33,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "INSOURCE CORP",
+      "top1_share_pct": 86.17
+    },
+    {
+      "category": "0881",
+      "total_spend": 78199.43,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "RC Construction & Contracting/1044030 Ontario Inc.",
+      "top1_share_pct": 85.43
+    },
+    {
+      "category": "0444",
+      "total_spend": 977642.62,
+      "vendor_count": 7,
+      "contract_count": 7,
+      "top_vendor": "GLENCAIRN EDUCATIONAL SERVICES",
+      "top1_share_pct": 83.98
+    },
+    {
+      "category": "682",
+      "total_spend": 17901915.97,
+      "vendor_count": 65,
+      "contract_count": 65,
+      "top_vendor": "ARI FINANCIAL SERVICES",
+      "top1_share_pct": 83.73
+    },
+    {
+      "category": "1151",
+      "total_spend": 212261943.2,
+      "vendor_count": 26,
+      "contract_count": 26,
+      "top_vendor": "LOGISTIK UNICORP INC",
+      "top1_share_pct": 81.81
+    },
+    {
+      "category": "403",
+      "total_spend": 923872.15,
+      "vendor_count": 5,
+      "contract_count": 5,
+      "top_vendor": "ARI FINANCIAL SERVICES INC",
+      "top1_share_pct": 79.28
+    },
+    {
+      "category": "223",
+      "total_spend": 3593419.62,
+      "vendor_count": 9,
+      "contract_count": 9,
+      "top_vendor": "MICROSOFT CORPORATION",
+      "top1_share_pct": 79.11
+    },
+    {
+      "category": "0263",
+      "total_spend": 174519.12,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "SHERATON GATEWAY HOTEL",
+      "top1_share_pct": 78.69
+    },
+    {
+      "category": "0251",
+      "total_spend": 255926.29,
+      "vendor_count": 4,
+      "contract_count": 4,
+      "top_vendor": "Delta Burnaby Hotel and Conference Centre",
+      "top1_share_pct": 77.68
+    },
+    {
+      "category": "640",
+      "total_spend": 5933392.6,
+      "vendor_count": 10,
+      "contract_count": 10,
+      "top_vendor": "WILDY ENTERPRISES LTD.",
+      "top1_share_pct": 76.54
+    },
+    {
+      "category": "0252",
+      "total_spend": 99080.36,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "First Air",
+      "top1_share_pct": 75.38
+    },
+    {
+      "category": "0587",
+      "total_spend": 2808891.53,
+      "vendor_count": 7,
+      "contract_count": 7,
+      "top_vendor": "Ricoh Canada Inc",
+      "top1_share_pct": 74.98
+    },
+    {
+      "category": "4531",
+      "total_spend": 46143.77,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Guardian Storage",
+      "top1_share_pct": 74.53
+    },
+    {
+      "category": "0582",
+      "total_spend": 100040440.32,
+      "vendor_count": 181,
+      "contract_count": 181,
+      "top_vendor": "MICROSOFT CANADA INC.",
+      "top1_share_pct": 73.88
+    },
+    {
+      "category": "0511",
+      "total_spend": 256597.33,
+      "vendor_count": 5,
+      "contract_count": 5,
+      "top_vendor": "RGN Management LP",
+      "top1_share_pct": 73.54
+    },
+    {
+      "category": "1125",
+      "total_spend": 21198271.9,
+      "vendor_count": 14,
+      "contract_count": 14,
+      "top_vendor": "IRVING ENERGY",
+      "top1_share_pct": 72.76
+    },
+    {
+      "category": "0405",
+      "total_spend": 43406.98,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Workwise Office Services",
+      "top1_share_pct": 72.57
+    },
+    {
+      "category": "821",
+      "total_spend": 82239963.22,
+      "vendor_count": 44,
+      "contract_count": 44,
+      "top_vendor": "Amazon Web Services Canada Inc.",
+      "top1_share_pct": 71.64
+    },
+    {
+      "category": "0899",
+      "total_spend": 35000.0,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Karen Moffat",
+      "top1_share_pct": 71.43
+    },
+    {
+      "category": "1133",
+      "total_spend": 1835431.87,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "Royal Pyrotechnie inc.",
+      "top1_share_pct": 70.95
+    },
+    {
+      "category": "311",
+      "total_spend": 3177750.44,
+      "vendor_count": 20,
+      "contract_count": 20,
+      "top_vendor": "LEXUM INFORMATIQUE JURIDIQUE INC.",
+      "top1_share_pct": 70.26
+    },
+    {
+      "category": "1267",
+      "total_spend": 1903925.48,
+      "vendor_count": 18,
+      "contract_count": 18,
+      "top_vendor": "Gemalto Canada Inc.",
+      "top1_share_pct": 70.25
+    },
+    {
+      "category": "0404",
+      "total_spend": 685600.28,
+      "vendor_count": 6,
+      "contract_count": 6,
+      "top_vendor": "Meltwater News Canada Inc.",
+      "top1_share_pct": 69.8
+    },
+    {
+      "category": "0561",
+      "total_spend": 7941.97,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Strait Air",
+      "top1_share_pct": 68.72
+    },
+    {
+      "category": "1340",
+      "total_spend": 33726167.89,
+      "vendor_count": 66,
+      "contract_count": 66,
+      "top_vendor": "Veritaaq Technology House Inc.",
+      "top1_share_pct": 68.64
+    },
+    {
+      "category": "0440",
+      "total_spend": 4362181.0,
+      "vendor_count": 25,
+      "contract_count": 25,
+      "top_vendor": "CASCADE COLLEGE",
+      "top1_share_pct": 68.11
+    },
+    {
+      "category": "645",
+      "total_spend": 155525246.18,
+      "vendor_count": 303,
+      "contract_count": 303,
+      "top_vendor": "3990591 CANADA INC.",
+      "top1_share_pct": 66.02
+    },
+    {
+      "category": "4529",
+      "total_spend": 38630.0,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Indigo Park Canada Inc.",
+      "top1_share_pct": 65.75
+    },
+    {
+      "category": "513",
+      "total_spend": 33327.0,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Tatami Studio",
+      "top1_share_pct": 65.5
+    },
+    {
+      "category": "1343",
+      "total_spend": 1446551.95,
+      "vendor_count": 6,
+      "contract_count": 6,
+      "top_vendor": "DEFRAN INC.",
+      "top1_share_pct": 65.06
+    },
+    {
+      "category": "0212",
+      "total_spend": 336027.78,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "Canada Post Corporation",
+      "top1_share_pct": 64.82
+    },
+    {
+      "category": "444",
+      "total_spend": 41058666.92,
+      "vendor_count": 36,
+      "contract_count": 36,
+      "top_vendor": "GLENCAIRN EDUCATIONAL SERVICES",
+      "top1_share_pct": 64.8
+    },
+    {
+      "category": "1339",
+      "total_spend": 68907236.59,
+      "vendor_count": 86,
+      "contract_count": 86,
+      "top_vendor": "GRAHAM CONSTRUCTION & ENGINEERING A JV",
+      "top1_share_pct": 64.43
+    },
+    {
+      "category": "0522",
+      "total_spend": 1557441.01,
+      "vendor_count": 14,
+      "contract_count": 14,
+      "top_vendor": "Freeman Audio Visuals Canada",
+      "top1_share_pct": 64.05
+    },
+    {
+      "category": "4546",
+      "total_spend": 31979.68,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Geomatics Data Management Inc.",
+      "top1_share_pct": 63.58
+    },
+    {
+      "category": "264",
+      "total_spend": 415688.47,
+      "vendor_count": 7,
+      "contract_count": 7,
+      "top_vendor": "176461 CANADA INC",
+      "top1_share_pct": 61.73
+    },
+    {
+      "category": "1350",
+      "total_spend": 8991134.19,
+      "vendor_count": 33,
+      "contract_count": 33,
+      "top_vendor": "JUMEC CONSTRUCTION INC.",
+      "top1_share_pct": 61.16
+    },
+    {
+      "category": "1116",
+      "total_spend": 26436.95,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "B AND P WATER SHOP INC",
+      "top1_share_pct": 60.07
+    },
+    {
+      "category": "512",
+      "total_spend": 7532836.27,
+      "vendor_count": 17,
+      "contract_count": 17,
+      "top_vendor": "IRON MOUNTAIN CANADA OPERATIONS ULC",
+      "top1_share_pct": 59.55
+    },
+    {
+      "category": "253",
+      "total_spend": 48785.77,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "North Cariboo Air",
+      "top1_share_pct": 59.0
+    },
+    {
+      "category": "703",
+      "total_spend": 901592.97,
+      "vendor_count": 6,
+      "contract_count": 6,
+      "top_vendor": "DILLON CONSULTING LIMITED",
+      "top1_share_pct": 58.97
+    },
+    {
+      "category": "186",
+      "total_spend": 33805.16,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "WOLASTOQ MAPLE PRODUCTS INC",
+      "top1_share_pct": 58.73
+    },
+    {
+      "category": "1141",
+      "total_spend": 321572.75,
+      "vendor_count": 8,
+      "contract_count": 8,
+      "top_vendor": "BUILDON CONSTRUCTION LIMITED",
+      "top1_share_pct": 58.69
+    },
+    {
+      "category": "0311",
+      "total_spend": 984666.64,
+      "vendor_count": 12,
+      "contract_count": 12,
+      "top_vendor": "LEXUM INFORMATIQUE JURIDIQUE INC.",
+      "top1_share_pct": 58.22
+    },
+    {
+      "category": "402",
+      "total_spend": 13109177.31,
+      "vendor_count": 33,
+      "contract_count": 33,
+      "top_vendor": "MaxSys Staffing & Consulting Inc.",
+      "top1_share_pct": 58.09
+    },
+    {
+      "category": "0579",
+      "total_spend": 247018.0,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "MICROSOFT CANADA INC.",
+      "top1_share_pct": 57.18
+    },
+    {
+      "category": "4593",
+      "total_spend": 53728.56,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Bluewater Ideas, Inc.",
+      "top1_share_pct": 57.01
+    },
+    {
+      "category": "1152",
+      "total_spend": 29318863.56,
+      "vendor_count": 64,
+      "contract_count": 64,
+      "top_vendor": "PACIFIC SAFETY PRODUCTS INC",
+      "top1_share_pct": 56.87
+    },
+    {
+      "category": "1132",
+      "total_spend": 561136136.8,
+      "vendor_count": 36,
+      "contract_count": 36,
+      "top_vendor": "MCKESSON CANADA CORPORATION",
+      "top1_share_pct": 56.14
+    },
+    {
+      "category": "4624",
+      "total_spend": 35700.0,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Big Tree Communications",
+      "top1_share_pct": 55.88
+    },
+    {
+      "category": "#NA",
+      "total_spend": 8945603.48,
+      "vendor_count": 12,
+      "contract_count": 12,
+      "top_vendor": "BRS Innovations Inc.",
+      "top1_share_pct": 55.36
+    },
+    {
+      "category": "0495",
+      "total_spend": 129121.62,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Stantec Consulting Ltd",
+      "top1_share_pct": 55.29
+    },
+    {
+      "category": "#",
+      "total_spend": 1245133.26,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "6954251 Canada Inc",
+      "top1_share_pct": 55.22
+    },
+    {
+      "category": "0590",
+      "total_spend": 434506.24,
+      "vendor_count": 10,
+      "contract_count": 10,
+      "top_vendor": "AVI-SPL Canada Ltd.",
+      "top1_share_pct": 54.26
+    },
+    {
+      "category": "891",
+      "total_spend": 1591226.98,
+      "vendor_count": 18,
+      "contract_count": 18,
+      "top_vendor": "HILLCREST HAIRSTYLING",
+      "top1_share_pct": 54.2
+    },
+    {
+      "category": "231",
+      "total_spend": 47485762.78,
+      "vendor_count": 35,
+      "contract_count": 35,
+      "top_vendor": "SWEDISH SPACE CORPORATION",
+      "top1_share_pct": 53.92
+    },
+    {
+      "category": "254",
+      "total_spend": 930124.8,
+      "vendor_count": 4,
+      "contract_count": 4,
+      "top_vendor": "QUALITY INN AND SUITES SASKATOON",
+      "top1_share_pct": 53.92
+    },
+    {
+      "category": "675",
+      "total_spend": 1340621.54,
+      "vendor_count": 2,
+      "contract_count": 2,
+      "top_vendor": "Titan Boats Ltd",
+      "top1_share_pct": 53.58
+    },
+    {
+      "category": "322",
+      "total_spend": 441346.77,
+      "vendor_count": 6,
+      "contract_count": 6,
+      "top_vendor": "AMS IMAGING INC.",
+      "top1_share_pct": 53.43
+    },
+    {
+      "category": "1273",
+      "total_spend": 9987863.95,
+      "vendor_count": 8,
+      "contract_count": 8,
+      "top_vendor": "LLOYD LIBKE LAW ENFORCEMENT SALES INC.",
+      "top1_share_pct": 53.37
+    },
+    {
+      "category": "683",
+      "total_spend": 1998028.73,
+      "vendor_count": 9,
+      "contract_count": 9,
+      "top_vendor": "ARI FINANCIAL SERVICES INC",
+      "top1_share_pct": 53.22
+    },
+    {
+      "category": "0673",
+      "total_spend": 8088844.27,
+      "vendor_count": 34,
+      "contract_count": 34,
+      "top_vendor": "Microsoft Canada Inc.",
+      "top1_share_pct": 53.1
+    },
+    {
+      "category": "705",
+      "total_spend": 4586182.05,
+      "vendor_count": 37,
+      "contract_count": 37,
+      "top_vendor": "STERICYCLE ULC",
+      "top1_share_pct": 52.79
+    },
+    {
+      "category": "0607",
+      "total_spend": 258510.0,
+      "vendor_count": 5,
+      "contract_count": 5,
+      "top_vendor": "MASKIMO CONSTRUCTION INC",
+      "top1_share_pct": 52.34
+    },
+    {
+      "category": "1211",
+      "total_spend": 8818076.78,
+      "vendor_count": 52,
+      "contract_count": 52,
+      "top_vendor": "DYNAVAC",
+      "top1_share_pct": 52.1
+    },
+    {
+      "category": "0445",
+      "total_spend": 98475.0,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "Intersol",
+      "top1_share_pct": 51.64
+    },
+    {
+      "category": "892",
+      "total_spend": 109786487.42,
+      "vendor_count": 225,
+      "contract_count": 225,
+      "top_vendor": "PR3 M\u00e9dias Inc",
+      "top1_share_pct": 51.12
+    },
+    {
+      "category": "0588",
+      "total_spend": 459187.98,
+      "vendor_count": 5,
+      "contract_count": 5,
+      "top_vendor": "Konica Minolta",
+      "top1_share_pct": 50.97
+    },
+    {
+      "category": "4623",
+      "total_spend": 10196750.08,
+      "vendor_count": 4,
+      "contract_count": 4,
+      "top_vendor": "Modis Canada Inc.",
+      "top1_share_pct": 50.4
+    },
+    {
+      "category": "3259",
+      "total_spend": 4235827.32,
+      "vendor_count": 16,
+      "contract_count": 16,
+      "top_vendor": "MOTOROLA SOLUTIONS CANADA INC.",
+      "top1_share_pct": 50.29
+    },
+    {
+      "category": "407",
+      "total_spend": 7237979.8,
+      "vendor_count": 7,
+      "contract_count": 7,
+      "top_vendor": "LUMINA IT INC",
+      "top1_share_pct": 50.04
+    },
+    {
+      "category": "0540",
+      "total_spend": 282891.62,
+      "vendor_count": 7,
+      "contract_count": 7,
+      "top_vendor": "PENSKE TRUCK LEASING",
+      "top1_share_pct": 49.93
+    },
+    {
+      "category": "3718",
+      "total_spend": 48280430.71,
+      "vendor_count": 17,
+      "contract_count": 17,
+      "top_vendor": "WILDY ENTERPRISES LTD.",
+      "top1_share_pct": 49.72
+    },
+    {
+      "category": "212",
+      "total_spend": 7821081.97,
+      "vendor_count": 20,
+      "contract_count": 20,
+      "top_vendor": "Canada Post Corporation",
+      "top1_share_pct": 49.61
+    },
+    {
+      "category": "232",
+      "total_spend": 4232015.85,
+      "vendor_count": 26,
+      "contract_count": 26,
+      "top_vendor": "CollaborateVideo Corp.",
+      "top1_share_pct": 49.27
+    },
+    {
+      "category": "815",
+      "total_spend": 4163544.36,
+      "vendor_count": 8,
+      "contract_count": 8,
+      "top_vendor": "Calian Ltd",
+      "top1_share_pct": 48.34
+    },
+    {
+      "category": "671",
+      "total_spend": 18966740.45,
+      "vendor_count": 33,
+      "contract_count": 33,
+      "top_vendor": "Ricoh Canada Inc.",
+      "top1_share_pct": 48.26
+    },
+    {
+      "category": "823",
+      "total_spend": 778934.91,
+      "vendor_count": 15,
+      "contract_count": 15,
+      "top_vendor": "Decew Gun Club",
+      "top1_share_pct": 48.14
+    },
+    {
+      "category": "590",
+      "total_spend": 2200998.24,
+      "vendor_count": 22,
+      "contract_count": 22,
+      "top_vendor": "1E INC",
+      "top1_share_pct": 48.07
+    },
+    {
+      "category": "854",
+      "total_spend": 564740.6,
+      "vendor_count": 7,
+      "contract_count": 7,
+      "top_vendor": "Hewlett-Packard (Canada) Co.",
+      "top1_share_pct": 48.06
+    },
+    {
+      "category": "261",
+      "total_spend": 95056517.09,
+      "vendor_count": 156,
+      "contract_count": 156,
+      "top_vendor": "AIR INUIT LTD",
+      "top1_share_pct": 46.95
+    },
+    {
+      "category": "4510",
+      "total_spend": 150348.19,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "Geomatics Data Management Inc.",
+      "top1_share_pct": 46.45
+    },
+    {
+      "category": "230",
+      "total_spend": 84354746.12,
+      "vendor_count": 28,
+      "contract_count": 28,
+      "top_vendor": "BELL CANADA",
+      "top1_share_pct": 46.17
+    },
+    {
+      "category": "0512",
+      "total_spend": 783511.0,
+      "vendor_count": 5,
+      "contract_count": 5,
+      "top_vendor": "CASSELMAN WOODCRAFT LTD",
+      "top1_share_pct": 46.15
+    },
+    {
+      "category": "2049",
+      "total_spend": 34812682.94,
+      "vendor_count": 15,
+      "contract_count": 15,
+      "top_vendor": "QM LP",
+      "top1_share_pct": 45.78
+    },
+    {
+      "category": "1126",
+      "total_spend": 6300785.44,
+      "vendor_count": 12,
+      "contract_count": 12,
+      "top_vendor": "IRVING ENERGY",
+      "top1_share_pct": 45.63
+    },
+    {
+      "category": "1176",
+      "total_spend": 172149.1,
+      "vendor_count": 6,
+      "contract_count": 6,
+      "top_vendor": "FELIX TECHNOLOGY INC",
+      "top1_share_pct": 44.95
+    },
+    {
+      "category": "607",
+      "total_spend": 9482886.28,
+      "vendor_count": 79,
+      "contract_count": 79,
+      "top_vendor": "FERME BELDOR INC.",
+      "top1_share_pct": 44.16
+    },
+    {
+      "category": "672",
+      "total_spend": 12994061.97,
+      "vendor_count": 72,
+      "contract_count": 72,
+      "top_vendor": "VISARD SOLUTIONS INC.",
+      "top1_share_pct": 43.9
+    },
+    {
+      "category": "510",
+      "total_spend": 1588378.15,
+      "vendor_count": 9,
+      "contract_count": 9,
+      "top_vendor": "CAMPUS NOTRE DAME DE FOY",
+      "top1_share_pct": 43.7
+    },
+    {
+      "category": "1239",
+      "total_spend": 52673898.19,
+      "vendor_count": 152,
+      "contract_count": 152,
+      "top_vendor": "Pitney Bowes of Canada Ltd",
+      "top1_share_pct": 43.67
+    },
+    {
+      "category": "0423",
+      "total_spend": 4262277.51,
+      "vendor_count": 33,
+      "contract_count": 33,
+      "top_vendor": "UNIVERSITY OF WATERLOO",
+      "top1_share_pct": 43.4
+    },
+    {
+      "category": "0705",
+      "total_spend": 181500.0,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "PROGRESSIVE WASTE SOLUTIONS CANADA INC",
+      "top1_share_pct": 43.39
+    },
+    {
+      "category": "0262",
+      "total_spend": 228876.0,
+      "vendor_count": 6,
+      "contract_count": 6,
+      "top_vendor": "LANSDOWNE TECHNOLOGIES INC",
+      "top1_share_pct": 43.2
+    },
+    {
+      "category": "1130",
+      "total_spend": 16786949.8,
+      "vendor_count": 94,
+      "contract_count": 94,
+      "top_vendor": "AIR PRODUCTS CANADA LTD.",
+      "top1_share_pct": 43.09
+    },
+    {
+      "category": "0492",
+      "total_spend": 25140687.77,
+      "vendor_count": 114,
+      "contract_count": 114,
+      "top_vendor": "IBI GROUP ARCHITECTS (CANADA) INC.",
+      "top1_share_pct": 42.7
+    },
+    {
+      "category": "851",
+      "total_spend": 247383.68,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "CEB Inc.",
+      "top1_share_pct": 42.68
+    },
+    {
+      "category": "0460",
+      "total_spend": 78502216.95,
+      "vendor_count": 60,
+      "contract_count": 60,
+      "top_vendor": "Canadian Corps of Commissionaires",
+      "top1_share_pct": 42.62
+    },
+    {
+      "category": "475",
+      "total_spend": 47186467.22,
+      "vendor_count": 34,
+      "contract_count": 34,
+      "top_vendor": "CORADIX TECHNOLOGY CONSULTING",
+      "top1_share_pct": 42.33
+    },
+    {
+      "category": "0403",
+      "total_spend": 414495.23,
+      "vendor_count": 4,
+      "contract_count": 4,
+      "top_vendor": "KPMG LLP",
+      "top1_share_pct": 42.24
+    },
+    {
+      "category": "0430",
+      "total_spend": 782802.5,
+      "vendor_count": 4,
+      "contract_count": 4,
+      "top_vendor": "QUEEN'S UNIVERSITY",
+      "top1_share_pct": 42.22
+    },
+    {
+      "category": "0655",
+      "total_spend": 149418.0,
+      "vendor_count": 5,
+      "contract_count": 5,
+      "top_vendor": "WAJAX POWER SYSTEMS",
+      "top1_share_pct": 42.16
+    },
+    {
+      "category": "1356",
+      "total_spend": 4283791.42,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "Dymech Engineering Inc",
+      "top1_share_pct": 41.93
+    },
+    {
+      "category": "3142",
+      "total_spend": 616465.67,
+      "vendor_count": 3,
+      "contract_count": 3,
+      "top_vendor": "Moody's Canada Inc.",
+      "top1_share_pct": 41.89
+    },
+    {
+      "category": "0668",
+      "total_spend": 7080681.12,
+      "vendor_count": 16,
+      "contract_count": 16,
+      "top_vendor": "IBM Canada Ltd",
+      "top1_share_pct": 41.47
+    },
+    {
+      "category": "1256",
+      "total_spend": 4516141.06,
+      "vendor_count": 8,
+      "contract_count": 8,
+      "top_vendor": "2347758 Nova Scotia Limited",
+      "top1_share_pct": 41.41
+    },
+    {
+      "category": "207",
+      "total_spend": 529436.72,
+      "vendor_count": 5,
+      "contract_count": 5,
+      "top_vendor": "DEMENAGEMENT SLBL",
+      "top1_share_pct": 41.08
+    },
+    {
+      "category": "1289",
+      "total_spend": 137956491.29,
+      "vendor_count": 220,
+      "contract_count": 220,
+      "top_vendor": "MOTOROLA SOLUTIONS CANADA INC",
+      "top1_share_pct": 40.91
+    },
+    {
+      "category": "255",
+      "total_spend": 8575022.3,
+      "vendor_count": 5,
+      "contract_count": 5,
+      "top_vendor": "Mccoy Travel Limited",
+      "top1_share_pct": 40.89
+    },
+    {
+      "category": "422",
+      "total_spend": 24837413934.65,
+      "vendor_count": 181,
+      "contract_count": 181,
+      "top_vendor": "GROUPE SIGNATURE SUR LE",
+      "top1_share_pct": 40.49
+    },
+    {
+      "category": "0231",
+      "total_spend": 2291539.8,
+      "vendor_count": 15,
+      "contract_count": 15,
+      "top_vendor": "Rogers Communications",
+      "top1_share_pct": 40.43
+    },
+    {
+      "category": "855",
+      "total_spend": 873175.05,
+      "vendor_count": 8,
+      "contract_count": 8,
+      "top_vendor": "Workplace Safety and Prevention Ser",
+      "top1_share_pct": 40.21
+    },
+    {
+      "category": "445",
+      "total_spend": 830434.63,
+      "vendor_count": 14,
+      "contract_count": 14,
+      "top_vendor": "MC COLLEGE GROUP",
+      "top1_share_pct": 39.99
+    },
+    {
+      "category": "664",
+      "total_spend": 3023028.58,
+      "vendor_count": 32,
+      "contract_count": 32,
+      "top_vendor": "IBM Canada Ltd.",
+      "top1_share_pct": 39.03
+    },
+    {
+      "category": "N/A",
+      "total_spend": 169854800.93,
+      "vendor_count": 23,
+      "contract_count": 23,
+      "top_vendor": "TEKsystems Canada Inc.",
+      "top1_share_pct": 38.94
+    },
+    {
+      "category": "265",
+      "total_spend": 2725602.06,
+      "vendor_count": 11,
+      "contract_count": 11,
+      "top_vendor": "Skyservice Business Aviation Inc.",
+      "top1_share_pct": 38.93
+    },
+    {
+      "category": "497",
+      "total_spend": 8489913.1,
+      "vendor_count": 12,
+      "contract_count": 12,
+      "top_vendor": "HEMMERA ENVIROCHEM INC.",
+      "top1_share_pct": 38.78
+    },
+    {
+      "category": "0362",
+      "total_spend": 19418466.37,
+      "vendor_count": 106,
+      "contract_count": 106,
+      "top_vendor": "Numeris",
+      "top1_share_pct": 38.63
+    },
+    {
+      "category": "0223",
+      "total_spend": 2019546.83,
+      "vendor_count": 10,
+      "contract_count": 10,
+      "top_vendor": "ROGERS COMMUNICATION CANADA",
+      "top1_share_pct": 37.85
+    },
+    {
+      "category": "0447",
+      "total_spend": 16491722.41,
+      "vendor_count": 218,
+      "contract_count": 218,
+      "top_vendor": "UNIVERSITY OF ONTARIO",
+      "top1_share_pct": 37.75
+    },
+    {
+      "category": "1246",
+      "total_spend": 4529962.35,
+      "vendor_count": 53,
+      "contract_count": 53,
+      "top_vendor": "ASOKAN BUSINESS INTERIORS INC.",
+      "top1_share_pct": 36.46
+    },
+    {
+      "category": "0658",
+      "total_spend": 645831.0,
+      "vendor_count": 10,
+      "contract_count": 10,
+      "top_vendor": "POULIN ELECTRIQUE INC",
+      "top1_share_pct": 36.35
+    },
+    {
+      "category": "540",
+      "total_spend": 9017202.84,
+      "vendor_count": 52,
+      "contract_count": 52,
+      "top_vendor": "Les Autobus E Menard et Fils Inc",
+      "top1_share_pct": 35.46
+    },
+    {
+      "category": "561",
+      "total_spend": 2600200.52,
+      "vendor_count": 34,
+      "contract_count": 34,
+      "top_vendor": "GO HELICO INC.",
+      "top1_share_pct": 35.2
+    },
+    {
+      "category": "6299",
+      "total_spend": 774039.24,
+      "vendor_count": 7,
+      "contract_count": 7,
+      "top_vendor": "GARTNER CANADA CO",
+      "top1_share_pct": 34.78
+    },
+    {
+      "category": "0823",
+      "total_spend": 484341.8,
+      "vendor_count": 6,
+      "contract_count": 6,
+      "top_vendor": "DoubleTree by Hilton Hotel & Conference Centre",
+      "top1_share_pct": 33.81
+    },
+    {
+      "category": "665",
+      "total_spend": 373867877.48,
+      "vendor_count": 456,
+      "contract_count": 456,
+      "top_vendor": "ADGA GROUP CONSULTANTS INC",
+      "top1_share_pct": 33.67
+    },
+    {
+      "category": "0261",
+      "total_spend": 11479743.53,
+      "vendor_count": 26,
+      "contract_count": 26,
+      "top_vendor": "OTTAWA MARRIOTT HOTELS INNVEST HOTELS GP LTD.",
+      "top1_share_pct": 33.66
+    },
+    {
+      "category": "701",
+      "total_spend": 118103.72,
+      "vendor_count": 5,
+      "contract_count": 5,
+      "top_vendor": "TELCON DATVOX",
+      "top1_share_pct": 33.49
+    },
+    {
+      "category": "646",
+      "total_spend": 10209916.27,
+      "vendor_count": 34,
+      "contract_count": 34,
+      "top_vendor": "Microsoft Canada Inc.",
+      "top1_share_pct": 33.0
+    },
+    {
+      "category": "0584",
+      "total_spend": 15011870.17,
+      "vendor_count": 65,
+      "contract_count": 65,
+      "top_vendor": "IBM Canada Ltd",
+      "top1_share_pct": 32.76
+    },
+    {
+      "category": "1142",
+      "total_spend": 4198639.88,
+      "vendor_count": 19,
+      "contract_count": 19,
+      "top_vendor": "ROLLAND ENTERPRISES INC.",
+      "top1_share_pct": 32.7
+    },
+    {
+      "category": "1283",
+      "total_spend": 1834260575.67,
+      "vendor_count": 580,
+      "contract_count": 580,
+      "top_vendor": "Northern Micro Inc.",
+      "top1_share_pct": 31.88
+    },
+    {
+      "category": "\"NA\"",
+      "total_spend": 79848541.66,
+      "vendor_count": 17,
+      "contract_count": 17,
+      "top_vendor": "MGIS Inc.",
+      "top1_share_pct": 31.86
+    },
+    {
+      "category": "0455",
+      "total_spend": 1677843.0,
+      "vendor_count": 13,
+      "contract_count": 13,
+      "top_vendor": "CALIAN LTD",
+      "top1_share_pct": 31.55
+    },
+    {
+      "category": "1134",
+      "total_spend": 497365.0,
+      "vendor_count": 11,
+      "contract_count": 11,
+      "top_vendor": "Interactive Audio Visual Inc.",
+      "top1_share_pct": 31.39
+    },
+    {
+      "category": "473",
+      "total_spend": 14210868047.89,
+      "vendor_count": 1043,
+      "contract_count": 1043,
+      "top_vendor": "Deloitte Inc",
+      "top1_share_pct": 30.68
+    },
+    {
+      "category": "474",
+      "total_spend": 10625015.19,
+      "vendor_count": 21,
+      "contract_count": 21,
+      "top_vendor": "S.I Systems Inc",
+      "top1_share_pct": 30.59
+    },
+    {
+      "category": "450",
+      "total_spend": 118788.95,
+      "vendor_count": 5,
+      "contract_count": 5,
+      "top_vendor": "AMBULANCES DEMERS INC. (LACOLLE)",
+      "top1_share_pct": 30.37
+    },
+    {
+      "category": "1291",
+      "total_spend": 2596970.75,
+      "vendor_count": 16,
+      "contract_count": 16,
+      "top_vendor": "ACT Inc.",
+      "top1_share_pct": 30.25
+    },
+    {
+      "category": "668",
+      "total_spend": 25769876.57,
+      "vendor_count": 60,
+      "contract_count": 60,
+      "top_vendor": "GLENTEL WIRELESS CENTRE",
+      "top1_share_pct": 29.66
+    },
+    {
+      "category": "1316",
+      "total_spend": 9463719.56,
+      "vendor_count": 26,
+      "contract_count": 26,
+      "top_vendor": "CONSTRUCTION ET PAVAGE PORTNEUF",
+      "top1_share_pct": 29.47
+    },
+    {
+      "category": "301",
+      "total_spend": 404630353.82,
+      "vendor_count": 112,
+      "contract_count": 112,
+      "top_vendor": "Cossette Communications Inc.",
+      "top1_share_pct": 29.39
+    },
+    {
+      "category": "1231",
+      "total_spend": 125568040.01,
+      "vendor_count": 565,
+      "contract_count": 565,
+      "top_vendor": "Teknion Ltd",
+      "top1_share_pct": 28.92
+    },
+    {
+      "category": "331",
+      "total_spend": 49314503.55,
+      "vendor_count": 53,
+      "contract_count": 53,
+      "top_vendor": "VENKY RAO EXPO CONSULTANTS INC",
+      "top1_share_pct": 28.35
+    },
+    {
+      "category": "1249",
+      "total_spend": 838231807.79,
+      "vendor_count": 820,
+      "contract_count": 820,
+      "top_vendor": "Perceptics LLC",
+      "top1_share_pct": 28.15
+    },
+    {
+      "category": "6086",
+      "total_spend": 2545441.75,
+      "vendor_count": 12,
+      "contract_count": 12,
+      "top_vendor": "AMEC FOSTER WHEELER ENVIRONMENT",
+      "top1_share_pct": 27.94
+    },
+    {
+      "category": "0672",
+      "total_spend": 4908667.61,
+      "vendor_count": 41,
+      "contract_count": 41,
+      "top_vendor": "Dell Canada Inc.",
+      "top1_share_pct": 27.74
+    },
+    {
+      "category": "1285",
+      "total_spend": 754744670.92,
+      "vendor_count": 616,
+      "contract_count": 616,
+      "top_vendor": "IBM Canada Ltd",
+      "top1_share_pct": 27.7
+    },
+    {
+      "category": "812",
+      "total_spend": 493969655.01,
+      "vendor_count": 308,
+      "contract_count": 308,
+      "top_vendor": "Microsoft Canada Inc.",
+      "top1_share_pct": 27.67
+    },
+    {
+      "category": "1139",
+      "total_spend": 42448216.87,
+      "vendor_count": 239,
+      "contract_count": 239,
+      "top_vendor": "LIFE TECHNOLOGIES INC",
+      "top1_share_pct": 27.43
+    },
+    {
+      "category": "1128",
+      "total_spend": 4110634.96,
+      "vendor_count": 27,
+      "contract_count": 27,
+      "top_vendor": "SUPERIOR PROPANE",
+      "top1_share_pct": 27.43
+    },
+    {
+      "category": "611",
+      "total_spend": 4533158.5,
+      "vendor_count": 51,
+      "contract_count": 51,
+      "top_vendor": "EXCAVATION CIVILPRO INC.",
+      "top1_share_pct": 27.42
+    },
+    {
+      "category": "0665",
+      "total_spend": 14509794.35,
+      "vendor_count": 71,
+      "contract_count": 71,
+      "top_vendor": "Smiths Detection Montreal Inc.",
+      "top1_share_pct": 27.36
+    },
+    {
+      "category": "213",
+      "total_spend": 73719492.95,
+      "vendor_count": 137,
+      "contract_count": 137,
+      "top_vendor": "Canada Post Corporation",
+      "top1_share_pct": 27.28
+    },
+    {
+      "category": "1172",
+      "total_spend": 25683223.99,
+      "vendor_count": 184,
+      "contract_count": 184,
+      "top_vendor": "Minose Solutions Ltd",
+      "top1_share_pct": 27.15
+    },
+    {
+      "category": "0811",
+      "total_spend": 2118709.12,
+      "vendor_count": 17,
+      "contract_count": 17,
+      "top_vendor": "Cache Computer Consulting Corp.",
+      "top1_share_pct": 27.12
+    },
+    {
+      "category": "1212",
+      "total_spend": 1242910.62,
+      "vendor_count": 29,
+      "contract_count": 29,
+      "top_vendor": "CODE FOUR FIRE AND RESCUE INC",
+      "top1_share_pct": 27.11
+    },
+    {
+      "category": "1111",
+      "total_spend": 8103752.36,
+      "vendor_count": 129,
+      "contract_count": 129,
+      "top_vendor": "HEARTLAND LIVESTOCK SERVICES",
+      "top1_share_pct": 27.03
+    },
+    {
+      "category": "460",
+      "total_spend": 1437655312.89,
+      "vendor_count": 246,
+      "contract_count": 246,
+      "top_vendor": "Garda Canada Security Corporation",
+      "top1_share_pct": 26.9
+    },
+    {
+      "category": "0664",
+      "total_spend": 1661626.42,
+      "vendor_count": 18,
+      "contract_count": 18,
+      "top_vendor": "AVI-SPL",
+      "top1_share_pct": 26.75
+    },
+    {
+      "category": "0232",
+      "total_spend": 1506615.21,
+      "vendor_count": 17,
+      "contract_count": 17,
+      "top_vendor": "ISI Global Webcasting",
+      "top1_share_pct": 26.59
+    },
+    {
+      "category": "0656",
+      "total_spend": 1477708.0,
+      "vendor_count": 30,
+      "contract_count": 30,
+      "top_vendor": "SUB-ZERO HEATING TECHNOLOGIES CORP",
+      "top1_share_pct": 26.56
+    },
+    {
+      "category": "1241",
+      "total_spend": 10238713.29,
+      "vendor_count": 68,
+      "contract_count": 68,
+      "top_vendor": "WOLSELEY CANADA INC",
+      "top1_share_pct": 26.21
+    },
+    {
+      "category": "0332",
+      "total_spend": 8041025.52,
+      "vendor_count": 53,
+      "contract_count": 53,
+      "top_vendor": "Genesis",
+      "top1_share_pct": 26.13
+    },
+    {
+      "category": "1159",
+      "total_spend": 2608802.69,
+      "vendor_count": 32,
+      "contract_count": 32,
+      "top_vendor": "H K K INTERNATIONAL",
+      "top1_share_pct": 26.07
+    },
+    {
+      "category": "1364",
+      "total_spend": 6717683.73,
+      "vendor_count": 54,
+      "contract_count": 54,
+      "top_vendor": "J.P GRAVEL CONSTRUCTION INC",
+      "top1_share_pct": 26.01
+    },
+    {
+      "category": "0321",
+      "total_spend": 28169220.05,
+      "vendor_count": 62,
+      "contract_count": 62,
+      "top_vendor": "ST-JOSEPH PRINT GROUP INC.",
+      "top1_share_pct": 25.85
+    },
+    {
+      "category": "1286",
+      "total_spend": 18449210.83,
+      "vendor_count": 53,
+      "contract_count": 53,
+      "top_vendor": "SAP CANADA INC.",
+      "top1_share_pct": 25.76
+    },
+    {
+      "category": "431",
+      "total_spend": 815004587.63,
+      "vendor_count": 205,
+      "contract_count": 205,
+      "top_vendor": "MACDONALD, DETTWILER AND ASSOCIATES CORPORATION",
+      "top1_share_pct": 25.42
+    },
+    {
+      "category": "1261",
+      "total_spend": 219301347.0,
+      "vendor_count": 176,
+      "contract_count": 176,
+      "top_vendor": "FORD MOTOR COMPANY OF CANADA LIMITED",
+      "top1_share_pct": 25.38
+    },
+    {
+      "category": "451",
+      "total_spend": 561887473.36,
+      "vendor_count": 322,
+      "contract_count": 322,
+      "top_vendor": "Calian Ltd",
+      "top1_share_pct": 25.37
+    },
+    {
+      "category": "588",
+      "total_spend": 6850884.37,
+      "vendor_count": 17,
+      "contract_count": 17,
+      "top_vendor": "4 OFFICE AUTOMATION LTD.",
+      "top1_share_pct": 25.02
+    },
+    {
+      "category": "440",
+      "total_spend": 29008109.01,
+      "vendor_count": 87,
+      "contract_count": 87,
+      "top_vendor": "VIA TRAVAIL INC",
+      "top1_share_pct": 24.78
+    },
+    {
+      "category": "44",
+      "total_spend": 261106.4,
+      "vendor_count": 9,
+      "contract_count": 9,
+      "top_vendor": "UNIVERSIT\u00c9 DE SAINT-BONIFACE",
+      "top1_share_pct": 24.74
+    },
+    {
+      "category": "495",
+      "total_spend": 4557744.59,
+      "vendor_count": 18,
+      "contract_count": 18,
+      "top_vendor": "BLUMETRIC ENVIRONMENTAL INC.",
+      "top1_share_pct": 24.68
+    },
+    {
+      "category": "448",
+      "total_spend": 30034148.58,
+      "vendor_count": 237,
+      "contract_count": 237,
+      "top_vendor": "SKILLSOFT CANADA LTD",
+      "top1_share_pct": 24.31
+    },
+    {
+      "category": "0474",
+      "total_spend": 27108810.92,
+      "vendor_count": 32,
+      "contract_count": 32,
+      "top_vendor": "Maplesoft Group",
+      "top1_share_pct": 24.1
+    },
+    {
+      "category": "262",
+      "total_spend": 1305340.39,
+      "vendor_count": 46,
+      "contract_count": 46,
+      "top_vendor": "LANSDOWNE TECHNOLOGIES INC",
+      "top1_share_pct": 23.89
+    },
+    {
+      "category": "0494",
+      "total_spend": 52363127.66,
+      "vendor_count": 75,
+      "contract_count": 75,
+      "top_vendor": "The Masha Krupp Translation Group",
+      "top1_share_pct": 23.73
+    },
+    {
+      "category": "0812",
+      "total_spend": 15870122.86,
+      "vendor_count": 59,
+      "contract_count": 59,
+      "top_vendor": "Bell Canada",
+      "top1_share_pct": 23.66
+    },
+    {
+      "category": "0589",
+      "total_spend": 790887.72,
+      "vendor_count": 20,
+      "contract_count": 20,
+      "top_vendor": "LMB Interpretation Systems Services Inc. (Stagevision LP)",
+      "top1_share_pct": 23.46
+    },
+    {
+      "category": "0660",
+      "total_spend": 2622484.81,
+      "vendor_count": 18,
+      "contract_count": 18,
+      "top_vendor": "HOPEWELL DESIGNS INC",
+      "top1_share_pct": 23.38
+    },
+    {
+      "category": "0493",
+      "total_spend": 2244293.3,
+      "vendor_count": 34,
+      "contract_count": 34,
+      "top_vendor": "ASIGN",
+      "top1_share_pct": 23.17
+    },
+    {
+      "category": "1115",
+      "total_spend": 28232352.96,
+      "vendor_count": 89,
+      "contract_count": 89,
+      "top_vendor": "MEDALLION MILK CO LTD",
+      "top1_share_pct": 23.16
+    },
+    {
+      "category": "0422",
+      "total_spend": 976295.75,
+      "vendor_count": 20,
+      "contract_count": 20,
+      "top_vendor": "ES FOX LIMITED",
+      "top1_share_pct": 23.1
+    },
+    {
+      "category": "0210",
+      "total_spend": 3741557.57,
+      "vendor_count": 31,
+      "contract_count": 31,
+      "top_vendor": "Royal Moving & Storage",
+      "top1_share_pct": 22.95
+    },
+    {
+      "category": "582",
+      "total_spend": 1632586979.78,
+      "vendor_count": 536,
+      "contract_count": 536,
+      "top_vendor": "Desire2Learn Incorporated",
+      "top1_share_pct": 22.74
+    },
+    {
+      "category": "1143",
+      "total_spend": 237258975.85,
+      "vendor_count": 188,
+      "contract_count": 188,
+      "top_vendor": "Moore Canada Corporation",
+      "top1_share_pct": 22.65
+    },
+    {
+      "category": "514",
+      "total_spend": 10536460.78,
+      "vendor_count": 33,
+      "contract_count": 33,
+      "top_vendor": "Abbotsford Fish and Game",
+      "top1_share_pct": 22.65
+    },
+    {
+      "category": "0822",
+      "total_spend": 657076.5,
+      "vendor_count": 18,
+      "contract_count": 18,
+      "top_vendor": "OTTAWA CONFERENCE AND EVENT CENTRE",
+      "top1_share_pct": 22.58
+    },
+    {
+      "category": "321",
+      "total_spend": 146897106.35,
+      "vendor_count": 173,
+      "contract_count": 173,
+      "top_vendor": "R E GILMORE INVESTMENTS CORP.",
+      "top1_share_pct": 22.53
+    },
+    {
+      "category": "492",
+      "total_spend": 384894614.94,
+      "vendor_count": 471,
+      "contract_count": 471,
+      "top_vendor": "Garda Canada Security Corporation",
+      "top1_share_pct": 22.51
+    },
+    {
+      "category": "3422",
+      "total_spend": 4913013.12,
+      "vendor_count": 52,
+      "contract_count": 52,
+      "top_vendor": "UNIVERSITY OF GUELPH",
+      "top1_share_pct": 22.45
+    },
+    {
+      "category": "0",
+      "total_spend": 21448822.91,
+      "vendor_count": 7,
+      "contract_count": 7,
+      "top_vendor": "Accenture Inc.",
+      "top1_share_pct": 22.24
+    },
+    {
+      "category": "1122",
+      "total_spend": 48909193.71,
+      "vendor_count": 63,
+      "contract_count": 63,
+      "top_vendor": "ARI FINANCIAL SERVICES",
+      "top1_share_pct": 22.15
+    },
+    {
+      "category": "1263",
+      "total_spend": 1265567.26,
+      "vendor_count": 33,
+      "contract_count": 33,
+      "top_vendor": "ARI FINANCIAL SERVICES",
+      "top1_share_pct": 22.11
+    },
+    {
+      "category": "1245",
+      "total_spend": 60921851.98,
+      "vendor_count": 212,
+      "contract_count": 212,
+      "top_vendor": "Visiontec (2008) Ltd.",
+      "top1_share_pct": 21.87
+    },
+    {
+      "category": "0402",
+      "total_spend": 4459514.26,
+      "vendor_count": 29,
+      "contract_count": 29,
+      "top_vendor": "MaxSys Staffing & Consulting Inc.",
+      "top1_share_pct": 21.53
+    },
+    {
+      "category": "619",
+      "total_spend": 3207630.14,
+      "vendor_count": 32,
+      "contract_count": 32,
+      "top_vendor": "PEAK MECHANICAL PARTNERSHIP",
+      "top1_share_pct": 21.25
+    },
+    {
+      "category": "1287",
+      "total_spend": 4302061.89,
+      "vendor_count": 29,
+      "contract_count": 29,
+      "top_vendor": "ORACLE CORP. CANADA INC.",
+      "top1_share_pct": 20.87
+    },
+    {
+      "category": "1179",
+      "total_spend": 154496432.91,
+      "vendor_count": 725,
+      "contract_count": 725,
+      "top_vendor": "Logistik Unicorp Inc.",
+      "top1_share_pct": 20.73
+    },
+    {
+      "category": "0821",
+      "total_spend": 3085551.0,
+      "vendor_count": 17,
+      "contract_count": 17,
+      "top_vendor": "Procurement Alliance of Canada Inc",
+      "top1_share_pct": 20.67
+    },
+    {
+      "category": "251",
+      "total_spend": 7799302.79,
+      "vendor_count": 57,
+      "contract_count": 57,
+      "top_vendor": "AMBASSADOR RESORT HOTEL & CONFERENCE CENTRE",
+      "top1_share_pct": 20.56
+    },
+    {
+      "category": "1271",
+      "total_spend": 32171171.94,
+      "vendor_count": 32,
+      "contract_count": 32,
+      "top_vendor": "GENERAL DYNAMICS ORDNANCE AND TACTICAL SYSTEMS CANADA INC",
+      "top1_share_pct": 20.42
+    },
+    {
+      "category": "210",
+      "total_spend": 29990495.47,
+      "vendor_count": 137,
+      "contract_count": 137,
+      "top_vendor": "DAY AND ROSS",
+      "top1_share_pct": 20.26
+    },
+    {
+      "category": "0475",
+      "total_spend": 21590170.78,
+      "vendor_count": 28,
+      "contract_count": 28,
+      "top_vendor": "LIKE 10 INC.",
+      "top1_share_pct": 19.74
+    },
+    {
+      "category": "0496",
+      "total_spend": 466711.5,
+      "vendor_count": 14,
+      "contract_count": 14,
+      "top_vendor": "ODGERS BERNDSTON / OTTAWA INC.",
+      "top1_share_pct": 19.61
+    },
+    {
+      "category": "1171",
+      "total_spend": 19572303.46,
+      "vendor_count": 73,
+      "contract_count": 73,
+      "top_vendor": "SAFE FACE SHIELDS",
+      "top1_share_pct": 19.34
+    },
+    {
+      "category": "587",
+      "total_spend": 2166048.34,
+      "vendor_count": 18,
+      "contract_count": 18,
+      "top_vendor": "XEROX CANADA LTEE",
+      "top1_share_pct": 19.31
+    },
+    {
+      "category": "570",
+      "total_spend": 47696221.98,
+      "vendor_count": 163,
+      "contract_count": 163,
+      "top_vendor": "BEST WESTERN PLUS REGENCY INN",
+      "top1_share_pct": 19.21
+    },
+    {
+      "category": "589",
+      "total_spend": 6195355.64,
+      "vendor_count": 32,
+      "contract_count": 32,
+      "top_vendor": "Wall Sound and Lighting",
+      "top1_share_pct": 19.18
+    },
+    {
+      "category": "0421",
+      "total_spend": 294068.5,
+      "vendor_count": 11,
+      "contract_count": 11,
+      "top_vendor": "CARDIN RAMIREZ JULIEN INC",
+      "top1_share_pct": 19.12
+    },
+    {
+      "category": "1160",
+      "total_spend": 2438019.1,
+      "vendor_count": 66,
+      "contract_count": 66,
+      "top_vendor": "INSTREAM WATER CONTROL PROJECTS LTD",
+      "top1_share_pct": 18.76
+    },
+    {
+      "category": "0448",
+      "total_spend": 2591426.97,
+      "vendor_count": 57,
+      "contract_count": 57,
+      "top_vendor": "ELLICOM INC.",
+      "top1_share_pct": 18.49
+    },
+    {
+      "category": "0431",
+      "total_spend": 6479802.18,
+      "vendor_count": 48,
+      "contract_count": 48,
+      "top_vendor": "EXO INSIGHTS CORP",
+      "top1_share_pct": 18.31
+    },
+    {
+      "category": "630",
+      "total_spend": 56586900.54,
+      "vendor_count": 332,
+      "contract_count": 332,
+      "top_vendor": "CANDEV CONSTRUCTION INC.",
+      "top1_share_pct": 18.2
+    },
+    {
+      "category": "635",
+      "total_spend": 2785080.69,
+      "vendor_count": 48,
+      "contract_count": 48,
+      "top_vendor": "CONSTRUCTIONS VALRIVE INC.",
+      "top1_share_pct": 18.1
+    },
+    {
+      "category": "0514",
+      "total_spend": 739475.35,
+      "vendor_count": 21,
+      "contract_count": 21,
+      "top_vendor": "LA CITE COLLEGIALE",
+      "top1_share_pct": 17.78
+    },
+    {
+      "category": "NA",
+      "total_spend": 8887547.15,
+      "vendor_count": 26,
+      "contract_count": 26,
+      "top_vendor": "Nations Translation Group LP",
+      "top1_share_pct": 17.72
+    },
+    {
+      "category": "455",
+      "total_spend": 125705526.08,
+      "vendor_count": 69,
+      "contract_count": 69,
+      "top_vendor": "CALIAN LTD",
+      "top1_share_pct": 17.59
+    },
+    {
+      "category": "673",
+      "total_spend": 218000168.36,
+      "vendor_count": 195,
+      "contract_count": 195,
+      "top_vendor": "IBM Canada Limited",
+      "top1_share_pct": 17.36
+    },
+    {
+      "category": "0352",
+      "total_spend": 1468051.16,
+      "vendor_count": 22,
+      "contract_count": 22,
+      "top_vendor": "RUTHERFORD MCKAY ASSOCIATES",
+      "top1_share_pct": 17.22
+    },
+    {
+      "category": "0410",
+      "total_spend": 8122775.0,
+      "vendor_count": 64,
+      "contract_count": 64,
+      "top_vendor": "International Reporting Inc.",
+      "top1_share_pct": 16.8
+    },
+    {
+      "category": "584",
+      "total_spend": 274144462.51,
+      "vendor_count": 213,
+      "contract_count": 213,
+      "top_vendor": "IBM Canada Ltd",
+      "top1_share_pct": 16.57
+    },
+    {
+      "category": "0533",
+      "total_spend": 18247467.91,
+      "vendor_count": 65,
+      "contract_count": 65,
+      "top_vendor": "JEMTEC INC",
+      "top1_share_pct": 16.53
+    },
+    {
+      "category": "628",
+      "total_spend": 110364069.6,
+      "vendor_count": 179,
+      "contract_count": 179,
+      "top_vendor": "GRAEBECK CONSTRUCTION LTD.",
+      "top1_share_pct": 16.49
+    },
+    {
+      "category": "496",
+      "total_spend": 14521144.98,
+      "vendor_count": 40,
+      "contract_count": 40,
+      "top_vendor": "BGC ENGINEERING INC.",
+      "top1_share_pct": 16.37
+    },
+    {
+      "category": "670",
+      "total_spend": 579277.76,
+      "vendor_count": 10,
+      "contract_count": 10,
+      "top_vendor": "Waters Ltd",
+      "top1_share_pct": 16.36
+    },
+    {
+      "category": "410",
+      "total_spend": 54513325.54,
+      "vendor_count": 109,
+      "contract_count": 109,
+      "top_vendor": "BORDEN LADNER GERVAIS LLP",
+      "top1_share_pct": 16.17
+    },
+    {
+      "category": "0213",
+      "total_spend": 8561586.8,
+      "vendor_count": 29,
+      "contract_count": 29,
+      "top_vendor": "Federal Express",
+      "top1_share_pct": 16.15
+    },
+    {
+      "category": "421",
+      "total_spend": 9164371.52,
+      "vendor_count": 111,
+      "contract_count": 111,
+      "top_vendor": "D.F.S. INC",
+      "top1_share_pct": 16.13
+    },
+    {
+      "category": "447",
+      "total_spend": 139480042.34,
+      "vendor_count": 855,
+      "contract_count": 855,
+      "top_vendor": "LANGUAGE RESEARCH DEVELOPMENT",
+      "top1_share_pct": 15.44
+    },
+    {
+      "category": "655",
+      "total_spend": 17028811.61,
+      "vendor_count": 180,
+      "contract_count": 180,
+      "top_vendor": "MOTOROLA SOLUTIONS CANADA INC",
+      "top1_share_pct": 15.38
+    },
+    {
+      "category": "0819",
+      "total_spend": 3846249.95,
+      "vendor_count": 62,
+      "contract_count": 62,
+      "top_vendor": "TALENTCOR",
+      "top1_share_pct": 15.03
+    },
+    {
+      "category": "351",
+      "total_spend": 86409651.82,
+      "vendor_count": 389,
+      "contract_count": 389,
+      "top_vendor": "Feast Interactive Inc.",
+      "top1_share_pct": 14.63
+    },
+    {
+      "category": "583",
+      "total_spend": 281471764.33,
+      "vendor_count": 520,
+      "contract_count": 520,
+      "top_vendor": "MICROSOFT CORPORATION",
+      "top1_share_pct": 14.42
+    },
+    {
+      "category": "0859",
+      "total_spend": 30737310.24,
+      "vendor_count": 213,
+      "contract_count": 213,
+      "top_vendor": "ROYAL MOVING & STORAGE",
+      "top1_share_pct": 14.35
+    },
+    {
+      "category": "533",
+      "total_spend": 110235446.6,
+      "vendor_count": 228,
+      "contract_count": 228,
+      "top_vendor": "Konica Minolta",
+      "top1_share_pct": 14.21
+    },
+    {
+      "category": "1161",
+      "total_spend": 519183.42,
+      "vendor_count": 24,
+      "contract_count": 24,
+      "top_vendor": "GROUPE LMT INC",
+      "top1_share_pct": 14.15
+    },
+    {
+      "category": "0401",
+      "total_spend": 25458486.58,
+      "vendor_count": 67,
+      "contract_count": 67,
+      "top_vendor": "CERIDIAN CANADA LTD.",
+      "top1_share_pct": 14.01
+    },
+    {
+      "category": "1358",
+      "total_spend": 51841482.81,
+      "vendor_count": 154,
+      "contract_count": 154,
+      "top_vendor": "CONSTRUCTION L MORIN",
+      "top1_share_pct": 13.81
+    },
+    {
+      "category": "0453",
+      "total_spend": 22138281.23,
+      "vendor_count": 54,
+      "contract_count": 54,
+      "top_vendor": "R LAMBA FORENSIC PSYCH SERVICE",
+      "top1_share_pct": 13.79
+    },
+    {
+      "category": "0585",
+      "total_spend": 4056154.83,
+      "vendor_count": 55,
+      "contract_count": 55,
+      "top_vendor": "Microsoft Canada Inc",
+      "top1_share_pct": 13.71
+    },
+    {
+      "category": "0451",
+      "total_spend": 11107813.65,
+      "vendor_count": 65,
+      "contract_count": 65,
+      "top_vendor": "DYNACARE",
+      "top1_share_pct": 13.56
+    },
+    {
+      "category": "1174",
+      "total_spend": 1946484.8,
+      "vendor_count": 52,
+      "contract_count": 52,
+      "top_vendor": "HERITAGE CO-OP (1997) LTD",
+      "top1_share_pct": 13.29
+    },
+    {
+      "category": "3452",
+      "total_spend": 310412780.47,
+      "vendor_count": 322,
+      "contract_count": 322,
+      "top_vendor": "OEI KRUEGER INTERNATIONAL INC",
+      "top1_share_pct": 13.16
+    },
+    {
+      "category": "0570",
+      "total_spend": 4476266.28,
+      "vendor_count": 63,
+      "contract_count": 63,
+      "top_vendor": "CANADIAN ASSOCIATION OF DEFENCE AND SECURITY INDUSTRIES",
+      "top1_share_pct": 13.12
+    },
+    {
+      "category": "341",
+      "total_spend": 20856635.48,
+      "vendor_count": 120,
+      "contract_count": 120,
+      "top_vendor": "DILLON CONSULTING LIMITED /",
+      "top1_share_pct": 13.1
+    },
+    {
+      "category": "1124",
+      "total_spend": 13898182.54,
+      "vendor_count": 49,
+      "contract_count": 49,
+      "top_vendor": "IMPERIAL OIL",
+      "top1_share_pct": 13.08
+    },
+    {
+      "category": "822",
+      "total_spend": 5092462.4,
+      "vendor_count": 84,
+      "contract_count": 84,
+      "top_vendor": "SWA Vancouver L.P.",
+      "top1_share_pct": 12.9
+    },
+    {
+      "category": "522",
+      "total_spend": 34283706.9,
+      "vendor_count": 72,
+      "contract_count": 72,
+      "top_vendor": "Babel Street Inc.",
+      "top1_share_pct": 12.89
+    },
+    {
+      "category": "811",
+      "total_spend": 270823920.01,
+      "vendor_count": 197,
+      "contract_count": 197,
+      "top_vendor": "SERVICE STAR BUILDING CLEANING INC",
+      "top1_share_pct": 12.72
+    },
+    {
+      "category": "859",
+      "total_spend": 824955785.09,
+      "vendor_count": 1297,
+      "contract_count": 1297,
+      "top_vendor": "Iron Mountain Canada Ops ULC",
+      "top1_share_pct": 12.65
+    },
+    {
+      "category": "361",
+      "total_spend": 105777500.79,
+      "vendor_count": 291,
+      "contract_count": 291,
+      "top_vendor": "ELSEVIER B.V.",
+      "top1_share_pct": 12.18
+    },
+    {
+      "category": "453",
+      "total_spend": 992465571.14,
+      "vendor_count": 281,
+      "contract_count": 281,
+      "top_vendor": "AIM HEALTH GROUP",
+      "top1_share_pct": 11.86
+    },
+    {
+      "category": "332",
+      "total_spend": 21020631.53,
+      "vendor_count": 199,
+      "contract_count": 199,
+      "top_vendor": "Project X Productions Inc.",
+      "top1_share_pct": 11.77
+    },
+    {
+      "category": "0446",
+      "total_spend": 18980507.91,
+      "vendor_count": 214,
+      "contract_count": 214,
+      "top_vendor": "S.i. Systems",
+      "top1_share_pct": 11.77
+    },
+    {
+      "category": "0639",
+      "total_spend": 13760928.0,
+      "vendor_count": 149,
+      "contract_count": 149,
+      "top_vendor": "G GIULIANI INC",
+      "top1_share_pct": 11.69
+    },
+    {
+      "category": "493",
+      "total_spend": 17026751.65,
+      "vendor_count": 113,
+      "contract_count": 113,
+      "top_vendor": "LANGUAGE MARKETPLACE INC",
+      "top1_share_pct": 11.54
+    },
+    {
+      "category": "1243",
+      "total_spend": 544823955.85,
+      "vendor_count": 998,
+      "contract_count": 998,
+      "top_vendor": "Rapiscan Systems Inc",
+      "top1_share_pct": 11.51
+    },
+    {
+      "category": "0361",
+      "total_spend": 18964332.72,
+      "vendor_count": 112,
+      "contract_count": 112,
+      "top_vendor": "EBSCO CANADA LTD",
+      "top1_share_pct": 11.37
+    },
+    {
+      "category": "1284",
+      "total_spend": 83570266.82,
+      "vendor_count": 270,
+      "contract_count": 270,
+      "top_vendor": "DESIRE2LEARN INCORPORATED",
+      "top1_share_pct": 11.3
+    },
+    {
+      "category": "1282",
+      "total_spend": 74608860.15,
+      "vendor_count": 199,
+      "contract_count": 199,
+      "top_vendor": "Smiths Detection - Montreal Inc.",
+      "top1_share_pct": 11.16
+    },
+    {
+      "category": "491",
+      "total_spend": 710909488.06,
+      "vendor_count": 1497,
+      "contract_count": 1497,
+      "top_vendor": "COMPUGEN INC.",
+      "top1_share_pct": 11.1
+    },
+    {
+      "category": "819",
+      "total_spend": 165840965.39,
+      "vendor_count": 323,
+      "contract_count": 323,
+      "top_vendor": "AGILUS",
+      "top1_share_pct": 11.01
+    },
+    {
+      "category": "401",
+      "total_spend": 150854449.04,
+      "vendor_count": 175,
+      "contract_count": 175,
+      "top_vendor": "RAYMOND CHABOT GRANT THORNTON",
+      "top1_share_pct": 10.81
+    },
+    {
+      "category": "1219",
+      "total_spend": 48063695.3,
+      "vendor_count": 422,
+      "contract_count": 422,
+      "top_vendor": "WINTERSTEIGER",
+      "top1_share_pct": 10.78
+    },
+    {
+      "category": "446",
+      "total_spend": 79974062.11,
+      "vendor_count": 648,
+      "contract_count": 648,
+      "top_vendor": "Ecole Creusot",
+      "top1_share_pct": 10.34
+    },
+    {
+      "category": "511",
+      "total_spend": 1934768.01,
+      "vendor_count": 57,
+      "contract_count": 57,
+      "top_vendor": "THE WESTIN OTTAWA",
+      "top1_share_pct": 10.22
+    },
+    {
+      "category": "1369",
+      "total_spend": 1865383.29,
+      "vendor_count": 31,
+      "contract_count": 31,
+      "top_vendor": "KGS GROUP",
+      "top1_share_pct": 10.19
+    },
+    {
+      "category": "362",
+      "total_spend": 320276350.21,
+      "vendor_count": 280,
+      "contract_count": 280,
+      "top_vendor": "Wolters Kluwer Canada Limited",
+      "top1_share_pct": 10.18
+    },
+    {
+      "category": "1242",
+      "total_spend": 18737089.97,
+      "vendor_count": 184,
+      "contract_count": 184,
+      "top_vendor": "Northern Micro Inc.",
+      "top1_share_pct": 10.05
+    },
+    {
+      "category": "1164",
+      "total_spend": 1852787.4,
+      "vendor_count": 41,
+      "contract_count": 41,
+      "top_vendor": "STRONGBAR INDUSTRIES INC",
+      "top1_share_pct": 9.8
+    },
+    {
+      "category": "494",
+      "total_spend": 127629948.53,
+      "vendor_count": 203,
+      "contract_count": 203,
+      "top_vendor": "LIONBRIDGE LTD",
+      "top1_share_pct": 9.76
+    },
+    {
+      "category": "0341",
+      "total_spend": 4223554.21,
+      "vendor_count": 41,
+      "contract_count": 41,
+      "top_vendor": "Quorus Consulting Group Inc.",
+      "top1_share_pct": 9.31
+    },
+    {
+      "category": "430",
+      "total_spend": 439950196.04,
+      "vendor_count": 675,
+      "contract_count": 675,
+      "top_vendor": "BUREAU VERITAS CANADA (2019) INC",
+      "top1_share_pct": 9.28
+    },
+    {
+      "category": "1264",
+      "total_spend": 71674645.36,
+      "vendor_count": 168,
+      "contract_count": 168,
+      "top_vendor": "RUSH TRUCK CENTRES OF CANADA LTD",
+      "top1_share_pct": 9.07
+    },
+    {
+      "category": "1121",
+      "total_spend": 2298153.8,
+      "vendor_count": 54,
+      "contract_count": 54,
+      "top_vendor": "HJS WHOLESALE LTD.",
+      "top1_share_pct": 8.7
+    },
+    {
+      "category": "585",
+      "total_spend": 10163486.69,
+      "vendor_count": 79,
+      "contract_count": 79,
+      "top_vendor": "IPSS Inc.",
+      "top1_share_pct": 8.41
+    },
+    {
+      "category": "0891",
+      "total_spend": 614168.21,
+      "vendor_count": 22,
+      "contract_count": 22,
+      "top_vendor": "Edith Brown",
+      "top1_share_pct": 8.14
+    },
+    {
+      "category": "656",
+      "total_spend": 50040753.48,
+      "vendor_count": 345,
+      "contract_count": 345,
+      "top_vendor": "TRANE CANADA ULC",
+      "top1_share_pct": 8.1
+    },
+    {
+      "category": "660",
+      "total_spend": 44402049.93,
+      "vendor_count": 254,
+      "contract_count": 254,
+      "top_vendor": "THERMO FISHER SCIENTIFIC",
+      "top1_share_pct": 7.97
+    },
+    {
+      "category": "0583",
+      "total_spend": 23600625.16,
+      "vendor_count": 158,
+      "contract_count": 158,
+      "top_vendor": "MICROSOFT CANADA",
+      "top1_share_pct": 7.78
+    },
+    {
+      "category": "0491",
+      "total_spend": 60427106.01,
+      "vendor_count": 295,
+      "contract_count": 295,
+      "top_vendor": "DELOITTE INC.",
+      "top1_share_pct": 7.4
+    },
+    {
+      "category": "1223",
+      "total_spend": 98667924.33,
+      "vendor_count": 322,
+      "contract_count": 322,
+      "top_vendor": "Convergint Technologies LTD",
+      "top1_share_pct": 7.37
+    },
+    {
+      "category": "0473",
+      "total_spend": 471996528.75,
+      "vendor_count": 412,
+      "contract_count": 412,
+      "top_vendor": "Veritaaq Technology House Inc.",
+      "top1_share_pct": 7.34
+    },
+    {
+      "category": "658",
+      "total_spend": 40985007.87,
+      "vendor_count": 211,
+      "contract_count": 211,
+      "top_vendor": "SIEMENS CANADA LIMITED",
+      "top1_share_pct": 7.19
+    },
+    {
+      "category": "0351",
+      "total_spend": 11192614.21,
+      "vendor_count": 175,
+      "contract_count": 175,
+      "top_vendor": "RUTHERFORD MCKAY ASSOCIATES",
+      "top1_share_pct": 6.99
+    },
+    {
+      "category": "0452",
+      "total_spend": 46165308.78,
+      "vendor_count": 64,
+      "contract_count": 64,
+      "top_vendor": "PRINCE GEORGE ACTIVATOR",
+      "top1_share_pct": 6.93
+    },
+    {
+      "category": "0499",
+      "total_spend": 145954427.11,
+      "vendor_count": 1047,
+      "contract_count": 1047,
+      "top_vendor": "CIVIX",
+      "top1_share_pct": 5.91
+    },
+    {
+      "category": "0813",
+      "total_spend": 19449977.3,
+      "vendor_count": 119,
+      "contract_count": 119,
+      "top_vendor": "ARTEMP PERSONNEL SERVICES INC.",
+      "top1_share_pct": 5.8
+    },
+    {
+      "category": "499",
+      "total_spend": 2087258341.68,
+      "vendor_count": 3314,
+      "contract_count": 3314,
+      "top_vendor": "BRIDGES OF CANADA INC",
+      "top1_share_pct": 5.69
+    },
+    {
+      "category": "452",
+      "total_spend": 5209015293.96,
+      "vendor_count": 332,
+      "contract_count": 332,
+      "top_vendor": "SALVATION ARMY",
+      "top1_share_pct": 5.2
+    },
+    {
+      "category": "639",
+      "total_spend": 115803368.56,
+      "vendor_count": 755,
+      "contract_count": 755,
+      "top_vendor": "LES TOITURES TECHNI TOIT",
+      "top1_share_pct": 4.93
+    },
+    {
+      "category": "813",
+      "total_spend": 84209807.72,
+      "vendor_count": 253,
+      "contract_count": 253,
+      "top_vendor": "PERSONNEL ALTER EGO",
+      "top1_share_pct": 4.58
+    }
+  ]
+}

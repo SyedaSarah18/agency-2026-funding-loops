@@ -1,0 +1,258 @@
+{
+  "dataset": "fed_contracts",
+  "slice": "department",
+  "column": "owner_org_title",
+  "note": "Federal departments / agencies. Same dataset as fed_contracts_by_category but sliced differently.",
+  "generated_at": "2026-04-29T15:46:48.116042+00:00",
+  "row_count": 31,
+  "rows": [
+    {
+      "department": "Canadian Space Agency | Agence spatiale canadienne",
+      "total_spend": 8810913724.12,
+      "vendor_count": 952,
+      "contract_count": 952,
+      "top_vendor": "MACDONALD, DETTWILER AND ASSOCIATES CORPORATION",
+      "top1_share_pct": 77.05
+    },
+    {
+      "department": "Canada School of Public Service | \u00c9cole de la fonction publique du Canada",
+      "total_spend": 622165516.43,
+      "vendor_count": 526,
+      "contract_count": 526,
+      "top_vendor": "Desire2Learn Incorporated",
+      "top1_share_pct": 59.68
+    },
+    {
+      "department": "Department of Housing, Infrastructure and Communities | Minist\u00e8re du Logement, de l\u2019Infrastructure et des Collectivit\u00e9s",
+      "total_spend": 25051425711.75,
+      "vendor_count": 405,
+      "contract_count": 405,
+      "top_vendor": "GROUPE SIGNATURE SUR LE",
+      "top1_share_pct": 40.15
+    },
+    {
+      "department": "Department of Finance Canada | Minist\u00e8re des Finances Canada",
+      "total_spend": 338451264.92,
+      "vendor_count": 550,
+      "contract_count": 550,
+      "top_vendor": "Cossette Communications Inc.",
+      "top1_share_pct": 35.72
+    },
+    {
+      "department": "Canada Border Services Agency | Agence des services frontaliers du Canada",
+      "total_spend": 13084599834.39,
+      "vendor_count": 2485,
+      "contract_count": 2485,
+      "top_vendor": "Deloitte Inc",
+      "top1_share_pct": 33.35
+    },
+    {
+      "department": "Canadian Nuclear Safety Commission | Commission canadienne de s\u00fbret\u00e9 nucl\u00e9aire",
+      "total_spend": 288310315.71,
+      "vendor_count": 706,
+      "contract_count": 706,
+      "top_vendor": "MICROSOFT CANADA INC.",
+      "top1_share_pct": 27.25
+    },
+    {
+      "department": "Courts Administration Service | Service administratif des tribunaux judiciaires",
+      "total_spend": 317648428.02,
+      "vendor_count": 899,
+      "contract_count": 899,
+      "top_vendor": "Canadian Corps of Commissionaires",
+      "top1_share_pct": 21.04
+    },
+    {
+      "department": "Canadian Centre for Occupational Health and Safety | Centre canadien d'hygi\u00e8ne et de s\u00e9curit\u00e9 au travail",
+      "total_spend": 10400168.76,
+      "vendor_count": 129,
+      "contract_count": 129,
+      "top_vendor": "Vubiz Inc.",
+      "top1_share_pct": 20.27
+    },
+    {
+      "department": "Administrative Tribunals Support Service of Canada | Service canadien d'appui aux tribunaux administratifs",
+      "total_spend": 224484856.23,
+      "vendor_count": 409,
+      "contract_count": 409,
+      "top_vendor": "ADIRONDACK INFORMATION MANAGEMENT INC., AMITA CORPORATION, ARTEMP PERSONNEL SERVICES INC., THE AIM GROUP INC., IN JOINT VENTURE",
+      "top1_share_pct": 17.89
+    },
+    {
+      "department": "Canada Water Agency | Agence de l\u2019eau du Canada",
+      "total_spend": 3159949.83,
+      "vendor_count": 51,
+      "contract_count": 51,
+      "top_vendor": "WATERSHED FUTURES",
+      "top1_share_pct": 15.2
+    },
+    {
+      "department": "Canada Revenue Agency | Agence du revenu du Canada",
+      "total_spend": 6327656336.6,
+      "vendor_count": 1281,
+      "contract_count": 1281,
+      "top_vendor": "Veritaaq Technology House Inc.",
+      "top1_share_pct": 14.88
+    },
+    {
+      "department": "Accessibility Standards Canada | Normes d\u2019accessibilit\u00e9 Canada",
+      "total_spend": 21376790.31,
+      "vendor_count": 100,
+      "contract_count": 100,
+      "top_vendor": "Engineers in Motion Inc.",
+      "top1_share_pct": 14.21
+    },
+    {
+      "department": "Canadian Grain Commission | Commission canadienne des grains",
+      "total_spend": 91245181.32,
+      "vendor_count": 424,
+      "contract_count": 424,
+      "top_vendor": "LIFE TECHNOLOGIES INC",
+      "top1_share_pct": 13.56
+    },
+    {
+      "department": "Canadian Intergovernmental Conference Secretariat | Secr\u00e9tariat des conf\u00e9rences intergouvernementales canadiennes",
+      "total_spend": 6758078.84,
+      "vendor_count": 79,
+      "contract_count": 79,
+      "top_vendor": "LMB Interpretation Systems Services",
+      "top1_share_pct": 13.47
+    },
+    {
+      "department": "Elections Canada | \u00c9lections Canada",
+      "total_spend": 1810363473.99,
+      "vendor_count": 1049,
+      "contract_count": 1049,
+      "top_vendor": "KYNDRYL CANADA LTEE",
+      "top1_share_pct": 12.09
+    },
+    {
+      "department": "Canada Economic Development for Quebec Regions | D\u00e9veloppement \u00e9conomique Canada pour les r\u00e9gions du Qu\u00e9bec",
+      "total_spend": 36298151.8,
+      "vendor_count": 260,
+      "contract_count": 260,
+      "top_vendor": "FREEBALANCE INC",
+      "top1_share_pct": 10.49
+    },
+    {
+      "department": "Canadian Northern Economic Development Agency | Agence canadienne de d\u00e9veloppement \u00e9conomique du Nord",
+      "total_spend": 4695120.27,
+      "vendor_count": 84,
+      "contract_count": 84,
+      "top_vendor": "The Right Door Consulting",
+      "top1_share_pct": 10.25
+    },
+    {
+      "department": "Employment and Social Development Canada | Emploi et D\u00e9veloppement social Canada",
+      "total_spend": 1708937825.77,
+      "vendor_count": 1022,
+      "contract_count": 1022,
+      "top_vendor": "ADOBE SYSTEMS CANADA INCORPORATED",
+      "top1_share_pct": 9.74
+    },
+    {
+      "department": "Atlantic Canada Opportunities Agency | Agence de promotion \u00e9conomique du Canada atlantique",
+      "total_spend": 39113468.17,
+      "vendor_count": 361,
+      "contract_count": 361,
+      "top_vendor": "Anthony Macauley Associates",
+      "top1_share_pct": 9.64
+    },
+    {
+      "department": "Canadian Heritage | Patrimoine canadien",
+      "total_spend": 593537169.93,
+      "vendor_count": 1441,
+      "contract_count": 1441,
+      "top_vendor": "PR3 M\u00e9dias Inc",
+      "top1_share_pct": 9.47
+    },
+    {
+      "department": "Agriculture and Agri-Food Canada | Agriculture et Agroalimentaire Canada",
+      "total_spend": 2361317997.09,
+      "vendor_count": 4409,
+      "contract_count": 4409,
+      "top_vendor": "IBM CANADA LTD",
+      "top1_share_pct": 9.03
+    },
+    {
+      "department": "Canadian Radio-television and Telecommunications Commission | Conseil de la radiodiffusion et des t\u00e9l\u00e9communications canadiennes",
+      "total_spend": 138839130.5,
+      "vendor_count": 519,
+      "contract_count": 519,
+      "top_vendor": "LUMINA-IT INC",
+      "top1_share_pct": 8.91
+    },
+    {
+      "department": "Canadian Transportation Agency | Office des transports du Canada",
+      "total_spend": 85130682.16,
+      "vendor_count": 261,
+      "contract_count": 261,
+      "top_vendor": "MODIS CANADA INC",
+      "top1_share_pct": 8.68
+    },
+    {
+      "department": "Canadian Human Rights Commission | Commission canadienne des droits de la personne",
+      "total_spend": 39781655.09,
+      "vendor_count": 290,
+      "contract_count": 290,
+      "top_vendor": "Microsoft Canada Inc",
+      "top1_share_pct": 8.33
+    },
+    {
+      "department": "Department of Justice Canada | Minist\u00e8re de la Justice Canada",
+      "total_spend": 644424112.85,
+      "vendor_count": 1049,
+      "contract_count": 1049,
+      "top_vendor": "COMMISSIONAIRES",
+      "top1_share_pct": 7.8
+    },
+    {
+      "department": "Crown-Indigenous Relations and Northern Affairs Canada | Relations Couronne-Autochtones et Affaires du Nord Canada",
+      "total_spend": 835238436.77,
+      "vendor_count": 1486,
+      "contract_count": 1486,
+      "top_vendor": "DONNA CONA INC",
+      "top1_share_pct": 7.76
+    },
+    {
+      "department": "Civilian Review and Complaints Commission for the RCMP | Commission civile d'examen et de traitement des plaintes relatives \u00e0 la Gendarmerie royale du Canada",
+      "total_spend": 13790470.72,
+      "vendor_count": 159,
+      "contract_count": 159,
+      "top_vendor": "WorkDynamics Technologies Inc.",
+      "top1_share_pct": 7.73
+    },
+    {
+      "department": "Canada Energy Regulator | La R\u00e9gie de l\u2019\u00e9nergie du Canada",
+      "total_spend": 321430824.35,
+      "vendor_count": 848,
+      "contract_count": 848,
+      "top_vendor": "MaxSys Staffing & Consulting Inc.",
+      "top1_share_pct": 6.67
+    },
+    {
+      "department": "Canadian Institutes of Health Research | Instituts de recherche en sant\u00e9 du Canada",
+      "total_spend": 100057640.61,
+      "vendor_count": 479,
+      "contract_count": 479,
+      "top_vendor": "MINDWIRE SYSTEMS LTD",
+      "top1_share_pct": 6.61
+    },
+    {
+      "department": "Canadian Food Inspection Agency | Agence canadienne d'inspection des aliments",
+      "total_spend": 1206332648.33,
+      "vendor_count": 1386,
+      "contract_count": 1386,
+      "top_vendor": "ACCENTURE INC.",
+      "top1_share_pct": 4.84
+    },
+    {
+      "department": "Correctional Service of Canada | Service correctionnel du Canada",
+      "total_spend": 11341586990.95,
+      "vendor_count": 5490,
+      "contract_count": 5490,
+      "top_vendor": "MCKESSON CANADA CORPORATION",
+      "top1_share_pct": 2.79
+    }
+  ]
+}

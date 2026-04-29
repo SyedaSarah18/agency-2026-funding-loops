@@ -37,12 +37,23 @@ from vendor_concentration_agent.tools.crosscheck import (
     cross_dataset_lookup_for_vendor,
     compare_two_computations,
 )
+from vendor_concentration_agent.tools.kb import (
+    query_kb_categories,
+    query_kb_ministries_departments,
+    read_methodology,
+)
 
 DISCOVERY_TOOLS = [
-    scan_all_procurement_datasets,        # default for broad questions
-    list_top_concentrated_categories,     # narrow: ab_sole_source by category
-    list_top_concentrated_ministries,     # narrow: any dataset by ministry
-    list_vendor_counts_by_ministry,       # narrow: competition baseline
+    # Primary live tools — always try these first
+    scan_all_procurement_datasets,        # broad: all 3 datasets in one call
+    list_top_concentrated_categories,     # narrow: one dataset by category
+    list_top_concentrated_ministries,     # narrow: one dataset by ministry
+    list_vendor_counts_by_ministry,       # narrow: competition count by ministry
+    # KB fallback — pre-computed full coverage; use only when live query
+    # returns empty / insufficient results or the question requires ALL rows
+    query_kb_categories,              # all categories with vendor counts
+    query_kb_ministries_departments,  # all ministries/depts with vendor counts
+    read_methodology,                 # how metrics are computed (HHI, Gini, etc.)
 ]
 
 INVESTIGATION_TOOLS = [
@@ -53,6 +64,7 @@ INVESTIGATION_TOOLS = [
     how_long_has_vendor_held_category,
     vendor_full_footprint,
     how_many_distinct_vendors_in_category,
+    read_methodology,  # for explaining how a metric was computed
 ]
 
 VALIDATOR_TOOLS = [
