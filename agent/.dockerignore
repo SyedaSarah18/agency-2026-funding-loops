@@ -1,0 +1,13 @@
+# Don't ship local artifacts in the image
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.venv/
+.env
+.env.local
+tests/
+scripts/
+docs/
+*.md
