@@ -28,15 +28,23 @@ def list_top_concentrated_categories(
     min_total: float = 10_000_000.0,
     limit: int = 10,
 ) -> dict[str, Any]:
-    """List categories ranked by single-vendor share. ONLY works on
-    `ab_sole_source` (the only dataset with a category column).
-    Use this to find sole-source LOCK-IN by service category.
+    """List categories ranked by single-vendor share (vendor_count per
+    category and CR_1 share). Works on ANY dataset that has a category
+    column — `ab_sole_source` (contract_services) and `fed_contracts`
+    (economic_object_code). Call it ONCE per dataset to get category-level
+    vendor counts across both provincial and federal procurement.
 
     Returns: ranked list of categories, each with top vendor, vendor count,
     cumulative spend, and CR_1 share.
 
+    ⚠️ NARROW TOOL — call this only when you need a per-category breakdown
+    of a SPECIFIC dataset. For broad concentration questions (disproportionate
+    share across government, lock-in without an explicit dataset scope) call
+    `scan_all_procurement_datasets` instead.
+
     Args:
-        dataset: must be "ab_sole_source".
+        dataset: "ab_sole_source" (category = contract_services) or
+                 "fed_contracts" (category = economic_object_code).
         min_total: drop categories below this $ threshold.
         limit: max categories to return.
     """
