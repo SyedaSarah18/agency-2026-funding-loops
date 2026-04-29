@@ -24,6 +24,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
+from vendor_concentration_agent.dashboards import router as dashboards_router
 from vendor_concentration_agent.orchestrator import handle as orchestrator_handle
 
 
@@ -39,6 +40,8 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+
+app.include_router(dashboards_router)
 
 
 @app.get("/health")

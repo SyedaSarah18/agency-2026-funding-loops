@@ -50,14 +50,15 @@ INVESTIGATION_TOOLS = [
 ]
 
 VALIDATOR_TOOLS = [
-    cross_dataset_lookup_for_vendor,
-    compare_two_computations,
-    # Validator may re-run any investigation tool on a sibling slice
-    hhi_for_category,
-    cr_n_for_category,
-    sole_source_share,
-    vendor_full_footprint,
-    how_many_distinct_vendors_in_category,
+    # Validator's job is to cross-check — NOT to re-run the same metric on
+    # the same inputs. Tool access is restricted to:
+    cross_dataset_lookup_for_vendor,    # cross-jurisdiction confirm
+    compare_two_computations,           # arithmetic delta verdict
+    sole_source_share,                   # sibling-table comparison vs sole-source rate
+    # Deliberately NOT exposed: hhi_for_category, cr_n_for_category,
+    # vendor_full_footprint, how_many_distinct_vendors_in_category, gini —
+    # those would let the Validator "re-run with slightly wrong inputs"
+    # and produce false DIVERGE verdicts.
 ]
 
 NARRATIVE_TOOLS: list = []  # writing only — no tools

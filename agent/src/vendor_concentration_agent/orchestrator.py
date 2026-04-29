@@ -58,8 +58,12 @@ async def handle(question: str, context: str = "") -> AsyncIterator[dict]:
             # ---- Router classification ----
             await bus.emit_tool_start("router", "Router", question)
             decision = await classify(question, context)
+            # Surface the route as a small structured card for the trace
+            # panel — NOT as flowing text in the chat thread.
+            await bus.emit_tool_result(
+                "route", {"route": decision.route, "reason": decision.reason}
+            )
             await bus.emit_tool_done("router")
-            await bus.emit_text(f"\n\n**Route:** `{decision.route}` — {decision.reason}\n\n")
 
             # ---- Dispatch ----
             final_text = ""
@@ -79,14 +83,10 @@ async def handle(question: str, context: str = "") -> AsyncIterator[dict]:
             elif decision.route == "out_of_scope":
                 await bus.emit_text(_OUT_OF_SCOPE_MESSAGE)
 
-            # ---- Gates ----
-            if final_text and bus.audit:
-                gate_results = run_gates(final_text, bus.audit)
-                warnings = [w for warns in gate_results.values() for w in warns]
-                if warnings:
-                    await bus.emit_text("\n\n---\n\n_Validator gates flagged:_\n")
-                    for w in warnings[:5]:  # cap noise
-                        await bus.emit_text(f"- {w}\n")
+            # ---- Gates (silent unless they fire) ----
+            # We deliberately do NOT pollute the chat with gate warnings —
+            # they're advisory and noisy. They live in the audit drawer
+            # and the orchestrator's logs. Only fatal failures interrupt.
 
         except Exception as e:
             await bus.emit_error(f"orchestrator: {type(e).__name__}: {e}")

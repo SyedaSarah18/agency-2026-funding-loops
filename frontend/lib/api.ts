@@ -1,7 +1,83 @@
+export type ToolResult =
+  | {
+      kind: 'discovery_plan'
+      data: {
+        scope?: string
+        candidates?: Array<{ category: string; top_vendor: string; cat_total: number; top1_share_pct: number; call_id?: string }>
+        next_actions?: string[]
+        sub_theme?: string
+        honest_caveats?: string[]
+      }
+      call_id?: string
+    }
+  | {
+      kind: 'findings'
+      data: {
+        headline?: string
+        metrics?: Array<{ name: string; value: number | string; call_id?: string; interpretation?: string }>
+        supporting_facts?: Array<{ fact: string; call_id?: string }>
+        interesting_moments?: string[]
+      }
+      call_id?: string
+    }
+  | {
+      kind: 'verdict'
+      data: {
+        verdict?: 'MATCH' | 'PARTIAL' | 'DIVERGE'
+        confidence?: 'high' | 'medium' | 'low'
+        checks_run?: Array<{ what: string; value_a: number; value_b: number; verdict: string; call_id?: string }>
+        cross_dataset?: { appears_in?: string[]; canonical_name?: string; call_id?: string }
+        ruled_out?: string[]
+        honest_caveats?: string[]
+      }
+      call_id?: string
+    }
+  | {
+      kind:
+        | 'hhi'
+        | 'cr_n'
+        | 'gini'
+        | 'sole_source_rate'
+        | 'incumbency_streak'
+        | 'vendor_footprint'
+        | 'competition_count'
+        | 'cross_dataset_lookup'
+        | 'divergence_check'
+        | 'top_concentrated_categories'
+      data: {
+        value: unknown
+        inputs?: Record<string, unknown>
+        trace_preview?: Array<Record<string, unknown>>
+        rows_preview?: Array<Record<string, unknown>>
+        references?: string[]
+      }
+      call_id?: string
+    }
+  | {
+      kind: 'final_brief'
+      data: {
+        headline?: string
+        summary?: string
+        metrics_table?: Array<{ metric: string; value: string; interpretation?: string; call_id?: string | null }>
+        sub_theme?: 'Efficiency' | 'Integrity' | 'Alignment'
+        verdict?: 'MATCH' | 'PARTIAL' | 'DIVERGE'
+        confidence?: 'high' | 'medium' | 'low'
+        recommendation?: string
+        caveats?: string[]
+      }
+      call_id?: string
+    }
+  | {
+      kind: 'route'
+      data: { route: string; reason: string }
+      call_id?: string
+    }
+
 export type ChatEvent =
   | { type: 'text'; text: string }
   | { type: 'tool'; name: string; label: string; question: string }
   | { type: 'tool_done'; name: string }
+  | { type: 'tool_result'; result: ToolResult }
 
 export async function* streamChatEvents(query: string): AsyncGenerator<ChatEvent, void, unknown> {
   const response = await fetch('/api/chat', {
@@ -36,9 +112,15 @@ export async function* streamChatEvents(query: string): AsyncGenerator<ChatEvent
       try {
         const parsed = JSON.parse(json)
         if (parsed.error) throw new Error(parsed.error)
-        if (parsed.text) yield { type: 'text', text: parsed.text }
-        else if (parsed.tool) yield { type: 'tool', name: parsed.tool, label: parsed.label ?? parsed.tool, question: parsed.question ?? '' }
-        else if (parsed.tool_done) yield { type: 'tool_done', name: parsed.tool_done }
+        if (parsed.tool_result) {
+          yield { type: 'tool_result', result: { kind: parsed.kind, data: parsed.data, call_id: parsed.call_id } }
+        } else if (parsed.text) {
+          yield { type: 'text', text: parsed.text }
+        } else if (parsed.tool) {
+          yield { type: 'tool', name: parsed.tool, label: parsed.label ?? parsed.tool, question: parsed.question ?? '' }
+        } else if (parsed.tool_done) {
+          yield { type: 'tool_done', name: parsed.tool_done }
+        }
       } catch (e) {
         if (e instanceof SyntaxError) continue
         throw e
