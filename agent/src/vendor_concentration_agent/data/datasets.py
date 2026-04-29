@@ -49,6 +49,23 @@ DATASETS: dict[str, DatasetSpec] = {
         fiscal_year_col=None,
         description="Federal grants and contributions (open.canada.ca).",
     ),
+    # Federal procurement contracts (Proactive Disclosure / open.canada.ca),
+    # vendored as public.contracts. ~153K rows, $76.5B, 24K distinct vendors,
+    # 31 departments. NOTE: contract_value is stored as TEXT — we wrap it in
+    # a CASE expression so existing WHERE/SUM math works without changes
+    # (non-numeric strings → NULL, filtered out by IS NOT NULL).
+    "fed_contracts": DatasetSpec(
+        table="public.contracts",
+        vendor_col="vendor_name",
+        amount_col=(
+            "(CASE WHEN contract_value ~ '^[-+]?[0-9]+(\\.[0-9]+)?$' "
+            "THEN contract_value::numeric ELSE NULL END)"
+        ),
+        category_col="economic_object_code",
+        ministry_col="owner_org_title",
+        fiscal_year_col=None,
+        description="Federal procurement contracts (open.canada.ca / Proactive Disclosure).",
+    ),
 }
 
 
