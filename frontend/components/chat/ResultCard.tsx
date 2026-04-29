@@ -399,73 +399,46 @@ function DiscoveryPlanCard({ data }: { data: any }) {
 function FindingsCard({ data }: { data: any }) {
   const metrics: any[] = data.metrics ?? []
   const facts: any[] = data.supporting_facts ?? []
-  const moments: string[] = data.interesting_moments ?? []
   return (
     <Shell title="Findings">
       {data.headline && (
-        <KvTable rows={[
-          { k: 'Headline', v: <span className="font-semibold">{data.headline}</span> },
-        ]} />
+        <p className="text-[11px] font-semibold leading-snug mb-2 break-words">{data.headline}</p>
       )}
       {metrics.length > 0 && (
-        <div className="mt-2">
-          <div className="text-[10px] font-bold tracking-[0.12em] text-muted-foreground uppercase mb-1">Metrics</div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-[11px] border border-border/40 rounded">
-              <thead>
-                <tr className="bg-muted text-foreground">
-                  <th className="text-left font-semibold px-2 py-1">Metric</th>
-                  <th className="text-right font-semibold px-2 py-1 w-[90px]">Value</th>
-                  <th className="text-left font-semibold px-2 py-1">Interpretation</th>
+        <div className="overflow-x-auto">
+          <table className="w-full text-[11px] border border-border/40 rounded">
+            <thead>
+              <tr className="bg-muted text-foreground">
+                <th className="text-left font-semibold px-2 py-1 w-[60px]">Metric</th>
+                <th className="text-right font-semibold px-2 py-1 w-[80px]">Value</th>
+                <th className="text-left font-semibold px-2 py-1">Interpretation</th>
+              </tr>
+            </thead>
+            <tbody>
+              {metrics.slice(0, 3).map((m, i) => (
+                <tr key={i} className="border-t border-border/30 align-top">
+                  <td className="px-2 py-1.5 font-medium whitespace-nowrap">{m.name}</td>
+                  <td className="px-2 py-1.5 text-right tabular-nums font-semibold whitespace-nowrap">
+                    {typeof m.value === 'number'
+                      ? (String(m.name).toLowerCase().includes('hhi')
+                          ? m.value.toLocaleString(undefined, { maximumFractionDigits: 0 })
+                          : m.value.toLocaleString(undefined, { maximumFractionDigits: 2 }))
+                      : String(m.value)}
+                  </td>
+                  <td className="px-2 py-1.5 text-muted-foreground break-words leading-snug">{m.interpretation ?? ''}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {metrics.slice(0, 6).map((m, i) => (
-                  <tr key={i} className="border-t border-border/30 align-top">
-                    <td className="px-2 py-1.5 break-words leading-snug font-medium">{m.name}</td>
-                    <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">
-                      {typeof m.value === 'number'
-                        ? (String(m.name).toLowerCase().includes('hhi')
-                            ? m.value.toLocaleString(undefined, { maximumFractionDigits: 0 })
-                            : m.value.toLocaleString(undefined, { maximumFractionDigits: 2 }))
-                        : String(m.value)}
-                    </td>
-                    <td className="px-2 py-1.5 text-muted-foreground break-words leading-snug">{m.interpretation ?? ''}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
       {facts.length > 0 && (
-        <div className="mt-2">
-          <div className="text-[10px] font-bold tracking-[0.12em] text-muted-foreground uppercase mb-1">Supporting facts</div>
-          <table className="w-full text-[11px] border border-border/40 rounded">
-            <tbody>
-              {facts.slice(0, 5).map((f, i) => (
-                <tr key={i} className={cn(i > 0 && 'border-t border-border/30')}>
-                  <td className="px-2 py-1.5 align-top text-muted-foreground tabular-nums text-[10px] bg-muted/40 w-[28px]">{i + 1}</td>
-                  <td className="px-2 py-1.5 align-top text-foreground break-words leading-snug">{f.fact}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-      {moments.length > 0 && (
-        <div className="mt-2">
-          <div className="text-[10px] font-bold tracking-[0.12em] text-muted-foreground uppercase mb-1">Notable patterns</div>
-          <table className="w-full text-[11px] border border-border/40 rounded">
-            <tbody>
-              {moments.slice(0, 3).map((m, i) => (
-                <tr key={i} className={cn(i > 0 && 'border-t border-border/30')}>
-                  <td className="px-2 py-1.5 align-top text-muted-foreground tabular-nums text-[10px] bg-muted/40 w-[28px]">{i + 1}</td>
-                  <td className="px-2 py-1.5 align-top text-foreground break-words leading-snug">{m}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="mt-1.5 space-y-0.5">
+          {facts.slice(0, 2).map((f, i) => (
+            <p key={i} className="text-[10px] text-muted-foreground leading-snug break-words">
+              <span className="text-muted-foreground/50 mr-1">{i + 1}.</span>{f.fact}
+            </p>
+          ))}
         </div>
       )}
     </Shell>
@@ -473,7 +446,7 @@ function FindingsCard({ data }: { data: any }) {
 }
 
 function VerdictCard({ data }: { data: any }) {
-  const v = (data.verdict ?? 'MATCH') as 'MATCH' | 'PARTIAL' | 'DIVERGE' | 'INSUFFICIENT_DATA'
+  const v = (data.verdict ?? 'INSUFFICIENT_DATA') as 'MATCH' | 'PARTIAL' | 'DIVERGE' | 'INSUFFICIENT_DATA'
   const colors: Record<string, string> = {
     MATCH: 'hsl(var(--chart-3))',
     PARTIAL: 'hsl(var(--chart-1))',
@@ -482,66 +455,65 @@ function VerdictCard({ data }: { data: any }) {
   }
   const checks: any[] = data.checks_run ?? []
   const xd = data.cross_dataset
-  const ruled: string[] = data.ruled_out ?? []
+  const caveats: string[] = data.honest_caveats ?? data.ruled_out ?? []
+  const color = colors[v] ?? colors.INSUFFICIENT_DATA
   return (
-    <Shell title="Validator verdict" pill={`${v} · ${data.confidence ?? '—'}`} pillColor={colors[v]}>
-      <KvTable rows={[
-        { k: 'Verdict', v: <span className="font-bold uppercase tracking-wider" style={{ color: colors[v] }}>{v}</span> },
-        { k: 'Confidence', v: data.confidence ?? '—' },
-        ...(xd?.canonical_name ? [
-          { k: 'Cross-jurisdiction', v: <span className="font-semibold">{xd.canonical_name}</span> },
-          { k: 'Appears in', v: <span className="font-mono">{(xd.appears_in ?? []).join(', ') || '—'}</span> },
-        ] : []),
-      ]} />
+    <div className="border border-border/60 bg-card rounded-md px-3 py-2 my-2 max-w-full overflow-hidden">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-[10px] font-bold tracking-[0.12em] text-muted-foreground uppercase">
+          Validator
+        </span>
+        <span
+          className="text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded border"
+          style={{ color, borderColor: color }}
+        >
+          {v}
+        </span>
+        {data.confidence && (
+          <span className="text-[9px] text-muted-foreground uppercase tracking-wider">
+            {data.confidence} confidence
+          </span>
+        )}
+      </div>
       {checks.length > 0 && (
-        <div className="mt-2">
-          <div className="text-[10px] font-bold tracking-[0.12em] text-muted-foreground uppercase mb-1">Checks run</div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-[11px] border border-border/40 rounded">
-              <thead>
-                <tr className="bg-muted text-foreground">
-                  <th className="text-left font-semibold px-2 py-1 w-[90px]">Check verdict</th>
-                  <th className="text-left font-semibold px-2 py-1">What was compared</th>
-                  <th className="text-right font-semibold px-2 py-1 w-[90px]">Value A</th>
-                  <th className="text-right font-semibold px-2 py-1 w-[90px]">Value B</th>
-                </tr>
-              </thead>
-              <tbody>
-                {checks.slice(0, 3).map((c, i) => (
-                  <tr key={i} className="border-t border-border/30 align-top">
-                    <td className="px-2 py-1.5 font-bold uppercase tracking-wider" style={{ color: colors[c.verdict] }}>
-                      {c.verdict}
-                    </td>
-                    <td className="px-2 py-1.5 break-words leading-snug">{c.what}</td>
-                    <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">
-                      {typeof c.value_a === 'number' ? c.value_a.toLocaleString() : c.value_a}
-                    </td>
-                    <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">
-                      {typeof c.value_b === 'number' ? c.value_b.toLocaleString() : c.value_b}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-      {ruled.length > 0 && (
-        <div className="mt-2">
-          <div className="text-[10px] font-bold tracking-[0.12em] text-muted-foreground uppercase mb-1">Ruled out</div>
+        <div className="overflow-x-auto">
           <table className="w-full text-[11px] border border-border/40 rounded">
+            <thead>
+              <tr className="bg-muted text-foreground">
+                <th className="text-left font-semibold px-2 py-1 w-[70px]">Result</th>
+                <th className="text-left font-semibold px-2 py-1">Check</th>
+              </tr>
+            </thead>
             <tbody>
-              {ruled.slice(0, 3).map((r, i) => (
-                <tr key={i} className={cn(i > 0 && 'border-t border-border/30')}>
-                  <td className="px-2 py-1.5 align-top text-muted-foreground tabular-nums text-[10px] bg-muted/40 w-[28px]">{i + 1}</td>
-                  <td className="px-2 py-1.5 align-top text-foreground break-words leading-snug">{r}</td>
+              {checks.slice(0, 3).map((c, i) => (
+                <tr key={i} className="border-t border-border/30 align-top">
+                  <td className="px-2 py-1.5 font-bold uppercase tracking-wider text-[10px] whitespace-nowrap"
+                      style={{ color: colors[c.verdict] ?? color }}>
+                    {c.verdict}
+                  </td>
+                  <td className="px-2 py-1.5 break-words leading-snug text-muted-foreground">{c.what}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       )}
-    </Shell>
+      {xd?.canonical_name && (
+        <p className="text-[10px] text-muted-foreground mt-1.5 leading-snug">
+          Cross-jurisdiction: <span className="font-semibold text-foreground">{xd.canonical_name}</span>
+          {xd.appears_in?.length > 0 && ` — appears in ${xd.appears_in.join(', ')}`}
+        </p>
+      )}
+      {caveats.length > 0 && (
+        <div className="mt-1.5 space-y-0.5">
+          {caveats.slice(0, 2).map((c, i) => (
+            <p key={i} className="text-[10px] text-muted-foreground/70 leading-snug break-words">
+              <span className="mr-1">·</span>{c}
+            </p>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 
