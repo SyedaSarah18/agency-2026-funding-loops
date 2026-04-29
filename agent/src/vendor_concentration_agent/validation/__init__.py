@@ -1,4 +1,3 @@
-"""Validator gates — programmatic block-on-fail before any output ships.
+from vendor_concentration_agent.validation.gates import run_all as run_gates
 
-Lands in Hour 3.
-"""
+__all__ = ["run_gates"]
